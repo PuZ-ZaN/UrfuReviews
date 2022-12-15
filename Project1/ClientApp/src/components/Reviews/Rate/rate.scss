@@ -1,0 +1,47 @@
+.rate_list {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.rate {
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.rate-progress {
+  background-color: #fff;
+  border-radius: 15px;
+  position: relative;
+  margin: 15px 0;
+  width: 306px;
+  height: 35px;
+}
+
+.rate-progress-done {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 10px;
+
+  background: linear-gradient(90deg, #56CCF2 0%, #2F80ED 100%);
+  border-radius: 20px;
+  color: #fff;
+  height: 100%;
+  width: 0;
+  opacity: 0;
+  transition: 1s ease 0.3s;
+}
+
+.rate_bar{
+  transition: 0.4s;
+}
+.rate_bar:hover {
+  transform: scale(0.99, 0.99);
+}

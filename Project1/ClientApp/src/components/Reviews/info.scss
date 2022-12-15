@@ -1,0 +1,133 @@
+
+.info_title_container {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.info_title {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 30px;
+}
+
+.info_view {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+  flex-direction: row;
+}
+
+.circle_big {
+  display: flex;
+  flex-direction: column;
+}
+
+.courses_view {
+  display: flex;
+  gap: 13px;
+  color: red;
+}
+
+.review_info {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+  flex-direction: row;
+
+}
+
+.card {
+  background: #FFFFFF;
+  border-radius: 25px;
+  padding: 15px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info a {
+  color: black
+}
+
+.criteria {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+}
+
+.blocks {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-self: end;
+  flex-basis: auto;
+}
+
+.block {
+  background: #DEF3FF;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 5px;
+  flex-basis: auto;
+}
+
+.rating {
+  display: flex;
+  justify-content: flex-end;
+  align-self: end;
+  background: #FFF2DE;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+.review_text {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: flex-start;
+  overflow: auto;
+  flex-direction: row;
+  border-top: 1px solid black;
+}
+
+.text {
+  box-sizing: border-box;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+}
+
+.rate {
+  display: flex;
+  justify-content: flex-end;
+  align-self: end;
+  padding: 5px;
+  gap: 15px;
+}
+
+.counter {
+  background: rgba(199, 255, 199, 0.5);
+  border-radius: 7px;
+}
+
+.ratings {
+  display: flex;
+  justify-content: flex-end;
+}
