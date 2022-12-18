@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 using Project1.Data;
 using Project1.Models;
@@ -45,7 +48,7 @@ namespace Project1.Controllers
                 return Context.Reviews.ToList();
             else
                 return Context.Reviews.Where(t => t.Id == i);
-        }        
+        }
 
         [HttpGet("All")]
         public CommonAddModel GetAll()
@@ -68,56 +71,85 @@ namespace Project1.Controllers
         }
 
         [HttpPost("AddTrack")]
-        public Guid AddTrack(Track value)
+        public JsonResult AddTrack(Track value)
         {
-            Context.Tracks.Add(value);
-            Context.SaveChanges();
-            return value.Id;
+            try
+            {
+                Context.Tracks.Add(value);
+                Context.SaveChanges();
+                return new JsonResult(new { value.Id});
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+            }
         }
 
         [HttpPost("AddPrepod")]
-        public Guid AddPrepod(Prepod value)
+        public JsonResult AddPrepod(Prepod value)
         {
-            Context.Prepods.Add(value);
-            Context.SaveChanges();
-            return value.Id;
+            try
+            {
+                Context.Prepods.Add(value);
+                Context.SaveChanges();
+                return new JsonResult(new { value.Id });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+            }
         }
 
         [HttpPost("AddReview")]
-        public Guid AddReview(Review value)
+        public JsonResult AddReview(Review value)
         {
-            Context.Reviews.Add(value);
-            Context.SaveChanges();
-            return value.Id;
+            try
+            {
+                Context.Reviews.Add(value);
+                Context.SaveChanges();
+                return new JsonResult(new { value.Id });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+            }
         }
 
         [HttpPost("AddAll")]
-        public string AddAll(CommonAddModel value)
+        public JsonResult AddAll(CommonAddModel value)
         {
-            if (value.Subjects != null)
+            try
             {
-                value.Subjects.ForEach(s => Context.Subjects.Add(s));
-                Context.SaveChanges();
-            }
+                if (value.Subjects != null)
+                {
+                    value.Subjects.ForEach(s => Context.Subjects.Add(s));
+                    Context.SaveChanges();
+                }
 
-            if (value.Tracks != null)
-            {
-                value.Tracks.ForEach(s => Context.Tracks.Add(s));
-                Context.SaveChanges();
-            }
+                if (value.Tracks != null)
+                {
+                    value.Tracks.ForEach(s => Context.Tracks.Add(s));
+                    Context.SaveChanges();
+                }
 
-            if (value.Prepods != null)
-            {
-                value.Prepods.ForEach(s => Context.Prepods.Add(s));
-                Context.SaveChanges();
-            }
+                if (value.Prepods != null)
+                {
+                    value.Prepods.ForEach(s => Context.Prepods.Add(s));
+                    Context.SaveChanges();
+                }
 
-            if (value.Reviews != null)
-            {
-                value.Reviews.ForEach(s => Context.Reviews.Add(s));
-                Context.SaveChanges();
+                if (value.Reviews != null)
+                {
+                    value.Reviews.ForEach(s => Context.Reviews.Add(s));
+                    Context.SaveChanges();
+                }
+                return new JsonResult("");
             }
-            return "";
+            catch (Exception ex)
+            {
+                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+            }
         }
+      
     }
 }
