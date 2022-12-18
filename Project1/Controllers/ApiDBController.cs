@@ -63,11 +63,18 @@ namespace Project1.Controllers
         }
 
         [HttpPost("AddSubject")]
-        public Guid AddSubject(Subject value)
+        public JsonResult AddSubject(Subject value)
         {
-            Context.Subjects.Add(value);
-            Context.SaveChanges();
-            return value.Id;
+            try
+            {
+                Context.Subjects.Add(value);
+                Context.SaveChanges();
+                return new JsonResult(new { value.Id });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+            }
         }
 
         [HttpPost("AddTrack")]
@@ -77,7 +84,7 @@ namespace Project1.Controllers
             {
                 Context.Tracks.Add(value);
                 Context.SaveChanges();
-                return new JsonResult(new { value.Id});
+                return new JsonResult(new { value.Id });
             }
             catch (Exception ex)
             {
@@ -150,6 +157,6 @@ namespace Project1.Controllers
                 return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
             }
         }
-      
+
     }
 }
