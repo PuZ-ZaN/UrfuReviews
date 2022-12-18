@@ -101,6 +101,9 @@ namespace Project1.Migrations
                     b.Property<DateTime>("AddedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("Course")
+                        .HasColumnType("integer");
+
                     b.Property<string>("SubjectName")
                         .IsRequired()
                         .HasColumnType("text");

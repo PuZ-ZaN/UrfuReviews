@@ -10,6 +10,7 @@ namespace Project1.Models
         {
             Tracks = new HashSet<Track>();
         }
+        public int Course { get; set; }
         public string SubjectName { get; set; } = "";
         
         [NotMapped]
