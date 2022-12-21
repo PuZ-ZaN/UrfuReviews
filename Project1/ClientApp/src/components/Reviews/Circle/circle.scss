@@ -1,0 +1,65 @@
+.rating_circle {
+  width: 270px;
+  height: 270px;
+  position: relative;
+  box-sizing: border-box;
+
+  .outer {
+    width: 270px;
+    height: 270px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 10px solid #d5d5d5;
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  .inner {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .text {
+    color: #000000;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 20px;
+    text-align: center;
+  }
+
+  .value {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 60px;
+    line-height: 73px;
+    margin-bottom: 18px;
+  }
+
+  .text_rating {
+    margin-bottom: 15px;
+  }
+}
+
+svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(-90deg);
+
+  circle {
+    fill: none;
+    stroke: url(#GradientColor);
+    stroke-width: 10px;
+    stroke-dasharray: 815;
+    stroke-dashoffset: 815;
+    transition: 1.5s all ease;
+  }
+}

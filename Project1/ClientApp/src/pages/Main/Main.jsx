@@ -1,11 +1,10 @@
 import React from 'react';
-import Courses from './../../components/Courses/Courses';
+import Courses from '../../components/courses/Courses';
 
 const Main = () => {
   return (
-    <div className="courses">
-          <Courses />
-          {/*<CourseTrack/>*/}
+    <div className='courses'>
+      <Courses />
     </div>
   );
 };

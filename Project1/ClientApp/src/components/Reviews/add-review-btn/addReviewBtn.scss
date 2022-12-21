@@ -1,0 +1,28 @@
+.add_review_button {
+  width: 260px;
+  height: 60px;
+  background: #5a5a5a;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+  font-family: 'Roboto';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  color: #ffffff;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.3s;
+  &:hover {
+    background: #4a4a4a;
+  }
+  .add_review_icon {
+    width: 24px;
+    height: 24px;
+    background: url('/img/add_review_icon.png');
+  }
+}

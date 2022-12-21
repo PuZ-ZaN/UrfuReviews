@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import CourseBlock from './CourseBlock/CourseBlock';
+import CourseBlock from './course-block/CourseBlock';
 import './sidebar.scss';
 
 const Sidebar = () => {

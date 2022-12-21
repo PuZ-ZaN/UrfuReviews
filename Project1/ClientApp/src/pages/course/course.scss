@@ -1,0 +1,22 @@
+.course_title_container {
+  width: 100%;
+  padding-top: 30px;
+  .course_title {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+    margin: 0;
+  }
+
+  .course_view {
+    display: flex;
+    gap: 35px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    border-bottom: 1px solid #a9a9a9;
+  }
+}

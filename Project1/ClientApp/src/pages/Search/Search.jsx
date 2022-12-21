@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Tracks from '../../components/Tracks/Tracks';
+import Tracks from '../../components/tracks/Tracks';
 import { destinyTracks, searchFilters } from '../../const.ts';
-import { courses } from './../../mocks/courses';
+import { courses } from '../../mocks/courses';
 import './search.scss';
 
 const Search = () => {

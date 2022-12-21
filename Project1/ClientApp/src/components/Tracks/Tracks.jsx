@@ -1,5 +1,5 @@
 import React from 'react';
-import Track from './Track/Track';
+import Track from './track/Track';
 
 const Tracks = ({ tracks, destiny }) => {
   return (
