@@ -1,6 +1,6 @@
 import React from 'react';
 import './review.scss';
-
+//хуй
 const Review = () => {
   return (
     <div class="review">

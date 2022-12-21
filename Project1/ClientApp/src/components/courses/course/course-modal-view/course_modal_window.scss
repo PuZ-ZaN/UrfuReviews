@@ -1,0 +1,48 @@
+.layout {
+  .modal_window {
+    .course_modal_window {
+      padding: 40px;
+      width: 1080px;
+      height: 702px;
+      box-sizing: border-box;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: flex-start;
+      font-weight: 600;
+      font-size: 25px;
+      line-height: 29px;
+      margin-bottom: 13px;
+      img {
+        cursor: pointer;
+      }
+    }
+    .values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 50px;
+      align-items: center;
+      margin-bottom: 41px;
+      div {
+        margin-bottom: 11px;
+        font-size: 20px;
+        line-height: 23px;
+        p {
+          font-weight: 600;
+          margin: 0;
+          padding: 0;
+          margin-bottom: 2px;
+          font-size: 22px;
+          line-height: 26px;
+        }
+      }
+      div:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .tracks {
+    }
+  }
+}

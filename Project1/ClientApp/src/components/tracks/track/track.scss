@@ -1,0 +1,150 @@
+.tracks {
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  &.on_main {
+    padding: 24px 17px;
+    .track_for_course {
+      border-radius: 10px;
+      padding: 10px 15px;
+      transition: 0.3s;
+      &:hover {
+        background-color: #bde7ff;
+      }
+      p {
+        margin: 0;
+        padding: 0;
+      }
+      .left {
+        .title {
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 21px;
+        }
+      }
+      .right {
+        gap: 25px;
+        .rating {
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 21px;
+          color: #5eadda;
+        }
+        .bar {
+          width: 170px;
+          height: 14.5px;
+        }
+      }
+    }
+  }
+  &.on_modal_window {
+    .track_for_course {
+      border-radius: 15px;
+      padding: 20px 30px;
+      gap: 50px;
+      transition: 0.2s;
+      &:hover {
+        background-color: #c9ebff;
+      }
+      p {
+        margin: 0;
+        padding: 0;
+      }
+      .left {
+        .title {
+          font-size: 22px;
+          line-height: 26px;
+        }
+      }
+      .right {
+        gap: 30px;
+        .rating {
+          font-size: 22px;
+        }
+        .bar {
+          width: 200px;
+          height: 15px;
+        }
+      }
+    }
+  }
+  &.on_search {
+    width: 731px;
+    .track_for_course {
+      border-radius: 15px;
+      padding: 17px 20px;
+      margin-bottom: 20px;
+      background-color: #fff;
+      transition: 0.2s;
+      &:hover {
+        box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.1);
+      }
+      p {
+        margin: 0;
+        padding: 0;
+      }
+      .left {
+        .title {
+          font-weight: 500;
+          font-size: 22px;
+          line-height: 26px;
+          color: #01b3ff;
+        }
+      }
+      .right {
+        gap: 25px;
+        .rating {
+          font-weight: 600;
+          font-size: 22px;
+          color: #5eadda;
+        }
+        .bar {
+          background: #d1eeff;
+          width: 170px;
+          height: 14.5px;
+        }
+      }
+    }
+  }
+  .track_for_course {
+    background: #def3ff;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    justify-content: space-between;
+    .right {
+      display: flex;
+      align-items: center;
+      .rating {
+        font-weight: 600;
+        color: #5eadda;
+      }
+      .bar {
+        background: #ffffff;
+        position: relative;
+        border-radius: 10px;
+        .bar_percent {
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 2;
+          height: 100%;
+          background: #81caf3;
+          border-radius: 10px;
+          width: 0;
+          opacity: 0;
+          transition: 0.7s ease;
+        }
+      }
+    }
+  }
+  a {
+    margin-bottom: 20px;
+    display: block;
+    text-decoration: none;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
