@@ -1,12 +1,12 @@
 import React from 'react';
 import './style.css';
-import Main from './pages/main/Main';
+import Main from './pages/Main/Main';
 import { Route, Routes } from 'react-router-dom';
-import Header from './components/header/Header';
+import Header from './components/Header/Header';
 import axios from 'axios';
 import AddReview from './pages/add-review/AddReview';
-import Search from './pages/search/Search';
-import Sidebar from './components/sidebar/Sidebar';
+import Search from './pages/Search/Search';
+import Sidebar from './components/Sidebar/Sidebar';
 import Course from './pages/course/Course';
 
 function App() {
@@ -17,15 +17,15 @@ function App() {
   }, []);
 
   return (
-    <div className='wrapper'>
+    <div className="wrapper">
       <Sidebar />
-      <div className='main_container'>
+      <div className="main_container">
         <Header />
         <Routes>
-          <Route path='/' element={<Main />} />
-          <Route path='/search' element={<Search />}></Route>
-          <Route path='/review' element={<Course />} />
-          <Route path='/add_review' element={<AddReview />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/search" element={<Search />}></Route>
+          <Route path="/review" element={<Course />} />
+          <Route path="/add_review" element={<AddReview />} />
         </Routes>
       </div>
     </div>

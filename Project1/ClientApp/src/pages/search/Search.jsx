@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Tracks from '../../components/tracks/Tracks';
+import Tracks from '../../components/Tracks/Tracks';
 import { destinyTracks, searchFilters } from '../../const.ts';
 import { courses } from '../../mocks/courses';
 import './search.scss';
@@ -22,21 +22,19 @@ const Search = () => {
   };
 
   return (
-    <div className='search_page'>
-      <div className='search_tracks_container'>
-        <div className='search_title'>
+    <div className="search_page">
+      <div className="search_tracks_container">
+        <div className="search_title">
           Список всех найденных треков с{' '}
-          {activeFilter == searchFilters.Teacher
-            ? 'преподавателем'
-            : 'названием'}{' '}
-          “Щадрин” на 5 семестре:
+          {activeFilter == searchFilters.Teacher ? 'преподавателем' : 'названием'} “Щадрин” на 5
+          семестре:
         </div>
-        <div className='tracks_and_filters'>
+        <div className="tracks_and_filters">
           <Tracks tracks={tracks} destiny={destinyTracks.Search} />
-          <div className='tracks_filters'>
-            <p className='filters_title'>Фильтры</p>
-            <p className='filters_description'>Выполнять поиск по:</p>
-            <div className='filters'>
+          <div className="tracks_filters">
+            <p className="filters_title">Фильтры</p>
+            <p className="filters_description">Выполнять поиск по:</p>
+            <div className="filters">
               <span
                 className={`filter_teacher ${
                   searchFilters.Teacher == activeFilter ? 'active_filter' : ''
@@ -52,7 +50,7 @@ const Search = () => {
                 треку
               </span>
             </div>
-            <Link to='/' className='reset_filters'>
+            <Link to="/" className="reset_filters">
               Сбросить поиск
             </Link>
           </div>
