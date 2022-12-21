@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /Project1/appsettings.json
 /Project1/Migrations
+/Project1/Migrations/dotnetMigration.txt
