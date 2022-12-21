@@ -11,21 +11,21 @@ import AddReview from './pages/add-review/AddReview';
 
 function App() {
   React.useEffect(() => {
-    axios.get('/Cources/all').then(({ data }) => {
+    axios.get('/api/Subjects').then(({ data }) => {
       console.log(data);
     });
   }, []);
 
   return (
-    <div className='wrapper'>
+    <div className="wrapper">
       <Sidebar />
-      <div className='main_container'>
+      <div className="main_container">
         <Header />
         <Routes>
-          <Route path='/' element={<Main />} />
-          <Route path='/search' element={<Search />}></Route>
-          <Route path='/review' element={<Course />} />
-          <Route path='/add_review' element={<AddReview />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/search" element={<Search />}></Route>
+          <Route path="/review" element={<Course />} />
+          <Route path="/add_review" element={<AddReview />} />
         </Routes>
       </div>
     </div>
