@@ -15,16 +15,16 @@ const Track = ({ track }) => {
   }, []);
 
   return (
-    <Link to='/review'>
-      <div className='track_for_course'>
-        <div className='left'>
-          <p className='title'>{track.title}</p>
+    <Link to="/review">
+      <div className="track_for_course">
+        <div className="left">
+          <p className="title">{track.title}</p>
         </div>
-        <div className='right'>
-          <div className='bar'>
-            <div className='bar_percent' style={style}></div>
+        <div className="right">
+          <div className="bar">
+            <div className="bar_percent" style={style}></div>
           </div>
-          <p className='rating'>{track.rating}</p>
+          <p className="rating">{track.rating}</p>
         </div>
       </div>
     </Link>

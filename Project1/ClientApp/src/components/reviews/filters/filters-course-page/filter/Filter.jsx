@@ -20,13 +20,13 @@ const Filter = ({ filterData, options }) => {
       className={`select 
       ${filterData.class} 
       ${isShownBody ? 'select_active' : ''}`}>
-      <div className='select_header' onClick={toggleShownBody}>
-        <div className='select_header_title'>{currentTitle}</div>
-        <div className='select_header_icon'></div>
+      <div className="select_header" onClick={toggleShownBody}>
+        <div className="select_header_title">{currentTitle}</div>
+        <div className="select_header_icon"></div>
       </div>
       <div className={`select_body ${isShownBody ? 'select_shown_body' : ''}`}>
         {currentOptions.map((option) => (
-          <div className='option' onClick={() => changeCurrentTitle(option)}>
+          <div className="option" onClick={() => changeCurrentTitle(option)}>
             {option}
           </div>
         ))}

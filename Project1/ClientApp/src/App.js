@@ -1,12 +1,12 @@
 import React from 'react';
 import './style.css';
-import Main from './pages/Main/Main';
+import Main from './pages/main/Main';
 import { Route, Routes } from 'react-router-dom';
-import Header from './components/Header/Header';
+import Header from './components/header/Header';
 import axios from 'axios';
 import AddReview from './pages/add-review/AddReview';
-import Search from './pages/Search/Search';
-import Sidebar from './components/Sidebar/Sidebar';
+import Search from './pages/search/Search';
+import Sidebar from './components/sidebar/Sidebar';
 import Course from './pages/course/Course';
 
 function App() {

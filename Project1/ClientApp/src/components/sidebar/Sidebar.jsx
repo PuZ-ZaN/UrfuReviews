@@ -10,11 +10,11 @@ const Sidebar = () => {
   const emojyCourses = ['👶', '👦', '🧔', '👴'];
 
   return (
-    <div className='sidebar'>
-      <Link to='/' className='sidebar_title'>
+    <div className="sidebar">
+      <Link to="/" className="sidebar_title">
         URFU Courses
       </Link>
-      <div className='list_courses'>
+      <div className="list_courses">
         {listCourses.map((numberCourse) => (
           <CourseBlock
             numberCourse={numberCourse}

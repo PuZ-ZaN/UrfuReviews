@@ -1,8 +1,8 @@
 import React from 'react';
 import './AddReview.scss';
 import { assessmentTitle } from '../../const.ts';
-import Assessment from '../../components/Reviews/review/assessment/Assessment';
-import FiltersAddReview from '../../components/Reviews/filters/filters-add-review/FiltersAddReview';
+import Assessment from '../../components/reviews/review/assessment/Assessment';
+import FiltersAddReview from '../../components/reviews/filters/filters-add-review/FiltersAddReview';
 
 const AddReview = () => {
   return (

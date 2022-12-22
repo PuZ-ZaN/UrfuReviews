@@ -1,5 +1,5 @@
 import React from 'react';
-import Courses from '../../components/Courses/Courses';
+import Courses from '../../components/courses/Courses';
 
 const Main = () => {
   return (

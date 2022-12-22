@@ -14,8 +14,8 @@ const CriteriaProgress = ({ value }) => {
   }, []);
 
   return (
-    <div className='criteria-progress'>
-      <div className='criteria-progress-done' style={style}></div>
+    <div className="criteria-progress">
+      <div className="criteria-progress-done" style={style}></div>
     </div>
   );
 };

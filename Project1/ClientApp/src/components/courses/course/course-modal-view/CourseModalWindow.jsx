@@ -1,7 +1,7 @@
 import React from 'react';
 import { destinyTracks } from '../../../../const.ts';
 import './course_modal_window.scss';
-import Tracks from '../../../Tracks/Tracks';
+import Tracks from '../../../tracks/Tracks';
 import ModalWindow from '../../../modal-window/ModalWindow';
 
 const CourseModalWindow = ({ course, closeModalWindow }) => {

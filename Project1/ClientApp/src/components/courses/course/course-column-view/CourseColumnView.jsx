@@ -1,7 +1,7 @@
 import React from 'react';
 import { destinyTracks } from '../../../../const.ts';
 import './course_column_view.scss';
-import Tracks from './../../../Tracks/Tracks';
+import Tracks from './../../../tracks/Tracks';
 
 const CourseColumnView = ({ course, selectedCourse, setSelectedCourse }) => {
   const handleClickArrow = () => {
