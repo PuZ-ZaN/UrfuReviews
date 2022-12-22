@@ -14,6 +14,8 @@ namespace Project1.Models
         public Stars Benefit { get; set; }
         public Stars Availability { get; set; }
 
+        public bool isMoved { get; set; }
+
         [NotMapped]
         public Prepod? Prepod { get; set; }
     }
