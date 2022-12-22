@@ -18,14 +18,14 @@ const CourseRowView = ({ course, selectedCourse, setSelectedCourse }) => {
 
   return (
     <>
-      <div className='course_row_view' key={course.id} onClick={onCourseClick}>
+      <div className="course_row_view" key={course.id} onClick={onCourseClick}>
         <div
-          className='course_row_view_background'
+          className="course_row_view_background"
           style={{
             background: getBackgroundStyles(course),
             backgroundSize: 'cover',
           }}></div>
-        <p className='course_row_view_title'>{course.title}</p>
+        <p className="course_row_view_title">{course.subjectName}</p>
       </div>
     </>
   );

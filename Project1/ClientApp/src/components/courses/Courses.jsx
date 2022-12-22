@@ -1,13 +1,20 @@
 import React from 'react';
 import './courses.scss';
-import { courses } from '../../mocks/courses';
 import CourseModalWindow from './course/course-modal-view/CourseModalWindow';
 import CourseRowView from './course/course-row-view/CourseRowView';
 import CourseColumnView from './course/course-column-view/CourseColumnView';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveReviews, setActiveSubject, setActiveTracks } from '../../store/slices';
+import { getAllReviews, getAllTracks } from '../../store/selectors';
+import { getActiveTracks } from './../../store/selectors';
 
-export default function Courses() {
+export default function Courses({ courses }) {
   const [isRowView, setIsRowView] = React.useState(true);
   const [selectedCourse, setSelectedCourse] = React.useState();
+  const dispatch = useDispatch();
+  const originalTracks = useSelector((state) => getAllTracks(state));
+  const originalReviews = useSelector((state) => getAllReviews(state));
+  const activeTracks = useSelector((state) => getActiveTracks(state));
 
   const setRowView = () => {
     setIsRowView(true);
@@ -20,6 +27,12 @@ export default function Courses() {
   const closeModalWindow = () => {
     setSelectedCourse(null);
   };
+
+  const handleSelectCourse = (course) => {
+    setSelectedCourse(course);
+  };
+
+  console.log(selectedCourse);
 
   return (
     <>
@@ -46,7 +59,7 @@ export default function Courses() {
             <CourseRowView
               course={course}
               selectedCourse={selectedCourse}
-              setSelectedCourse={setSelectedCourse}
+              setSelectedCourse={handleSelectCourse}
               key={course.id}
             />
           ))}
@@ -58,7 +71,7 @@ export default function Courses() {
               <CourseColumnView
                 course={course}
                 selectedCourse={selectedCourse}
-                setSelectedCourse={setSelectedCourse}
+                setSelectedCourse={handleSelectCourse}
                 key={course.id}
               />
             ))}

@@ -3,17 +3,28 @@ import './style.css';
 import Main from './pages/main/Main';
 import { Route, Routes } from 'react-router-dom';
 import Header from './components/header/Header';
-import axios from 'axios';
 import AddReview from './pages/add-review/AddReview';
 import Search from './pages/search/Search';
 import Sidebar from './components/sidebar/Sidebar';
 import Course from './pages/course/Course';
+import { useDispatch } from 'react-redux';
+import {
+  fetchOriginalSubjects,
+  fetchOriginalTracks,
+  fetchOriginalTeachers,
+  fetchOriginalReviews,
+  fetchAll,
+} from './store/api-actions';
 
 function App() {
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
-    axios.get('/api/Subjects').then(({ data }) => {
-      console.log(data);
-    });
+    dispatch(fetchAll());
+    // dispatch(fetchOriginalSubjects());
+    // dispatch(fetchOriginalTracks());
+    // dispatch(fetchOriginalTeachers());
+    // dispatch(fetchOriginalReviews());
   }, []);
 
   return (
