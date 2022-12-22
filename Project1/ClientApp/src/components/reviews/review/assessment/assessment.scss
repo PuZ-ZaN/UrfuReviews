@@ -28,6 +28,9 @@
       &:hover {
         filter: contrast(0.6);
       }
+      &.active_star {
+        filter: contrast(0.3);
+      }
     }
   }
 }

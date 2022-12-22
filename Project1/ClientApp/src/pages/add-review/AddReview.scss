@@ -66,6 +66,9 @@
     &:hover {
       background: #4f4f4f;
     }
+    &:disabled {
+      filter: contrast(0.7);
+    }
   }
   .blocks {
     display: flex;
@@ -99,7 +102,7 @@
             &:last-child {
               margin-bottom: 0;
             }
-            &.checked {
+            &.checked_li {
               &::before {
                 background-image: url('../../img/checkmark_in_blue_rectangle.svg');
               }

@@ -1,10 +1,8 @@
 import React from 'react';
 import './circle-progress.scss';
 
-const CircleProgress = () => {
+const CircleProgress = ({ countChecked }) => {
   const [style, setStyle] = React.useState({});
-
-  const countChecked = 2;
 
   function countDashOffset(value) {
     const onePercent = 3.3;
@@ -15,7 +13,7 @@ const CircleProgress = () => {
     const valuePercent = Math.round(countChecked * 20);
     const dashOffsetValue = countDashOffset(valuePercent);
     setStyle({ strokeDashoffset: dashOffsetValue });
-  }, []);
+  }, [countChecked]);
 
   return (
     <div className="progress_circle">
