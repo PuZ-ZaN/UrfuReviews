@@ -5,7 +5,7 @@ import Tracks from './../../../tracks/Tracks';
 
 const CourseColumnView = ({ course, selectedCourse, setSelectedCourse }) => {
   const handleClickArrow = () => {
-    setSelectedCourse((prevCourse) => (prevCourse === course ? undefined : course));
+    setSelectedCourse((prevCourse) => (prevCourse?.id === course?.id ? undefined : course));
   };
 
   return (
@@ -14,7 +14,7 @@ const CourseColumnView = ({ course, selectedCourse, setSelectedCourse }) => {
       key={course.id}>
       <div className="course_container">
         <div className="course_column" onClick={handleClickArrow}>
-          <p className="title">{course.title}</p>
+          <p className="title">{course.subjectName}</p>
           <img src="img/arrow-bottom.svg" alt="show tracks" />
         </div>
         {selectedCourse == course && (

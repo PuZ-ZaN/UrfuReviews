@@ -16,6 +16,28 @@ export default function Courses({ courses }) {
   const originalReviews = useSelector((state) => getAllReviews(state));
   const activeTracks = useSelector((state) => getActiveTracks(state));
 
+  const [rating, setRating] = React.useState(0);
+  const [countReviews, setCountReviews] = React.useState(0);
+
+  React.useEffect(() => {
+    if (!selectedCourse) return;
+    const tracks = selectedCourse.tracks;
+    let reviews = 0;
+    let allRating = 0;
+    for (var i = 0; i < tracks.length; i++) {
+      const teachers = tracks[i].prepods;
+      for (var j = 0; j < teachers.length; j++) {
+        const reviewsOnTeacher = teachers[j].reviews;
+        for (var k = 0; k < reviewsOnTeacher.length; k++) {
+          allRating += reviewsOnTeacher[k].rating;
+        }
+        reviews += reviewsOnTeacher.length;
+      }
+    }
+    setCountReviews(reviews);
+    setRating((allRating / reviews).toFixed(1));
+  }, [selectedCourse]);
+
   const setRowView = () => {
     setIsRowView(true);
   };
@@ -87,13 +109,13 @@ export default function Courses({ courses }) {
               </p>
               <div className="values">
                 <div className="assessment">
-                  Средняя оценка <span>4.7</span>
+                  Средняя оценка <span>{rating}</span>
                 </div>
                 <div className="count_tracks">
-                  Всего треков <span>4</span>
+                  Всего треков <span>{selectedCourse ? selectedCourse.tracks.length : '0'}</span>
                 </div>
                 <div className="count_reviews">
-                  Добавлено отзывов <span>25</span>
+                  Добавлено отзывов <span>{countReviews}</span>
                 </div>
               </div>
             </div>
