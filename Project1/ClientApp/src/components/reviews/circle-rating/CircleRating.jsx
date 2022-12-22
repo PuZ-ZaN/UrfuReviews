@@ -1,5 +1,5 @@
 import React from 'react';
-import './circle.scss';
+import './circle-rating.scss';
 
 export default function Circle({ rating, countReviews }) {
   const [style, setStyle] = React.useState({});

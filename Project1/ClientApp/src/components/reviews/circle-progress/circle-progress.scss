@@ -1,12 +1,13 @@
-.rating_circle {
-  width: 270px;
-  height: 270px;
+.progress_circle {
+  width: 114px;
+  height: 114px;
   position: relative;
   box-sizing: border-box;
+  margin-bottom: 20px;
 
   .outer {
-    width: 270px;
-    height: 270px;
+    width: 114px;
+    height: 114px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -14,11 +15,10 @@
     border: 10px solid #d5d5d5;
     background: #fff;
     box-sizing: border-box;
+    text-align: center;
   }
 
   .inner {
-    width: 250px;
-    height: 250px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -27,24 +27,13 @@
   }
 
   .text {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 36px;
     color: #000000;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 22px;
-    line-height: 20px;
     text-align: center;
-  }
-
-  .value {
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 60px;
-    line-height: 73px;
-    margin-bottom: 18px;
-  }
-
-  .text_rating {
-    margin-bottom: 15px;
   }
 }
 
@@ -57,9 +46,9 @@ svg {
   circle {
     fill: none;
     stroke: url(#GradientColor);
-    stroke-width: 10px;
-    stroke-dasharray: 815;
-    stroke-dashoffset: 815;
+    stroke-width: 7px;
+    stroke-dasharray: 330;
+    stroke-dashoffset: 330;
     transition: 1.5s all ease;
   }
 }

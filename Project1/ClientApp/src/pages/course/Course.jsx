@@ -5,7 +5,7 @@ import Review from '../../components/reviews/review/Review';
 import Rate from '../../components/reviews/rate/Rate';
 import Filters from '../../components/reviews/filters/filters-course-page/FiltersCoursePage';
 import AddReviewBtn from '../../components/reviews/add-review-btn/AddReviewBtn';
-import Circle from '../../components/reviews/circle/Circle';
+import Circle from '../../components/reviews/circle-rating/CircleRating';
 
 export default function Course() {
   return (
