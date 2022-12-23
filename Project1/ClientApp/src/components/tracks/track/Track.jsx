@@ -22,7 +22,7 @@ const Track = ({ track }) => {
   }, [trackValues]);
 
   return (
-    <Link to="/review">
+    <Link to={`/track/${track.id}`}>
       <div className="track_for_course">
         <div className="left">
           <p className="title">{track.trackName}</p>

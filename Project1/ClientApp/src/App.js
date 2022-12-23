@@ -25,7 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/search" element={<Search />}></Route>
-          <Route path="/review" element={<Course />} />
+          <Route path="/track/:id" element={<Course />} />
           <Route path="/add_review" element={<AddReview />} />
         </Routes>
       </div>

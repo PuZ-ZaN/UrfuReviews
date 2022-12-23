@@ -27,6 +27,8 @@ export const getSearchTracks = (allSubjects, text, filteredBy) => {
   return searchTracks;
 };
 
+export const getActiveTrack = (state) => state.subjects.activeTrack;
+
 export const getFilteredBy = (state) => state.subjects.filteredBy;
 
 export const getTextSearch = (state) => state.subjects.textSearch;

@@ -86,3 +86,12 @@ export const getAllTracks = (courses) => {
     courses.map((subject) => subject.tracks),
   );
 };
+
+export const getAllReviews = (track) => {
+  return [].concat.apply(
+    [],
+    track.prepods.map((teacher) =>
+      teacher.reviews.map((review) => ({ ...review, prepodName: teacher.prepodName })),
+    ),
+  );
+};
