@@ -1,4 +1,5 @@
 import React from 'react';
+import { getOriginalSubjects } from './../../store/selectors';
 
 export const getTrackValues = (track) => {
   const trackInfo = {
@@ -77,4 +78,11 @@ export const getCourseValues = (course) => {
   courseInfo.rating = (sumValues.rating / courseInfo.countTracks).toFixed(1);
 
   return courseInfo;
+};
+
+export const getAllTracks = (courses) => {
+  return [].concat.apply(
+    [],
+    courses.map((subject) => subject.tracks),
+  );
 };

@@ -1,24 +1,31 @@
 import React from 'react';
 import './header.scss';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import ModalWindow from '../modal-window/ModalWindow';
 import SignUpModalWindow from '../modal-window/sign-up-modal-window/SignUpModalWindow';
 import StatusModalWindow from './../modal-window/status-modal-window/StatusModalWindow';
 import { statusesLogin } from '../../const.ts';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTextSearch } from '../../store/slices';
+import { getFilteredBy } from './../../store/selectors';
 
 export default function Header() {
   const [inputText, setInputText] = React.useState('');
   const [isActiveModalWindow, setIsActiveModalWindow] = React.useState(false);
+  const filteredBy = useSelector((state) => getFilteredBy(state));
+  const dispatch = useDispatch();
 
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const handleInputText = (e) => {
-    setInputText(e.value);
+    setInputText(e.target.value);
   };
 
   const searchResults = (e) => {
     e.preventDefault();
-    navigate('/search');
+    navigate(`/search/?text=${inputText}&filteredBy=${filteredBy}`);
+    dispatch(setTextSearch(inputText));
     setInputText('');
   };
 
