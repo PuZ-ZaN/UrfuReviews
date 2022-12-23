@@ -15,7 +15,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const handleClickSemester = (semester) => {
-    dispatch(setFilteredSubjectsBySemestr(semester));
+    dispatch(setFilteredSubjectsBySemestr(activeSemester !== semester ? semester : 'all'));
   };
 
   return (

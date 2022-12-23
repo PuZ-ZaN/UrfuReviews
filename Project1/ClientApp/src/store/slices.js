@@ -19,9 +19,13 @@ const subjectsSlice = createSlice({
     },
     setFilteredSubjectsBySemestr(state, action) {
       state.semester = action.payload;
-      state.filteredSubjects = state.originalSubjects.filter((subject) =>
-        subject.semester.includes(action.payload),
-      );
+      if (action.payload == 'all') {
+        state.filteredSubjects = state.originalSubjects;
+      } else {
+        state.filteredSubjects = state.originalSubjects.filter((subject) =>
+          subject.semester.includes(action.payload),
+        );
+      }
     },
     setTextSearch(state, action) {
       state.textSearch = action.payload;
