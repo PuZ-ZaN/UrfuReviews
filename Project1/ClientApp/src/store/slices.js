@@ -1,73 +1,25 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const originalDataBaseSlice = createSlice({
-  name: 'originalDataBase',
+const subjectsSlice = createSlice({
+  name: 'subjectsSlice',
   initialState: {
-    allDataBase: [],
-    subjects: [],
-    tracks: [],
-    teachers: [],
-    reviews: [],
+    originalSubjects: [],
+    filteredSubjects: [],
+    activeSemestr: 0,
   },
   reducers: {
-    setAllDataBase(state, action) {
-      state.allDataBase = action.payload;
-    },
     setOriginalSubjects(state, action) {
-      state.subjects = action.payload;
+      state.originalSubjects = action.payload;
+      state.filteredSubjects = action.payload;
     },
-    setOriginalTracks(state, action) {
-      state.tracks = action.payload;
-    },
-    setOriginalTeachers(state, action) {
-      state.teachers = action.payload;
-    },
-    setOriginalReviews(state, action) {
-      state.reviews = action.payload;
+    setFilteredSubjectsBySemestr(state, action) {
+      state.activeSemestr = action.payload;
+      state.filteredSubjects = state.originalSubjects.filter((subject) =>
+        subject.semester.includes(action.payload),
+      );
     },
   },
 });
 
-const activeDataSlice = createSlice({
-  name: 'activeData',
-  initialState: {
-    subject: {},
-    tracks: [],
-    teachers: [],
-    reviews: [],
-    countTracks: 0,
-    ratingTrackAverage: 0,
-    interestTrackAverage: 0,
-    benefitTrackAverage: 0,
-    availabilityTrackAverage: 0,
-  },
-  reducers: {
-    setActiveSubject(state, action) {
-      state.subject = action.payload;
-    },
-    setActiveTracks(state, action) {
-      state.tracks = action.payload;
-      state.countTracks = action.payload.length;
-    },
-    setActiveTeachers(state, action) {
-      state.teachers = action.payload;
-    },
-    setActiveReviews(state, action) {
-      state.reviews = action.payload;
-    },
-  },
-});
-
-export const {
-  setAllDataBase,
-  setOriginalSubjects,
-  setOriginalTracks,
-  setOriginalTeachers,
-  setOriginalReviews,
-  setAll,
-} = originalDataBaseSlice.actions;
-export const { setActiveSubject, setActiveTracks, setActiveTeachers, setActiveReviews } =
-  activeDataSlice.actions;
-
-export const originalDataBaseReducer = originalDataBaseSlice.reducer;
-export const activeDataReducer = activeDataSlice.reducer;
+export const { setOriginalSubjects, setFilteredSubjectsBySemestr } = subjectsSlice.actions;
+export const subjectsReducer = subjectsSlice.reducer;

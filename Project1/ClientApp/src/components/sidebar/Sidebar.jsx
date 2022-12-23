@@ -2,12 +2,21 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import CourseBlock from './course-block/CourseBlock';
 import './sidebar.scss';
+import { useDispatch } from 'react-redux';
+import { setFilteredSubjectsBySemestr } from '../../store/slices';
 
 const Sidebar = () => {
   const [activeCourse, setActiveCourse] = React.useState(null);
   const [activeSemestr, setActiveSemestr] = React.useState(null);
   const listCourses = [1, 2, 3, 4];
   const emojyCourses = ['👶', '👦', '🧔', '👴'];
+
+  const dispatch = useDispatch();
+
+  const handleClickSemester = (semester) => {
+    dispatch(setFilteredSubjectsBySemestr(semester));
+    setActiveSemestr(semester);
+  };
 
   return (
     <div className="sidebar">
@@ -22,7 +31,7 @@ const Sidebar = () => {
             isActiveCourse={activeCourse === numberCourse}
             setActiveCourse={setActiveCourse}
             numberActiveSemestr={activeSemestr}
-            setActiveSemestr={setActiveSemestr}
+            setActiveSemestr={handleClickSemester}
             key={numberCourse}
           />
         ))}

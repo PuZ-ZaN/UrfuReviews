@@ -8,23 +8,13 @@ import Search from './pages/search/Search';
 import Sidebar from './components/sidebar/Sidebar';
 import Course from './pages/course/Course';
 import { useDispatch } from 'react-redux';
-import {
-  fetchOriginalSubjects,
-  fetchOriginalTracks,
-  fetchOriginalTeachers,
-  fetchOriginalReviews,
-  fetchAll,
-} from './store/api-actions';
+import { fetchOriginalSubjects } from './store/api-actions';
 
 function App() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(fetchAll());
-    // dispatch(fetchOriginalSubjects());
-    // dispatch(fetchOriginalTracks());
-    // dispatch(fetchOriginalTeachers());
-    // dispatch(fetchOriginalReviews());
+    dispatch(fetchOriginalSubjects());
   }, []);
 
   return (
