@@ -51,7 +51,7 @@ export default function Course() {
       </div>
 
       <div className="filters_and_button">
-        <Filters />
+        <Filters teachers={track.prepods} />
         <AddReviewBtn />
       </div>
 

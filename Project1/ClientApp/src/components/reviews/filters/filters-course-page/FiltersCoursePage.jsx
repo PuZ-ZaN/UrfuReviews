@@ -2,16 +2,13 @@ import React from 'react';
 import Filter from './filter/Filter';
 import { filtersData } from '../../../../const.ts';
 
-const Filters = () => {
-  const teachers = [
-    'Щадрин Денис Борисович',
-    'Белоусова Вероника Игоревна',
-    'Иванов Александр Олегович',
-  ];
-
+const Filters = ({ teachers }) => {
   return (
     <>
-      <Filter filterData={filtersData.Teacher} options={teachers} />
+      <Filter
+        filterData={filtersData.Teacher}
+        options={teachers.map((teacher) => teacher.prepodName)}
+      />
       <Filter filterData={filtersData.Filters} options={[]} />
     </>
   );
