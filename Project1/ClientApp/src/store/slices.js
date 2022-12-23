@@ -6,7 +6,7 @@ const subjectsSlice = createSlice({
   initialState: {
     originalSubjects: [],
     filteredSubjects: [],
-    semester: 0,
+    semester: 'all',
     textSearch: '',
     filteredBy: searchFilters.Track,
   },
@@ -27,8 +27,11 @@ const subjectsSlice = createSlice({
     setFilteredBy(state, action) {
       state.filteredBy = action.payload;
     },
+    setSemester(state, action) {
+      state.semester = action.payload;
+    },
     resetSearch(state) {
-      state.semester = 0;
+      state.semester = 'all';
       state.textSearch = '';
       state.filteredBy = searchFilters.Track;
     },
@@ -41,5 +44,6 @@ export const {
   setTextSearch,
   setFilteredBy,
   resetSearch,
+  setSemester,
 } = subjectsSlice.actions;
 export const subjectsReducer = subjectsSlice.reducer;

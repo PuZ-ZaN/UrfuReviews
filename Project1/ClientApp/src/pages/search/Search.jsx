@@ -13,7 +13,7 @@ import {
 } from './../../store/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { setFilteredBy, setTextSearch } from '../../store/slices';
+import { setFilteredBy, setSemester, setTextSearch } from '../../store/slices';
 
 const Search = () => {
   const [tracks, setTracks] = React.useState([]);
@@ -29,6 +29,7 @@ const Search = () => {
   React.useEffect(() => {
     dispatch(setTextSearch(searchParams.get('text')));
     dispatch(setFilteredBy(searchParams.get('filteredBy')));
+    dispatch(setSemester(searchParams.get('semester')));
     setTracks(getSearchTracks(filteredCourses, textSearch, filteredBy));
   }, []);
 
@@ -36,11 +37,29 @@ const Search = () => {
     setTracks(getSearchTracks(filteredCourses, textSearch, filteredBy));
   }, [filteredCourses, textSearch, filteredBy]);
 
+  React.useEffect(() => {
+    setSearchParams({
+      text: searchParams.get('text'),
+      filteredBy,
+      semester,
+    });
+  }, [semester]);
+
   const handleTrackFilter = () => {
+    setSearchParams({
+      text: searchParams.get('text'),
+      filteredBy: searchFilters.Track,
+      semester,
+    });
     dispatch(setFilteredBy(searchFilters.Track));
   };
 
   const handleTeacherFilter = () => {
+    setSearchParams({
+      text: searchParams.get('text'),
+      filteredBy: searchFilters.Teacher,
+      semester,
+    });
     dispatch(setFilteredBy(searchFilters.Teacher));
   };
 
@@ -54,7 +73,7 @@ const Search = () => {
         <div className="search_title">
           Список всех найденных треков с{' '}
           {filteredBy == searchFilters.Teacher ? 'преподавателем' : 'названием'} {`"${textSearch}"`}
-          {semester != 0 ? ` на ${semester} семестре` : ''}
+          {semester != 'all' ? ` на ${semester} семестре` : ''}
         </div>
         <div className="tracks_and_filters">
           <Tracks tracks={tracks} destiny={destinyTracks.Search} />

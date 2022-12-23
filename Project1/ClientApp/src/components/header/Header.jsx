@@ -7,12 +7,13 @@ import StatusModalWindow from './../modal-window/status-modal-window/StatusModal
 import { statusesLogin } from '../../const.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTextSearch } from '../../store/slices';
-import { getFilteredBy } from './../../store/selectors';
+import { getFilteredBy, getSemester } from './../../store/selectors';
 
 export default function Header() {
   const [inputText, setInputText] = React.useState('');
   const [isActiveModalWindow, setIsActiveModalWindow] = React.useState(false);
   const filteredBy = useSelector((state) => getFilteredBy(state));
+  const semester = useSelector((state) => getSemester(state));
   const dispatch = useDispatch();
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,7 +25,7 @@ export default function Header() {
 
   const searchResults = (e) => {
     e.preventDefault();
-    navigate(`/search/?text=${inputText}&filteredBy=${filteredBy}`);
+    navigate(`/search/?text=${inputText}&filteredBy=${filteredBy}&semester=${semester}`);
     dispatch(setTextSearch(inputText));
     setInputText('');
   };

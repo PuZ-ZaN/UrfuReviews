@@ -5,15 +5,15 @@ const CourseBlock = ({
   emojy,
   isActiveCourse,
   setActiveCourse,
-  numberActiveSemestr,
-  setActiveSemestr,
+  numberActiveSemester,
+  setActiveSemester,
 }) => {
   const onClickNumberCourse = () => {
     setActiveCourse((prevValue) => (prevValue == numberCourse ? null : numberCourse));
   };
 
   const onClickNumberSemestr = (numberSemestr) => {
-    setActiveSemestr(numberSemestr);
+    setActiveSemester(numberSemestr);
   };
 
   const listSemestr = [numberCourse * 2 - 1, numberCourse * 2];
@@ -31,7 +31,7 @@ const CourseBlock = ({
           {listSemestr.map((numberSemestr) => (
             <div
               className={`container_number_semestr ${
-                numberActiveSemestr == numberSemestr && 'active'
+                numberActiveSemester == numberSemestr && 'active'
               }`}
               onClick={() => onClickNumberSemestr(numberSemestr)}>
               <p className="number_semester">{numberSemestr} семестр</p>
