@@ -3,30 +3,15 @@ import { destinyTracks } from '../../../../const.ts';
 import './course_modal_window.scss';
 import Tracks from '../../../tracks/Tracks';
 import ModalWindow from '../../../modal-window/ModalWindow';
+import { getCourseValues } from '../../../usefulMethods/usefulMethods';
 
 const CourseModalWindow = ({ course, closeModalWindow }) => {
-  const [rating, setRating] = React.useState(0);
-  const [countReviews, setCountReviews] = React.useState(0);
+  const [courseValues, setCourseValues] = React.useState(null);
 
   React.useEffect(() => {
-    const tracks = course.tracks;
-    let reviews = 0;
-    let allRating = 0;
-    for (var i = 0; i < tracks.length; i++) {
-      const teachers = tracks[i].prepods;
-      for (var j = 0; j < teachers.length; j++) {
-        const reviewsOnTeacher = teachers[j].reviews;
-        for (var k = 0; k < reviewsOnTeacher.length; k++) {
-          allRating += reviewsOnTeacher[k].rating;
-        }
-        reviews += reviewsOnTeacher.length;
-      }
-    }
-    setCountReviews(reviews);
-    setRating((allRating / reviews).toFixed(1));
+    if (!course) return;
+    setCourseValues(getCourseValues(course));
   }, [course]);
-
-  const getCountReviews = () => {};
 
   return (
     <ModalWindow onClose={closeModalWindow}>
@@ -37,15 +22,15 @@ const CourseModalWindow = ({ course, closeModalWindow }) => {
         </div>
         <div className="values">
           <div className="assessment">
-            <p>{rating}</p>
+            <p>{courseValues ? courseValues.rating : '0'}</p>
             Средняя оценка
           </div>
           <div className="count_tracks">
-            <p>{course.tracks.length}</p>
+            <p>{courseValues ? courseValues.countTracks : '0'}</p>
             Всего треков
           </div>
           <div className="count_reviews">
-            <p>{countReviews}</p>
+            <p>{courseValues ? courseValues.countReviews : '0'}</p>
             Добавлено отзывов
           </div>
         </div>

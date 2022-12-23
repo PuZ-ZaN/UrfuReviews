@@ -1,36 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './track.scss';
+import { getTrackValues } from './../../usefulMethods/usefulMethods';
 
 const Track = ({ track }) => {
   const [style, setStyle] = React.useState({ width: 0 });
-  const [rating, setRating] = React.useState(0);
-
-  console.log(track);
+  const [trackValues, setTrackValues] = React.useState(null);
 
   React.useEffect(() => {
-    let reviews = 0;
-    let allRating = 0;
-    const teachers = track.prepods;
-    for (var j = 0; j < teachers.length; j++) {
-      const reviewsOnTeacher = teachers[j].reviews;
-      for (var k = 0; k < reviewsOnTeacher.length; k++) {
-        allRating += reviewsOnTeacher[k].rating;
-      }
-      reviews += reviewsOnTeacher.length;
-    }
-
-    setRating((allRating / reviews).toFixed(1));
+    if (!track) return;
+    setTrackValues(getTrackValues(track));
   }, []);
 
   React.useEffect(() => {
     const newStyle = {
       opacity: 1,
-      width: `${rating * 20}%`,
+      width: `${trackValues ? trackValues.averageValues.rating * 20 : 0}%`,
     };
 
     setStyle(newStyle);
-  }, [rating]);
+  }, [trackValues]);
 
   return (
     <Link to="/review">
@@ -42,7 +31,7 @@ const Track = ({ track }) => {
           <div className="bar">
             <div className="bar_percent" style={style}></div>
           </div>
-          <p className="rating">{rating}</p>
+          <p className="rating">{trackValues ? trackValues.averageValues.rating : '0'}</p>
         </div>
       </div>
     </Link>

@@ -3,39 +3,16 @@ import './courses.scss';
 import CourseModalWindow from './course/course-modal-view/CourseModalWindow';
 import CourseRowView from './course/course-row-view/CourseRowView';
 import CourseColumnView from './course/course-column-view/CourseColumnView';
-import { useDispatch, useSelector } from 'react-redux';
-import { setActiveReviews, setActiveSubject, setActiveTracks } from '../../store/slices';
-import { getAllReviews, getAllTracks } from '../../store/selectors';
-import { getActiveTracks } from './../../store/selectors';
+import { getCourseValues } from './../usefulMethods/usefulMethods';
 
 export default function Courses({ courses }) {
   const [isRowView, setIsRowView] = React.useState(true);
   const [selectedCourse, setSelectedCourse] = React.useState();
-  const dispatch = useDispatch();
-  const originalTracks = useSelector((state) => getAllTracks(state));
-  const originalReviews = useSelector((state) => getAllReviews(state));
-  const activeTracks = useSelector((state) => getActiveTracks(state));
-
-  const [rating, setRating] = React.useState(0);
-  const [countReviews, setCountReviews] = React.useState(0);
+  const [courseValues, setCourseValues] = React.useState(null);
 
   React.useEffect(() => {
     if (!selectedCourse) return;
-    const tracks = selectedCourse.tracks;
-    let reviews = 0;
-    let allRating = 0;
-    for (var i = 0; i < tracks.length; i++) {
-      const teachers = tracks[i].prepods;
-      for (var j = 0; j < teachers.length; j++) {
-        const reviewsOnTeacher = teachers[j].reviews;
-        for (var k = 0; k < reviewsOnTeacher.length; k++) {
-          allRating += reviewsOnTeacher[k].rating;
-        }
-        reviews += reviewsOnTeacher.length;
-      }
-    }
-    setCountReviews(reviews);
-    setRating((allRating / reviews).toFixed(1));
+    setCourseValues(getCourseValues(selectedCourse));
   }, [selectedCourse]);
 
   const setRowView = () => {
@@ -53,8 +30,6 @@ export default function Courses({ courses }) {
   const handleSelectCourse = (course) => {
     setSelectedCourse(course);
   };
-
-  console.log(selectedCourse);
 
   return (
     <>
@@ -109,13 +84,13 @@ export default function Courses({ courses }) {
               </p>
               <div className="values">
                 <div className="assessment">
-                  Средняя оценка <span>{rating}</span>
+                  Средняя оценка <span>{courseValues ? courseValues.rating : '0'}</span>
                 </div>
                 <div className="count_tracks">
                   Всего треков <span>{selectedCourse ? selectedCourse.tracks.length : '0'}</span>
                 </div>
                 <div className="count_reviews">
-                  Добавлено отзывов <span>{countReviews}</span>
+                  Добавлено отзывов <span>{courseValues ? courseValues.countReviews : '0'}</span>
                 </div>
               </div>
             </div>
