@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { filtersData } from '../const.ts';
 import { countAndGetTrackValues } from './../components/usefulMethods/usefulMethods';
 
 const trackSlice = createSlice({
@@ -43,6 +44,21 @@ const trackSlice = createSlice({
     },
     setFilteredTrackBy(state, action) {
       state.filteredTrackBy = action.payload;
+      const options = filtersData.filters.options;
+      if (action.payload == options.rating) {
+        state.filteredReviews.sort((first, second) => {
+          return second.rating - first.rating;
+        });
+      } else if (action.payload == options.benefit) {
+        state.filteredReviews.sort((first, second) => {
+          // to do: benefit property doesn't exist
+          return second.benefit - first.benefit;
+        });
+      } else if (action.payload == options.time) {
+        state.filteredReviews.sort((first, second) => {
+          return new Date(second.addedDate) - new Date(first.addedDate);
+        });
+      }
     },
   },
 });

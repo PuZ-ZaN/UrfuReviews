@@ -6,10 +6,10 @@ const Filters = ({ teachers }) => {
   return (
     <>
       <Filter
-        filterData={filtersData.Teacher}
+        filterData={filtersData.teacher}
         options={teachers.map((teacher) => teacher.prepodName)}
       />
-      <Filter filterData={filtersData.Filters} options={[]} />
+      <Filter filterData={filtersData.filters} options={[]} />
     </>
   );
 };

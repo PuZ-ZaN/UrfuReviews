@@ -17,34 +17,38 @@ export enum assessmentTitle {
 }
 
 export const filtersData = {
-  Teacher: {
+  teacher: {
     text: 'Преподаватель',
     class: 'select_teacher',
   },
-  Filters: {
+  filters: {
     text: 'Фильтр',
     class: 'select_filters',
-    options: ['Общая оценка', 'Полезность', 'Время'],
+    options: {
+      rating: 'Общая оценка',
+      benefit: 'Полезность',
+      time: 'Время',
+    },
   },
-  CourseSemester: {
+  courseSemester: {
     text: 'Курс, семестр',
     class: 'select_course_semester',
-    options: [
-      '1 курс, 1 семестр',
-      '1 курс, 2 семестр',
-      '2 курс, 3 семестр',
-      '2 курс, 4 семестр',
-      '3 курс, 5 семестр',
-      '3 курс, 6 семестр',
-      '4 курс, 7 семестр',
-      '4 курс, 8 семестр',
-    ],
+    options: {
+      semester1: '1 курс, 1 семестр',
+      semester2: '1 курс, 2 семестр',
+      semester3: '2 курс, 3 семестр',
+      semester4: '2 курс, 4 семестр',
+      semester5: '3 курс, 5 семестр',
+      semester6: '3 курс, 6 семестр',
+      semester7: '4 курс, 7 семестр',
+      semester8: '4 курс, 8 семестр',
+    },
   },
-  Subject: {
+  subject: {
     text: 'Предмет',
     class: 'select_subject',
   },
-  Track: {
+  track: {
     text: 'Трек',
     class: 'select_track',
   },

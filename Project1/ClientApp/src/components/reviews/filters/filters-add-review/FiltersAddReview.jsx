@@ -6,16 +6,16 @@ import './filters_add_review.scss';
 const FiltersAddReview = () => {
   return (
     <div className="filters_add_review">
-      <Filter filterData={filtersData.CourseSemester} />
+      <Filter filterData={filtersData.courseSemester} />
       <Filter
-        filterData={filtersData.Subject}
+        filterData={filtersData.subject}
         options={['lorem ispum ewaje vaweh hawe vawe vw', 'ea', 'eae']}
       />
       <Filter
-        filterData={filtersData.Track}
+        filterData={filtersData.track}
         options={['test long lorem text eawha vawe hwae ', 'ea', 'eae']}
       />
-      <Filter filterData={filtersData.Teacher} options={['test', 'ea', 'eae']} />
+      <Filter filterData={filtersData.teacher} options={['test', 'ea', 'eae']} />
     </div>
   );
 };
