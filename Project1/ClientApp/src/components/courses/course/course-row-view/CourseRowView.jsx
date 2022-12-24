@@ -11,7 +11,7 @@ const getBackgroundStyles = (course) => {
   return gradients[0];
 };
 
-const CourseRowView = ({ course, selectedCourse, setSelectedCourse }) => {
+const CourseRowView = ({ course, setSelectedCourse }) => {
   const onCourseClick = () => {
     setSelectedCourse(course);
   };

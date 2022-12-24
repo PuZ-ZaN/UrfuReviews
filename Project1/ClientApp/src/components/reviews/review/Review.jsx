@@ -2,7 +2,6 @@ import React from 'react';
 import './review.scss';
 
 const Review = ({ review, index }) => {
-  console.log(review);
   return (
     <div class="review">
       <div class="header_review">

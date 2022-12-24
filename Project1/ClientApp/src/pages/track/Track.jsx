@@ -1,5 +1,5 @@
 import React from 'react';
-import './course.scss';
+import './track.scss';
 import Criteria from '../../components/reviews/criteria/Criteria';
 import Review from '../../components/reviews/review/Review';
 import Rate from '../../components/reviews/rate/Rate';
@@ -8,33 +8,25 @@ import AddReviewBtn from '../../components/reviews/add-review-btn/AddReviewBtn';
 import Circle from '../../components/reviews/circle-rating/CircleRating';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getActiveTrack } from '../../store/selectors';
-import { setActiveTrack } from '../../store/slices';
-import { getOriginalSubjects } from './../../store/selectors';
-import { getAllReviews, getTrackValues } from '../../components/usefulMethods/usefulMethods';
+import { getSelectedTrack, getTracks, getFilteredReviews } from '../../store/selectors';
+import { getTrackValues } from '../../store/selectors';
+import { setSelectedTrack } from '../../store/tracksSlice';
 
-export default function Course() {
+export default function Track() {
   const dispatch = useDispatch();
   const id = useParams().id || -1;
-  const allCourses = useSelector((state) => getOriginalSubjects(state));
-  const track = useSelector((state) => getActiveTrack(state));
-  const [allReviews, setAllReviews] = React.useState([]);
-  const [trackValues, setTrackValues] = React.useState();
+  const tracks = useSelector((state) => getTracks(state));
+  const track = useSelector((state) => getSelectedTrack(state));
+  const reviews = useSelector((state) => getFilteredReviews(state));
+  const trackValues = useSelector((state) => getTrackValues(state));
 
   React.useEffect(() => {
-    if (id !== -1 && allCourses.length > 0) {
-      dispatch(setActiveTrack(id));
+    if (id !== -1 && tracks.length > 0) {
+      dispatch(setSelectedTrack(id));
     }
-  }, [id, allCourses]);
+  }, [id, tracks]);
 
-  React.useEffect(() => {
-    if (track) {
-      setTrackValues(getTrackValues(track));
-      setAllReviews(getAllReviews(track));
-    }
-  }, [track]);
-
-  if (!track || !trackValues) return <></>;
+  if (!track || !trackValues || reviews.length == 0) return <></>;
 
   return (
     <div className="course_title_container">
@@ -56,7 +48,7 @@ export default function Course() {
       </div>
 
       <div className="reviews">
-        {allReviews.map((review, index) => (
+        {reviews.map((review, index) => (
           <Review key={review.id} review={review} index={index} />
         ))}
       </div>

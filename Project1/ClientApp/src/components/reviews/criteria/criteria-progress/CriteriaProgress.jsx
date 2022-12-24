@@ -11,7 +11,7 @@ const CriteriaProgress = ({ value }) => {
     };
 
     setStyle(newStyle);
-  }, []);
+  }, [value]);
 
   return (
     <div className="criteria-progress">

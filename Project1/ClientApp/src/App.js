@@ -6,7 +6,7 @@ import Header from './components/header/Header';
 import AddReview from './pages/add-review/AddReview';
 import Search from './pages/search/Search';
 import Sidebar from './components/sidebar/Sidebar';
-import Course from './pages/course/Course';
+import Track from './pages/track/Track';
 import { useDispatch } from 'react-redux';
 import { fetchOriginalSubjects } from './store/api-actions';
 
@@ -25,7 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/search" element={<Search />}></Route>
-          <Route path="/track/:id" element={<Course />} />
+          <Route path="/track/:id" element={<Track />} />
           <Route path="/add_review" element={<AddReview />} />
         </Routes>
       </div>

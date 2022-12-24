@@ -3,6 +3,8 @@ import React from 'react';
 const RateProgress = ({ percent, countStars }) => {
   const [style, setStyle] = React.useState({});
 
+  console.log(percent, countStars);
+
   React.useEffect(() => {
     const newStyle = {
       opacity: 1,
@@ -10,7 +12,7 @@ const RateProgress = ({ percent, countStars }) => {
     };
 
     setStyle(newStyle);
-  }, []);
+  }, [percent, countStars]);
 
   return (
     <div className="rate-progress">

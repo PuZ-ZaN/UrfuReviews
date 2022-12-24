@@ -1,13 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { searchFilters } from '../const.ts';
-import { getAllTracks } from './../components/usefulMethods/usefulMethods';
 
 const subjectsSlice = createSlice({
   name: 'subjects',
   initialState: {
     originalSubjects: [],
     filteredSubjects: [],
-    activeTrack: null,
     semester: 'all',
     textSearch: '',
     filteredBy: searchFilters.Track,
@@ -36,11 +34,6 @@ const subjectsSlice = createSlice({
     setSemester(state, action) {
       state.semester = action.payload;
     },
-    setActiveTrack(state, action) {
-      const allTracks = getAllTracks(state.originalSubjects);
-      const trackInArray = allTracks.filter((track) => track.id === action.payload);
-      state.activeTrack = trackInArray.length > 0 ? trackInArray[0] : null;
-    },
     resetSearch(state) {
       state.semester = 'all';
       state.textSearch = '';
@@ -56,6 +49,6 @@ export const {
   setFilteredBy,
   resetSearch,
   setSemester,
-  setActiveTrack,
 } = subjectsSlice.actions;
+
 export const subjectsReducer = subjectsSlice.reducer;

@@ -3,14 +3,14 @@ import { destinyTracks } from '../../../../const.ts';
 import './course_modal_window.scss';
 import Tracks from '../../../tracks/Tracks';
 import ModalWindow from '../../../modal-window/ModalWindow';
-import { getCourseValues } from '../../../usefulMethods/usefulMethods';
+import { countAndGetCourseValues } from '../../../usefulMethods/usefulMethods';
 
 const CourseModalWindow = ({ course, closeModalWindow }) => {
   const [courseValues, setCourseValues] = React.useState(null);
 
   React.useEffect(() => {
     if (!course) return;
-    setCourseValues(getCourseValues(course));
+    setCourseValues(countAndGetCourseValues(course));
   }, [course]);
 
   return (

@@ -13,7 +13,7 @@ export default function Circle({ rating, countReviews }) {
     const valuePercent = Math.round(rating * 20);
     const dashOffsetValue = countDashOffset(valuePercent);
     setStyle({ strokeDashoffset: dashOffsetValue });
-  }, []);
+  }, [rating, countReviews]);
 
   return (
     <div className="rating_circle">

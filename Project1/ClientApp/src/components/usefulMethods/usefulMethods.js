@@ -1,7 +1,6 @@
 import React from 'react';
-import { getOriginalSubjects } from './../../store/selectors';
 
-export const getTrackValues = (track) => {
+export const countAndGetTrackValues = (track, teacherName) => {
   const trackInfo = {
     countReviews: 0,
     countStars: {
@@ -20,7 +19,12 @@ export const getTrackValues = (track) => {
   };
   const sumValues = { ...trackInfo.averageValues };
 
-  const teachers = track.prepods;
+  let teachers;
+  if (!teacherName) {
+    teachers = track.prepods;
+  } else {
+    teachers = track.prepods.filter((teacher) => teacher.prepodName === teacherName);
+  }
 
   for (let teacher of teachers) {
     const reviewsOnTeacher = teacher.reviews;
@@ -60,7 +64,7 @@ export const getTrackValues = (track) => {
   return trackInfo;
 };
 
-export const getCourseValues = (course) => {
+export const countAndGetCourseValues = (course) => {
   const courseInfo = {
     rating: 0,
     countTracks: course.tracks.length,
@@ -70,7 +74,7 @@ export const getCourseValues = (course) => {
 
   const tracks = course.tracks;
   for (let track of tracks) {
-    const trackInfo = getTrackValues(track);
+    const trackInfo = countAndGetTrackValues(track);
     sumValues.rating += trackInfo.averageValues.rating;
     courseInfo.countReviews += trackInfo.countReviews;
   }
@@ -78,20 +82,4 @@ export const getCourseValues = (course) => {
   courseInfo.rating = (sumValues.rating / courseInfo.countTracks).toFixed(1);
 
   return courseInfo;
-};
-
-export const getAllTracks = (courses) => {
-  return [].concat.apply(
-    [],
-    courses.map((subject) => subject.tracks),
-  );
-};
-
-export const getAllReviews = (track) => {
-  return [].concat.apply(
-    [],
-    track.prepods.map((teacher) =>
-      teacher.reviews.map((review) => ({ ...review, prepodName: teacher.prepodName })),
-    ),
-  );
 };

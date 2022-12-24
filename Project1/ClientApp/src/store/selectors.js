@@ -1,12 +1,10 @@
 import { searchFilters } from '../const.ts';
-import { getAllTracks } from './../components/usefulMethods/usefulMethods';
 
 export const getOriginalSubjects = (state) => state.subjects.originalSubjects;
 
 export const getFilteredSubjects = (state) => state.subjects.filteredSubjects;
 
-export const getSearchTracks = (allSubjects, text, filteredBy) => {
-  const allTracks = getAllTracks(allSubjects);
+export const getSearchTracks = (allTracks, text, filteredBy) => {
   let searchTracks = [];
   if (filteredBy === searchFilters.Track) {
     searchTracks = allTracks.filter((track) =>
@@ -27,10 +25,18 @@ export const getSearchTracks = (allSubjects, text, filteredBy) => {
   return searchTracks;
 };
 
-export const getActiveTrack = (state) => state.subjects.activeTrack;
-
 export const getFilteredBy = (state) => state.subjects.filteredBy;
 
 export const getTextSearch = (state) => state.subjects.textSearch;
 
 export const getSemester = (state) => state.subjects.semester;
+
+export const getTracks = (state) => state.tracks.tracks;
+
+export const getSelectedTrack = (state) => state.tracks.selectedTrack;
+
+export const getAllReviews = (state) => state.tracks.allReviews;
+
+export const getFilteredReviews = (state) => state.tracks.filteredReviews;
+
+export const getTrackValues = (state) => state.tracks.trackValues;

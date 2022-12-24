@@ -3,7 +3,7 @@ import './courses.scss';
 import CourseModalWindow from './course/course-modal-view/CourseModalWindow';
 import CourseRowView from './course/course-row-view/CourseRowView';
 import CourseColumnView from './course/course-column-view/CourseColumnView';
-import { getCourseValues } from './../usefulMethods/usefulMethods';
+import { countAndGetCourseValues } from './../usefulMethods/usefulMethods';
 
 export default function Courses({ courses }) {
   const [isRowView, setIsRowView] = React.useState(true);
@@ -12,7 +12,7 @@ export default function Courses({ courses }) {
 
   React.useEffect(() => {
     if (!selectedCourse) return;
-    setCourseValues(getCourseValues(selectedCourse));
+    setCourseValues(countAndGetCourseValues(selectedCourse));
   }, [selectedCourse]);
 
   const setRowView = () => {
@@ -53,12 +53,7 @@ export default function Courses({ courses }) {
       {isRowView ? (
         <div className="courses_row_view">
           {courses.map((course) => (
-            <CourseRowView
-              course={course}
-              selectedCourse={selectedCourse}
-              setSelectedCourse={handleSelectCourse}
-              key={course.id}
-            />
+            <CourseRowView course={course} setSelectedCourse={handleSelectCourse} key={course.id} />
           ))}
         </div>
       ) : (

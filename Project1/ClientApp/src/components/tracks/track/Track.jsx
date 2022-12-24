@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { countAndGetTrackValues } from '../../usefulMethods/usefulMethods';
 import './track.scss';
-import { getTrackValues } from './../../usefulMethods/usefulMethods';
 
 const Track = ({ track }) => {
   const [style, setStyle] = React.useState({ width: 0 });
@@ -9,7 +9,7 @@ const Track = ({ track }) => {
 
   React.useEffect(() => {
     if (!track) return;
-    setTrackValues(getTrackValues(track));
+    setTrackValues(countAndGetTrackValues(track));
   }, []);
 
   React.useEffect(() => {

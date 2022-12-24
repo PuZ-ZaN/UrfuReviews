@@ -6,7 +6,7 @@ import SignUpModalWindow from '../modal-window/sign-up-modal-window/SignUpModalW
 import StatusModalWindow from './../modal-window/status-modal-window/StatusModalWindow';
 import { statusesLogin } from '../../const.ts';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTextSearch } from '../../store/slices';
+import { setTextSearch } from '../../store/subjectsSlice';
 import { getFilteredBy, getSemester } from './../../store/selectors';
 
 export default function Header() {
