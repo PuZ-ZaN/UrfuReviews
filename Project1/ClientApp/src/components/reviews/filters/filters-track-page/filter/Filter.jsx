@@ -1,14 +1,10 @@
 import React from 'react';
-import { filtersData } from '../../../../../const.ts';
 import './filter.scss';
-import { useDispatch } from 'react-redux';
-import { setFilteredTrackBy, setTeacher } from '../../../../../store/tracksSlice';
 
 const Filter = ({ filterData, options, onClick }) => {
   const [isShownBody, setIsShownBody] = React.useState(false);
   const [currentTitle, setCurrentTitle] = React.useState(filterData.text);
   const currentOptions = 'options' in filterData ? Object.values(filterData.options) : options;
-  const dispatch = useDispatch();
 
   const toggleShownBody = () => {
     setIsShownBody((prevValue) => !prevValue);
@@ -18,8 +14,6 @@ const Filter = ({ filterData, options, onClick }) => {
     setCurrentTitle(newTitle);
     setIsShownBody(false);
     onClick(newTitle);
-    if (filtersData.teacher == filterData) dispatch(setTeacher(newTitle));
-    if (filtersData.filters == filterData) dispatch(setFilteredTrackBy(newTitle));
   };
 
   return (

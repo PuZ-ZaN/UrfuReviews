@@ -2,6 +2,8 @@ import React from 'react';
 import './review.scss';
 
 const Review = ({ review, index }) => {
+  const dateTime = new Date(review.addedDate);
+
   return (
     <div class="review">
       <div class="header_review">
@@ -21,7 +23,9 @@ const Review = ({ review, index }) => {
             </div>
             <div class="date">
               <span class="date_text">Дата: </span>
-              {review.isMoved ? 'перенесен из гугл таблиц' : '04.11.2022'}
+              {review.isMoved
+                ? 'перенесен из гугл таблиц'
+                : `${dateTime?.getDate()}.${dateTime?.getMonth() + 1}.${dateTime?.getFullYear()}`}
             </div>
           </div>
           <div class="header_bottom_right">
