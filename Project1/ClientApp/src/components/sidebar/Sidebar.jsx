@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import CourseBlock from './course-block/CourseBlock';
 import './sidebar.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilteredSubjectsBySemestr, setSemester } from '../../store/subjectsSlice';
+import { setSemester } from '../../store/subjectsSlice';
 import { getSemester } from '../../store/selectors';
 
 const Sidebar = () => {
@@ -15,7 +15,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const handleClickSemester = (semester) => {
-    dispatch(setFilteredSubjectsBySemestr(activeSemester !== semester ? semester : 'all'));
+    dispatch(setSemester(activeSemester !== semester ? semester : 'all'));
   };
 
   return (

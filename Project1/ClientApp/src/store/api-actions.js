@@ -15,3 +15,16 @@ export const fetchOriginalSubjects = createAsyncThunk(
     }
   },
 );
+
+export const addReviewAction = createAsyncThunk(
+  'review/addReview',
+  async function (review, { dispatch }) {
+    try {
+      await axios.post('/api/AddReview', review);
+      alert('Отзыв был добавлен успешно. Страница перезагрузится');
+    } catch (error) {
+      alert('Ошибка при добавлении отзыва на сервер.');
+      console.log('fetchAll error');
+    }
+  },
+);

@@ -3,7 +3,7 @@ import './track.scss';
 import Criteria from '../../components/reviews/criteria/Criteria';
 import Review from '../../components/reviews/review/Review';
 import Rate from '../../components/reviews/rate/Rate';
-import Filters from '../../components/reviews/filters/filters-course-page/FiltersCoursePage';
+import Filters from '../../components/reviews/filters/filters-track-page/FiltersTrackPage';
 import AddReviewBtn from '../../components/reviews/add-review-btn/AddReviewBtn';
 import Circle from '../../components/reviews/circle-rating/CircleRating';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,7 +44,7 @@ export default function Track() {
 
       <div className="filters_and_button">
         <Filters teachers={track.prepods} />
-        <AddReviewBtn />
+        <AddReviewBtn trackId={id} />
       </div>
 
       <div className="reviews">

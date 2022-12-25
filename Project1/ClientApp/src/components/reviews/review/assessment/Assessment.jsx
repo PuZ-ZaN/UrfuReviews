@@ -48,4 +48,4 @@ const Assessment = ({ title, onChangeField }) => {
   );
 };
 
-export default Assessment;
+export default React.memo(Assessment);

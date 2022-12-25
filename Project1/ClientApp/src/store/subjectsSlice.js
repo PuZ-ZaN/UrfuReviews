@@ -15,16 +15,6 @@ const subjectsSlice = createSlice({
       state.originalSubjects = action.payload;
       state.filteredSubjects = action.payload;
     },
-    setFilteredSubjectsBySemestr(state, action) {
-      state.semester = action.payload;
-      if (action.payload == 'all') {
-        state.filteredSubjects = state.originalSubjects;
-      } else {
-        state.filteredSubjects = state.originalSubjects.filter((subject) =>
-          subject.semester.includes(action.payload),
-        );
-      }
-    },
     setTextSearch(state, action) {
       state.textSearch = action.payload;
     },
@@ -33,6 +23,13 @@ const subjectsSlice = createSlice({
     },
     setSemester(state, action) {
       state.semester = action.payload;
+      if (action.payload == 'all') {
+        state.filteredSubjects = state.originalSubjects;
+      } else {
+        state.filteredSubjects = state.originalSubjects.filter((subject) =>
+          subject.semester.includes(action.payload),
+        );
+      }
     },
     resetSearch(state) {
       state.semester = 'all';

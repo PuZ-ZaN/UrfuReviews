@@ -2,7 +2,7 @@ import React from 'react';
 import Filter from './filter/Filter';
 import { filtersData } from '../../../../const.ts';
 
-const Filters = ({ teachers }) => {
+const FiltersTrackPage = ({ teachers }) => {
   return (
     <>
       <Filter
@@ -14,4 +14,4 @@ const Filters = ({ teachers }) => {
   );
 };
 
-export default Filters;
+export default FiltersTrackPage;

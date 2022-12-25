@@ -26,7 +26,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/search" element={<Search />}></Route>
           <Route path="/track/:id" element={<Track />} />
-          <Route path="/add_review" element={<AddReview />} />
+          <Route path="/add_review/:id" element={<AddReview />} />
         </Routes>
       </div>
     </div>
