@@ -6,7 +6,7 @@ import FiltersAddReview from '../../components/reviews/filters/filters-add-revie
 import CircleProgress from '../../components/reviews/circle-progress/CircleProgress';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTracks, getOriginalSubjects } from '../../store/selectors';
+import { getTracks, getOriginalSubjects, getSelectedTrack } from '../../store/selectors';
 import { setSelectedTrack, setTracks } from '../../store/tracksSlice';
 import { setSemester } from '../../store/subjectsSlice';
 import { addReviewAction } from '../../store/api-actions';
@@ -16,7 +16,7 @@ const AddReview = () => {
   const navigate = useNavigate();
   const id = useParams().id || -1;
   const originalSubjects = useSelector((state) => getOriginalSubjects(state));
-  const [tracksBySubject, setTracksBySubject] = React.useState([]);
+  const track = useSelector((state) => getSelectedTrack(state));
 
   React.useEffect(() => {
     if (id !== -1 && originalSubjects.length > 0) {
@@ -24,8 +24,21 @@ const AddReview = () => {
     }
   }, [id, originalSubjects]);
 
+  React.useEffect(() => {
+    if (!track) return;
+    const subjectByTrack = originalSubjects
+      ? originalSubjects.find((subject) => subject.id === track.subjectId)
+      : null;
+    setCourseValues((prev) => ({
+      ...prev,
+      semester: subjectByTrack.semester[0],
+      course: subjectByTrack,
+      track,
+    }));
+  }, [track]);
+
   const [courseValues, setCourseValues] = React.useState({
-    semester: null,
+    semester: '',
     course: '',
     track: '',
     teacher: '',
@@ -116,6 +129,7 @@ const AddReview = () => {
         onChangeCourse={handleChangeCourse}
         onChangeTrack={handleChangeTrack}
         onChangeTeacher={handleChangeTeacher}
+        courseValues={courseValues}
       />
       <div className="hr_add_review"></div>
       <div className="blocks">

@@ -1,7 +1,7 @@
 import React from 'react';
 import './filter.scss';
 
-const Filter = ({ filterData, options, onClick }) => {
+const Filter = ({ filterData, options, onClick, activeValue }) => {
   const [isShownBody, setIsShownBody] = React.useState(false);
   const [currentTitle, setCurrentTitle] = React.useState(filterData.text);
   const currentOptions = 'options' in filterData ? Object.values(filterData.options) : options;
@@ -15,6 +15,10 @@ const Filter = ({ filterData, options, onClick }) => {
     setIsShownBody(false);
     onClick(newTitle);
   };
+
+  React.useEffect(() => {
+    if (activeValue) setCurrentTitle(activeValue);
+  }, [activeValue]);
 
   return (
     <div
