@@ -2,6 +2,7 @@
 .filters_add_review {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   margin: 30px 0;
   position: relative;
   font-family: 'Roboto', sans-serif;
@@ -89,7 +90,8 @@
     }
   }
   .select_shown_body {
-    top: 80px;
+    top: 100%;
+    margin-top: 30px;
     opacity: 1;
   }
 }

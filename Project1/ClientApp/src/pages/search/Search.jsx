@@ -5,20 +5,24 @@ import { destinyTracks, searchFilters } from '../../const.ts';
 import './search.scss';
 import {
   getFilteredBy,
-  getFilteredSubjects,
+  getFilteredTracks,
   getSearchTracks,
   getSemester,
   getTextSearch,
-  getTracks,
 } from './../../store/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { setFilteredBy, setSemester, setTextSearch } from '../../store/subjectsSlice';
+import {
+  resetSubjectsState,
+  setFilteredBy,
+  setSemester,
+  setTextSearch,
+} from '../../store/subjectsSlice';
 
 const Search = () => {
   const [tracks, setTracks] = React.useState([]);
   const filteredBy = useSelector((state) => getFilteredBy(state));
-  const allTracks = useSelector((state) => getTracks(state));
+  const filteredTracks = useSelector((state) => getFilteredTracks(state));
   const textSearch = useSelector((state) => getTextSearch(state));
   const semester = useSelector((state) => getSemester(state));
 
@@ -30,12 +34,12 @@ const Search = () => {
     dispatch(setTextSearch(searchParams.get('text')));
     dispatch(setFilteredBy(searchParams.get('filteredBy')));
     dispatch(setSemester(searchParams.get('semester')));
-    setTracks(getSearchTracks(allTracks, textSearch, filteredBy));
+    setTracks(getSearchTracks(filteredTracks, textSearch, filteredBy));
   }, []);
 
   React.useEffect(() => {
-    setTracks(getSearchTracks(allTracks, textSearch, filteredBy));
-  }, [tracks, textSearch, filteredBy]);
+    setTracks(getSearchTracks(filteredTracks, textSearch, filteredBy));
+  }, [textSearch, filteredBy, semester]);
 
   React.useEffect(() => {
     setSearchParams({
@@ -64,7 +68,7 @@ const Search = () => {
   };
 
   const resetSearch = () => {
-    dispatch(resetSearch());
+    dispatch(resetSubjectsState());
   };
 
   return (

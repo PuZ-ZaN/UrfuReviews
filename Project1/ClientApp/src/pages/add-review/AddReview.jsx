@@ -6,9 +6,9 @@ import FiltersAddReview from '../../components/reviews/filters/filters-add-revie
 import CircleProgress from '../../components/reviews/circle-progress/CircleProgress';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTracks, getOriginalSubjects, getSelectedTrack } from '../../store/selectors';
+import { getOriginalSubjects, getSelectedTrack, getFilteredSubjects } from '../../store/selectors';
 import { setSelectedTrack, setTracks } from '../../store/tracksSlice';
-import { setSemester } from '../../store/subjectsSlice';
+import { setSelectedSubject, setSemester } from '../../store/subjectsSlice';
 import { addReviewAction } from '../../store/api-actions';
 
 const AddReview = () => {
@@ -16,26 +16,27 @@ const AddReview = () => {
   const navigate = useNavigate();
   const id = useParams().id || -1;
   const originalSubjects = useSelector((state) => getOriginalSubjects(state));
-  const track = useSelector((state) => getSelectedTrack(state));
 
   React.useEffect(() => {
     if (id !== -1 && originalSubjects.length > 0) {
+      const subjectByTrack = originalSubjects
+        ? originalSubjects.find((subject) => {
+            return subject.tracks.find((track) => track.id == id);
+          })
+        : null;
+      if (!subjectByTrack) return;
+
+      dispatch(setSemester(subjectByTrack.semester[0]));
+      dispatch(setSelectedSubject(subjectByTrack));
       dispatch(setSelectedTrack(id));
+      setCourseValues((prev) => ({
+        ...prev,
+        semester: subjectByTrack.semester[0],
+        course: subjectByTrack,
+        track: subjectByTrack.tracks.find((track) => track.id == id),
+      }));
     }
   }, [id, originalSubjects]);
-
-  React.useEffect(() => {
-    if (!track) return;
-    const subjectByTrack = originalSubjects
-      ? originalSubjects.find((subject) => subject.id === track.subjectId)
-      : null;
-    setCourseValues((prev) => ({
-      ...prev,
-      semester: subjectByTrack.semester[0],
-      course: subjectByTrack,
-      track,
-    }));
-  }, [track]);
 
   const [courseValues, setCourseValues] = React.useState({
     semester: '',
@@ -56,19 +57,19 @@ const AddReview = () => {
   const handleChangeSemester = (value) => {
     const semesterNumber = Number(value.split(',')[1][1]);
     dispatch(setSemester(semesterNumber));
-    setCourseValues((prev) => ({ ...prev, semester: semesterNumber }));
+    setCourseValues({ semester: semesterNumber, course: '', track: '', teacher: '' });
   };
 
   const handleChangeCourse = (value) => {
     const course = originalSubjects.find((subject) => subject.subjectName == value);
-    setCourseValues((prev) => ({ ...prev, course: course }));
-    dispatch(setTracks([course]));
+    dispatch(setSelectedSubject(course));
+    setCourseValues((prev) => ({ ...prev, course, track: '', teacher: '' }));
   };
 
   const handleChangeTrack = (value) => {
     const track = courseValues.course.tracks.find((track) => track.trackName == value);
     dispatch(setSelectedTrack(track.id));
-    setCourseValues((prev) => ({ ...prev, track }));
+    setCourseValues((prev) => ({ ...prev, track, teacher: '' }));
   };
 
   const handleChangeTeacher = (value) => {

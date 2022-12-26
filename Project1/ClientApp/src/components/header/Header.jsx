@@ -25,6 +25,7 @@ export default function Header() {
 
   const searchResults = (e) => {
     e.preventDefault();
+    if (!inputText) return;
     navigate(`/search/?text=${inputText}&filteredBy=${filteredBy}&semester=${semester}`);
     dispatch(setTextSearch(inputText));
     setInputText('');

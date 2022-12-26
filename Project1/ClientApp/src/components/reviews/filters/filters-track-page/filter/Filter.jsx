@@ -18,6 +18,7 @@ const Filter = ({ filterData, options, onClick, activeValue }) => {
 
   React.useEffect(() => {
     if (activeValue) setCurrentTitle(activeValue);
+    else setCurrentTitle(filterData.text);
   }, [activeValue]);
 
   return (

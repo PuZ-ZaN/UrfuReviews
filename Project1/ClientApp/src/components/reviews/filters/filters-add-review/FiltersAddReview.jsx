@@ -3,7 +3,7 @@ import { filtersData } from '../../../../const.ts';
 import Filter from '../filters-track-page/filter/Filter';
 import './filters_add_review.scss';
 import { useSelector } from 'react-redux';
-import { getFilteredSubjects, getSelectedTrack, getTracks } from './../../../../store/selectors';
+import { getFilteredSubjects, getTeachers, getFilteredTracks } from './../../../../store/selectors';
 
 const FiltersAddReview = ({
   onChangeSemester,
@@ -21,11 +21,11 @@ const FiltersAddReview = ({
   );
 
   const filteredNameTracks = concatArray(
-    useSelector((state) => getTracks(state)).map((track) => track.trackName),
+    useSelector((state) => getFilteredTracks(state)).map((track) => track.trackName),
   );
 
   const filteredNameTeachers = concatArray(
-    useSelector((state) => getSelectedTrack(state))?.prepods.map((prepod) => prepod.prepodName),
+    useSelector((state) => getTeachers(state)).map((teacher) => teacher.prepodName),
   );
 
   const getSemesterText = () => {
@@ -45,18 +45,19 @@ const FiltersAddReview = ({
         filterData={filtersData.subject}
         onClick={onChangeCourse}
         options={filteredNameCourses}
-        activeValue={courseValues.course.subjectName}
+        activeValue={courseValues?.course?.subjectName}
       />
       <Filter
         filterData={filtersData.track}
         onClick={onChangeTrack}
         options={filteredNameTracks}
-        activeValue={courseValues.track.trackName}
+        activeValue={courseValues?.track?.trackName}
       />
       <Filter
         filterData={filtersData.teacher}
         onClick={onChangeTeacher}
         options={filteredNameTeachers}
+        activeValue={courseValues?.teacher?.prepodName}
       />
     </div>
   );

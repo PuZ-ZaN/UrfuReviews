@@ -9,7 +9,6 @@ export const fetchOriginalSubjects = createAsyncThunk(
     try {
       const { data } = await axios.get('/api/All');
       dispatch(setOriginalSubjects(data.subjects));
-      dispatch(setTracks(data.subjects));
     } catch (error) {
       console.log('fetchAll error');
     }

@@ -1,13 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { filtersData } from '../const.ts';
 import { countAndGetTrackValues } from './../components/usefulMethods/usefulMethods';
+import {
+  resetSubjectsState,
+  setOriginalSubjects,
+  setSelectedSubject,
+  setSemester,
+} from './subjectsSlice';
 
 const trackSlice = createSlice({
   name: 'tracks',
   initialState: {
-    tracks: [],
+    allTracks: [],
+    filteredTracks: [],
     selectedTrack: null,
     allReviews: [],
+    teachers: [],
     filteredReviews: [],
     trackValues: null,
     teacher: null,
@@ -15,17 +23,21 @@ const trackSlice = createSlice({
   },
   reducers: {
     setTracks(state, action) {
-      state.tracks = getAllTracks(action.payload);
+      const allTracks = getTracks(action.payload);
+      state.allTracks = allTracks;
+      state.teachers = getTeachers(allTracks);
     },
     setSelectedTrack(state, action) {
-      const trackInArray = state.tracks.filter((track) => track.id === action.payload);
+      const trackInArray = state.allTracks.filter((track) => track.id === action.payload);
       const track = trackInArray.length > 0 ? trackInArray[0] : null;
-      state.selectedTrack = track;
+
       if (track) {
+        state.selectedTrack = track;
         state.trackValues = countAndGetTrackValues(track);
         const allReviews = getAllReviews(track);
         state.allReviews = allReviews;
         state.filteredReviews = allReviews;
+        state.teachers = getTeachers([track]);
       }
     },
     setAllReviews(state, action) {
@@ -61,13 +73,57 @@ const trackSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(setOriginalSubjects, (state, action) => {
+      const allTracks = getTracks(action.payload);
+      state.allTracks = allTracks;
+      state.filteredTracks = allTracks;
+      state.teachers = getTeachers(allTracks);
+    });
+    builder.addCase(setSemester, (state, action) => {
+      if (action.payload == 'all') {
+        state.filteredTracks = state.allTracks;
+        state.teachers = getTeachers(state.allTracks);
+      } else {
+        const filteredTracks = state.allTracks.filter((track) =>
+          track.semester.includes(action.payload),
+        );
+        state.filteredTracks = filteredTracks;
+        state.teachers = getTeachers(filteredTracks);
+      }
+      state.selectedTrack = null;
+      state.allReviews = [];
+      state.filteredReviews = [];
+      state.trackValues = null;
+      state.teacher = null;
+      state.filteredTrackBy = null;
+    });
+    builder.addCase(setSelectedSubject, (state, action) => {
+      const tracks = action.payload.tracks;
+      state.filteredTracks = tracks;
+      state.selectedTrack = null;
+      state.teachers = getTeachers(tracks);
+    });
+    builder.addCase(resetSubjectsState, (state, action) => {
+      state.filteredTracks = state.allTracks;
+      state.selectedTrack = null;
+      state.allReviews = [];
+      state.teachers = [];
+      state.filteredReviews = [];
+      state.trackValues = null;
+      state.teacher = null;
+      state.filteredTrackBy = null;
+    });
+  },
 });
 
-const getAllTracks = (courses) => {
+const getTracks = (courses) => {
   if (courses.length == 0) return [];
   return [].concat.apply(
     [],
-    courses.map((subject) => subject.tracks),
+    courses.map((subject) =>
+      subject.tracks.map((track) => ({ ...track, semester: subject.semester })),
+    ),
   );
 };
 
@@ -81,7 +137,21 @@ const getAllReviews = (track) => {
   );
 };
 
-export const { setTracks, setSelectedTrack, setTrackValues, setTeacher, setFilteredTrackBy } =
-  trackSlice.actions;
+const getTeachers = (tracks) => {
+  if (tracks.length == 0) return [];
+  return [].concat.apply(
+    [],
+    tracks.map((track) => track.prepods),
+  );
+};
+
+export const {
+  setTracks,
+  setSelectedTrack,
+  setTrackValues,
+  setTeacher,
+  setFilteredTrackBy,
+  setNullSelectedTrack,
+} = trackSlice.actions;
 
 export const trackReducer = trackSlice.reducer;
