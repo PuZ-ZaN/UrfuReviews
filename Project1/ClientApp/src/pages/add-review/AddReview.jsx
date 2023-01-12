@@ -114,10 +114,10 @@ const AddReview = () => {
     return Object.values(fieldsValue).filter((value) => isFieldCorrect(value)).length;
   };
 
-  const addReview = () => {
-    dispatch(addReviewAction({ ...fieldsValue, prepodId: courseValues.teacher.id }));
-    navigate('/');
-    window.location.reload();
+  const addReview = async () => {
+    await dispatch(addReviewAction({ ...fieldsValue, prepodId: courseValues.teacher.id }));
+    await navigate('/');
+    await window.location.reload();
   };
 
   if (!originalSubjects || originalSubjects.length == 0) return <></>;
