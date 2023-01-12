@@ -114,9 +114,12 @@ const AddReview = () => {
     return Object.values(fieldsValue).filter((value) => isFieldCorrect(value)).length;
   };
 
+  console.log(id);
+
   const addReview = async () => {
     await dispatch(addReviewAction({ ...fieldsValue, prepodId: courseValues.teacher.id }));
-    await navigate('/');
+    console.log(id);
+    await navigate(`/track/${id}`);
     await window.location.reload();
   };
 
