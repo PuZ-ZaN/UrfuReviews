@@ -25,11 +25,13 @@
     img {
       cursor: pointer;
       transition: 0.2s;
+      filter: grayscale(1);
       &:hover {
-        filter: contrast(0.6);
+        filter: grayscale(0);
+        transition: 0.3s ease;
       }
       &.active_star {
-        filter: contrast(0.3);
+        filter: grayscale(0);
       }
     }
   }

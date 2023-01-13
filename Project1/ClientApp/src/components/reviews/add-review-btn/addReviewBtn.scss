@@ -1,7 +1,7 @@
 .add_review_button {
   width: 260px;
   height: 60px;
-  background: #5a5a5a;
+  background: linear-gradient(90deg, #56ccf2 0%, #2f80ed 100%);
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   display: flex;
@@ -16,9 +16,11 @@
   box-sizing: border-box;
   cursor: pointer;
   user-select: none;
-  transition: 0.3s;
+  background-size: 300% 100%;
+  transition: all .4s ease-in-out;
   &:hover {
-    background: #4a4a4a;
+    background-position: 100% 0;
+    transition: all .4s ease-in-out;
   }
   .add_review_icon {
     width: 24px;
