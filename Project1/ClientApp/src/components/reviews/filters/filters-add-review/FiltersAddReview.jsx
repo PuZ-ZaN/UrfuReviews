@@ -34,6 +34,8 @@ const FiltersAddReview = ({
     );
   };
 
+  console.log(courseValues);
+
   return (
     <div className="filters_add_review">
       <Filter
@@ -46,18 +48,21 @@ const FiltersAddReview = ({
         onClick={onChangeCourse}
         options={filteredNameCourses}
         activeValue={courseValues?.course?.subjectName}
+        isBlocked={!Boolean(courseValues?.semester)}
       />
       <Filter
         filterData={filtersData.track}
         onClick={onChangeTrack}
         options={filteredNameTracks}
         activeValue={courseValues?.track?.trackName}
+        isBlocked={!Boolean(courseValues?.course)}
       />
       <Filter
         filterData={filtersData.teacher}
         onClick={onChangeTeacher}
         options={filteredNameTeachers}
         activeValue={courseValues?.teacher?.prepodName}
+        isBlocked={!Boolean(courseValues?.track)}
       />
     </div>
   );

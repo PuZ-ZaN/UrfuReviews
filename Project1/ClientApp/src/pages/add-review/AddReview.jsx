@@ -14,29 +14,29 @@ import { addReviewAction } from '../../store/api-actions';
 const AddReview = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const id = useParams().id || -1;
+  const selectedTrack = useSelector((state) => getSelectedTrack(state));
   const originalSubjects = useSelector((state) => getOriginalSubjects(state));
 
   React.useEffect(() => {
-    if (id !== -1 && originalSubjects.length > 0) {
+    if (selectedTrack?.id && originalSubjects.length > 0) {
       const subjectByTrack = originalSubjects
         ? originalSubjects.find((subject) => {
-            return subject.tracks.find((track) => track.id == id);
+            return subject.tracks.find((track) => track.id == selectedTrack.id);
           })
         : null;
       if (!subjectByTrack) return;
 
       dispatch(setSemester(subjectByTrack.semester[0]));
       dispatch(setSelectedSubject(subjectByTrack));
-      dispatch(setSelectedTrack(id));
+      dispatch(setSelectedTrack(selectedTrack.id));
       setCourseValues((prev) => ({
         ...prev,
         semester: subjectByTrack.semester[0],
         course: subjectByTrack,
-        track: subjectByTrack.tracks.find((track) => track.id == id),
+        track: subjectByTrack.tracks.find((track) => track.id == selectedTrack.id),
       }));
     }
-  }, [id, originalSubjects]);
+  }, [selectedTrack, originalSubjects]);
 
   const [courseValues, setCourseValues] = React.useState({
     semester: '',
@@ -123,7 +123,7 @@ const AddReview = () => {
 
   const addReview = async () => {
     await dispatch(addReviewAction({ ...fieldsValue, prepodId: courseValues.teacher.id }));
-    await navigate(`/track/${id}`);
+    await navigate(`/track/${selectedTrack.id}`);
     await window.location.reload();
   };
 

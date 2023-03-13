@@ -44,7 +44,7 @@ export default function Track() {
 
       <div className="filters_and_button">
         <Filters teachers={track.prepods} />
-        <AddReviewBtn trackId={id} />
+        <AddReviewBtn />
       </div>
 
       <div className="reviews">

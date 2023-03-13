@@ -7,6 +7,10 @@
   position: relative;
   font-family: 'Roboto', sans-serif;
   z-index: 5;
+  .blocked {
+    opacity: 0.5;
+    pointer-events: none;
+  }
   .select_active .select_body {
     visibility: visible;
   }
