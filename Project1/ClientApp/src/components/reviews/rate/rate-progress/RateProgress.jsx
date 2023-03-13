@@ -4,12 +4,14 @@ const RateProgress = ({ percent, countStars }) => {
   const [style, setStyle] = React.useState({});
 
   React.useEffect(() => {
-    const newStyle = {
-      opacity: 1,
-      width: `${percent > 22 ? percent : 22}%`,
-    };
+    setTimeout(() => {
+      const newStyle = {
+        opacity: 1,
+        width: `${percent > 22 ? percent : 22}%`,
+      };
 
-    setStyle(newStyle);
+      setStyle(newStyle);
+    }, 10);
   }, [percent, countStars]);
 
   return (

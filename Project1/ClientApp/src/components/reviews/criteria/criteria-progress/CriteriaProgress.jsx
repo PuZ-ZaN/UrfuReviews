@@ -4,13 +4,15 @@ const CriteriaProgress = ({ value }) => {
   const [style, setStyle] = React.useState({});
 
   React.useEffect(() => {
-    const percent = Math.round(value * 20);
-    const newStyle = {
-      opacity: 1,
-      width: `${percent > 18 ? percent : 18}%`,
-    };
+    setTimeout(() => {
+      const percent = Math.round(value * 20);
+      const newStyle = {
+        opacity: 1,
+        width: `${percent > 18 ? percent : 18}%`,
+      };
 
-    setStyle(newStyle);
+      setStyle(newStyle);
+    }, 10);
   }, [value]);
 
   return (

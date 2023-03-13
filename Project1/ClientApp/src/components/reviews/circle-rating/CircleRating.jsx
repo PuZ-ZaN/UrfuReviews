@@ -10,9 +10,11 @@ export default function Circle({ rating, countReviews }) {
   }
 
   React.useEffect(() => {
-    const valuePercent = Math.round(rating * 20);
-    const dashOffsetValue = countDashOffset(valuePercent);
-    setStyle({ strokeDashoffset: dashOffsetValue });
+    setTimeout(() => {
+      const valuePercent = Math.round(rating * 20);
+      const dashOffsetValue = countDashOffset(valuePercent);
+      setStyle({ strokeDashoffset: dashOffsetValue });
+    }, 10);
   }, [rating, countReviews]);
 
   return (

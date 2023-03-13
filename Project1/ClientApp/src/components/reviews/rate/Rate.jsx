@@ -7,8 +7,6 @@ export default function Rate({ frequencyStars, countReviews }) {
     return Math.round((countStars / countReviews) * 100);
   };
 
-  // console.log(getPercent(frequencyStars.fiveStars));
-
   return (
     <div className="rate_list">
       <div className="rate">
