@@ -114,6 +114,13 @@ const AddReview = () => {
     return Object.values(fieldsValue).filter((value) => isFieldCorrect(value)).length;
   };
 
+  const isCourseValuesValid = () => {
+    return (
+      Object.values(courseValues).length ===
+      Object.values(courseValues).filter((property) => Boolean(property)).length
+    );
+  };
+
   console.log(id);
 
   const addReview = async () => {
@@ -151,7 +158,9 @@ const AddReview = () => {
             cols="30"
             rows="10"
             onChange={(e) => changeTextField(e)}></textarea>
-          <button disabled={getCountCheckedFiels() !== 5} onClick={addReview}>
+          <button
+            disabled={getCountCheckedFiels() !== 5 || !isCourseValuesValid}
+            onClick={addReview}>
             <span>Добавить отзыв</span>
             <img src="/img/add_review_icon.png" width={24} height={24} alt="add" />
           </button>
