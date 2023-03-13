@@ -21,12 +21,16 @@
   }
   .assessment_stars {
     display: flex;
+    flex-direction: row-reverse;
     gap: 25px;
+
     img {
       cursor: pointer;
       transition: 0.2s;
       filter: grayscale(1);
-      &:hover {
+
+      &:hover,
+      &:hover ~ img {
         filter: grayscale(0);
         transition: 0.3s ease;
       }

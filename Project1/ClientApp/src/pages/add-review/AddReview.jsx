@@ -121,11 +121,8 @@ const AddReview = () => {
     );
   };
 
-  console.log(id);
-
   const addReview = async () => {
     await dispatch(addReviewAction({ ...fieldsValue, prepodId: courseValues.teacher.id }));
-    console.log(id);
     await navigate(`/track/${id}`);
     await window.location.reload();
   };

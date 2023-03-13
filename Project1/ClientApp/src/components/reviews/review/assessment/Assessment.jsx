@@ -16,20 +16,8 @@ const Assessment = ({ title, onChangeField }) => {
         <img
           src="/img/star-gold.svg"
           alt="star"
-          onClick={() => handleClickStar(1)}
-          className={`${currentValue >= 1 ? 'active_star' : ''}`}
-        />
-        <img
-          src="/img/star-gold.svg"
-          alt="star"
-          onClick={() => handleClickStar(2)}
-          className={`${currentValue >= 2 ? 'active_star' : ''}`}
-        />
-        <img
-          src="/img/star-gold.svg"
-          alt="star"
-          onClick={() => handleClickStar(3)}
-          className={`${currentValue >= 3 ? 'active_star' : ''}`}
+          onClick={() => handleClickStar(5)}
+          className={`${currentValue >= 5 ? 'active_star' : ''}`}
         />
         <img
           src="/img/star-gold.svg"
@@ -40,8 +28,20 @@ const Assessment = ({ title, onChangeField }) => {
         <img
           src="/img/star-gold.svg"
           alt="star"
-          onClick={() => handleClickStar(5)}
-          className={`${currentValue >= 5 ? 'active_star' : ''}`}
+          onClick={() => handleClickStar(3)}
+          className={`${currentValue >= 3 ? 'active_star' : ''}`}
+        />
+        <img
+          src="/img/star-gold.svg"
+          alt="star"
+          onClick={() => handleClickStar(2)}
+          className={`${currentValue >= 2 ? 'active_star' : ''}`}
+        />
+        <img
+          src="/img/star-gold.svg"
+          alt="star"
+          onClick={() => handleClickStar(1)}
+          className={`${currentValue >= 1 ? 'active_star' : ''}`}
         />
       </div>
     </div>
