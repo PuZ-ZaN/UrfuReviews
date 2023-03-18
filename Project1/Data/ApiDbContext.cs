@@ -18,34 +18,24 @@ namespace Project1.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //ебать сука пиздец, тут черт ногу сломит, связи ебать
             base.OnModelCreating(modelBuilder);
             //Один предмет - много треков
-            modelBuilder.Entity<Track>(entity =>
+            modelBuilder.Entity<Subject>(entity =>
             {
-                entity.HasOne(d => d.Subject)
-                .WithMany(p => p.Tracks)
-                .HasForeignKey(d => d.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("FK_Tracks_Subject");
+                entity.HasMany(s => s.Tracks)
+                      .WithOne(s => s.Subject);
             });
             //Один трек - много преподов
-            modelBuilder.Entity<Prepod>(entity =>
+            modelBuilder.Entity<Track>(entity =>
             {
-                entity.HasOne(d => d.Track)
-                .WithMany(p => p.Prepods)
-                .HasForeignKey(d => d.TrackId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("FK_Prepods_Track");
+                entity.HasMany(t => t.Prepods)
+                      .WithOne(t => t.Track);
             });
             //Один препод - много отзывов
-            modelBuilder.Entity<Review>(entity =>
+            modelBuilder.Entity<Prepod>(entity =>
             {
-                entity.HasOne(d => d.Prepod)
-                .WithMany(p => p.Reviews)
-                .HasForeignKey(d => d.PrepodId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .HasConstraintName("FK_Reviews_Prepods");
+                entity.HasMany(p => p.Reviews)
+                      .WithOne(p => p.Prepod);
             });
         }
         
