@@ -8,7 +8,7 @@ export const fetchOriginalSubjects = createAsyncThunk(
   async function (_arg, { dispatch }) {
     try {
       const { data } = await axios.get('/api/All');
-      dispatch(setOriginalSubjects(data.subjects));
+      dispatch(setOriginalSubjects(data));
     } catch (error) {
       console.log('fetchAll error');
     }

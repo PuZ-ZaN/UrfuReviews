@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 using Project1.Data;
@@ -50,7 +51,18 @@ namespace Project1.Controllers
                 return Context.Reviews.Where(t => t.Id == i);
         }
 
-        [HttpGet("All")]
+        [HttpGet("All/{pageNumber?}")]
+        public IEnumerable<Subject> GetAll(Int32? pageNumber)
+        {
+            var Subjects = Context.Subjects.Include(s => s.Tracks)
+                                           .ThenInclude(t => t.Prepods)
+                                           .ThenInclude(p => p.Reviews);
+
+            const Int32 pageSize = 10;
+            return Subjects.Skip((pageNumber.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize);
+        }
+
+        /*[HttpGet("All2")]
         public CommonAddModel GetAll()
         {
             return new CommonAddModel()
@@ -60,7 +72,9 @@ namespace Project1.Controllers
                 Reviews = Context.Reviews.ToList(),
                 Tracks = Context.Tracks.ToList(),
             };
-        }
+        }*/
+
+
 
         [HttpPost("AddSubject")]
         public JsonResult AddSubject(Subject value)
