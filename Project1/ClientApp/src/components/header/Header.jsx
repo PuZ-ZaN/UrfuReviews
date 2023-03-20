@@ -51,6 +51,7 @@ export default function Header() {
                 placeholder="Введите название трека или преподавателя"
                 value={inputText}
                 onChange={handleInputText}
+                maxLength="100"
                 required></input>
               <button type="submit" className="button-search" onClick={searchResults}>
                 Поиск
