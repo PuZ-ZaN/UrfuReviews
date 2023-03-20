@@ -44,6 +44,10 @@
       .header_bottom {
         display: flex;
         justify-content: space-between;
+        gap: 25px;
+        &_right {
+          flex-basis: 1;
+        }
         .teacher {
           font-size: 20px;
           line-height: 23px;
