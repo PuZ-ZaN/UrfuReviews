@@ -5,7 +5,7 @@ export default function Circle({ rating, countReviews }) {
   const [style, setStyle] = React.useState({});
 
   function countDashOffset(value) {
-    const onePercent = 8.15;
+    const onePercent = 3.03;
     return Math.round((100 - value) * onePercent);
   }
 
@@ -13,7 +13,7 @@ export default function Circle({ rating, countReviews }) {
     setTimeout(() => {
       const valuePercent = Math.round(rating * 20);
       const dashOffsetValue = countDashOffset(valuePercent);
-      setStyle({ strokeDashoffset: dashOffsetValue });
+      setStyle({ strokeDashoffset: `${dashOffsetValue}%` });
     }, 10);
   }, [rating, countReviews]);
 
@@ -29,14 +29,14 @@ export default function Circle({ rating, countReviews }) {
         </div>
       </div>
 
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="270px" height="270px">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%">
         <defs>
           <linearGradient id="GradientColor">
             <stop offset="0%" stop-color="#56CCF2" />
             <stop offset="100%" stop-color="#2F80ED" />
           </linearGradient>
         </defs>
-        <circle cx="135" cy="135" r="130" stroke-linecap="round" style={style} />
+        <circle cx="50%" cy="50%" r="calc(50% - 0.25rem)" stroke-linecap="round" style={style} />
       </svg>
     </div>
   );

@@ -6,7 +6,7 @@
   font-size: 25px;
   line-height: 30px;
   text-align: center;
-  color: #000000;
+  color: var(--black-color);
   position: relative;
   .close_window {
     position: absolute;
@@ -15,7 +15,7 @@
     height: 32px;
     width: 32px;
     border-radius: 10px;
-    background-color: #fff;
+    background-color: var(--white-color);
     background-image: url('/img/close.svg');
     cursor: pointer;
   }
@@ -37,8 +37,8 @@
         background: #e7e7e7;
       }
       &.active_tab {
-        background: #fff;
-        color: #000;
+        background: var(--white-color);
+        color: var(--black-color);
       }
     }
     .sign_in {
@@ -65,7 +65,7 @@
       padding: 0 30px;
       box-sizing: border-box;
       height: 61px;
-      background: #ffffff;
+      background: var(--white-color);
       border: 1px solid rgba(0, 0, 0, 0.1);
       border-radius: 15px;
       &:focus {
@@ -89,9 +89,9 @@
     font-size: 32px;
     line-height: 44px;
     text-align: center;
-    color: #ffffff;
+    color: var(--white-color);
     padding: 17px 50px;
-    background: linear-gradient(90deg, #56ccf2 0%, #2f80ed 100%);
+    background: var(--blue-gradient-1);
     border-radius: 20px;
     outline: none;
     border: none;

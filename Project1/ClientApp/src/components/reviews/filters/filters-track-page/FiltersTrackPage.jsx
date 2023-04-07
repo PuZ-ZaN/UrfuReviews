@@ -22,7 +22,7 @@ const FiltersTrackPage = ({ teachers }) => {
         options={teachers.map((teacher) => teacher.prepodName)}
         onClick={handleClickTeacher}
       />
-      <Filter filterData={filtersData.filters} options={[]} onClick={handleClickFilter} />
+      <Filter filterData={filtersData.filters} onClick={handleClickFilter} />
     </>
   );
 };

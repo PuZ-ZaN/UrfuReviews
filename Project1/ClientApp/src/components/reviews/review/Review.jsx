@@ -7,38 +7,35 @@ const Review = ({ review, index }) => {
   return (
     <div class="review">
       <div class="header_review">
-        <div class="header_top">
-          <div class="id">Отзыв №{index + 1}</div>
+        <div class="header_id_date">
+          <div class="id">аноним</div>
+          <div className="date">
+            {review.isMoved
+              ? 'перенесен из гугл таблиц'
+              : `${dateTime?.getDate()}.${dateTime?.getMonth() + 1}.${dateTime?.getFullYear()}`}
+          </div>
+        </div>
+        <div className="header_rates">
+          <div class="general_assessment">
+            <div class="assessment_text">Общая оценка:</div>
+            <div class="stars">
+              <div class={`star ${review.rating >= 1 ? 'active' : ''}`}></div>
+              <div class={`star ${review.rating >= 2 ? 'active' : ''}`}></div>
+              <div class={`star ${review.rating >= 3 ? 'active' : ''}`}></div>
+              <div class={`star ${review.rating >= 4 ? 'active' : ''}`}></div>
+              <div class={`star ${review.rating >= 5 ? 'active' : ''}`}></div>
+            </div>
+          </div>
           <div class="criterias">
             <div class="criteria">Интерес к предмету: {review.interest}</div>
             <div class="criteria">Польза от предмета: {review.benefit}</div>
             <div class="criteria">Доступность изложения: {review.availability}</div>
           </div>
         </div>
-        <div class="header_bottom">
-          <div class="header_bottom_left">
-            <div class="teacher">
-              <span class="teacher_text">Преподаватель: </span>{' '}
-              <span class="teacher_name">{review.prepodName}</span>
-            </div>
-            <div class="date">
-              <span class="date_text">Дата: </span>
-              {review.isMoved
-                ? 'перенесен из гугл таблиц'
-                : `${dateTime?.getDate()}.${dateTime?.getMonth() + 1}.${dateTime?.getFullYear()}`}
-            </div>
-          </div>
-          <div class="header_bottom_right">
-            <div class="general_assessment">
-              <div class="assessment_text">Общая оценка:</div>
-              <div class="stars">
-                <div class={`star ${review.rating >= 1 ? 'active' : ''}`}></div>
-                <div class={`star ${review.rating >= 2 ? 'active' : ''}`}></div>
-                <div class={`star ${review.rating >= 3 ? 'active' : ''}`}></div>
-                <div class={`star ${review.rating >= 4 ? 'active' : ''}`}></div>
-                <div class={`star ${review.rating >= 5 ? 'active' : ''}`}></div>
-              </div>
-            </div>
+        <div className="header_teacher">
+          <div class="teacher">
+            <span class="teacher_text">Преподаватель: </span>{' '}
+            <span class="teacher_name">{review.prepodName}</span>
           </div>
         </div>
       </div>

@@ -1,93 +1,77 @@
 .reviews {
-  width: 1100px;
+  width: 100%;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
   .review {
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
     width: 100%;
-    background: #fff;
+    background: var(--white-color);
     filter: drop-shadow(0px 4px 14px rgba(0, 0, 0, 0.15));
-    background: #ffffff;
+    background: var(--white-color);
     border-radius: 25px;
-    color: #000000;
+    color: var(--black-color);
     box-sizing: border-box;
+    padding: 1rem 1.25rem;
     &:last-child {
       margin-bottom: 0;
     }
     .header_review {
-      padding: 20px 25px;
-      border-bottom: 1px solid #d0d0d0;
-      .header_top {
+      margin-bottom: 0.85rem;
+      border-bottom: 1px solid var(--gray-color-1);
+      padding-bottom: 0.85rem;
+      .header_id_date {
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         justify-content: space-between;
-        align-items: flex-start;
-        .id {
-          font-weight: 500;
-          font-size: 25px;
-          line-height: 29px;
-          letter-spacing: 0.02em;
-          margin-bottom: 15px;
+        gap: 1.5rem;
+        margin-bottom: 0.85rem;
+        .date {
+          color: var(--gray-color-2);
+          font-size: 0.9rem;
         }
+        .id {
+          font-weight: 600;
+          font-size: 1rem;
+          letter-spacing: 0.02em;
+        }
+      }
+      .header_rates {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0.6rem;
         .criterias {
           display: flex;
-          gap: 17px;
+          flex-wrap: wrap;
+          gap: 1rem;
           .criteria {
             font-weight: 400;
-            font-size: 16px;
-            line-height: 19px;
-            padding: 7px 10px;
-            background: #def3ff;
+            font-size: 0.8rem;
+            line-height: 0.85rem;
+            padding: 0.35rem 0.5rem;
+            background: var(--blue-color-2);
             border-radius: 8px;
           }
         }
-      }
-      .header_bottom {
-        display: flex;
-        justify-content: space-between;
-        gap: 25px;
-        &_right {
-          flex-basis: 1;
-        }
-        .teacher {
-          font-size: 20px;
-          line-height: 23px;
-          margin-bottom: 5px;
-          .teacher_text {
-            font-weight: 500;
-            letter-spacing: 0.02em;
-          }
-          .teacher_name {
-            text-decoration: underline;
-          }
-        }
-        .date {
-          font-size: 20px;
-          line-height: 23px;
-          letter-spacing: 0.02em;
-          .date_text {
-            font-weight: 500;
-          }
-        }
-        .moved {
-          font-weight: 500;
-        }
         .general_assessment {
           display: flex;
-          gap: 15px;
+          gap: 0.75rem;
           align-items: center;
-          background: #fff2de;
-          font-size: 16px;
-          line-height: 19px;
+          background: var(--orange-color-1);
+          font-size: 0.8rem;
           border-radius: 8px;
-          padding: 8px 12px;
+          padding: 0.4rem 0.6rem;
         }
         .stars {
           display: flex;
-          gap: 13px;
+          gap: 0.65rem;
           .star {
-            width: 22px;
-            height: 22px;
+            width: 1.1rem;
+            height: 1.1rem;
             background: url('/img/star.svg');
+            background-size: cover;
             filter: brightness(0.8) contrast(30%);
             &.active {
               filter: brightness(1) contrast(100%);
@@ -95,26 +79,32 @@
           }
         }
       }
+      .header_teacher {
+        width: fit-content;
+        background: var(--purple-color-1);
+        font-size: 0.85rem;
+        border-radius: 8px;
+        padding: 0.4rem 0.6rem;
+      }
     }
     .text_review {
-      padding: 20px 25px;
       font-weight: 400;
-      font-size: 20px;
-      line-height: 23px;
+      font-size: 1rem;
+      margin-bottom: 0.85rem;
     }
     .review_ratings_flex {
       width: 100%;
       display: flex;
       justify-content: flex-end;
       .review_ratings {
-        padding: 0 25px 20px 25px;
         display: flex;
-        gap: 20px;
+        gap: 1rem;
         align-items: center;
         .like_button,
         .dislike_button {
-          width: 25px;
-          height: 25px;
+          width: 1.25rem;
+          height: 1.25rem;
+          background-size: cover;
           cursor: pointer;
           transition: 0.2s;
           &:hover {
@@ -122,23 +112,22 @@
           }
         }
         .like_button {
-          background: url('/img/like_button.svg');
+          background-image: url('/img/like_button.svg');
         }
         .dislike_button {
-          background: url('/img/dislike_button.svg');
+          background-image: url('/img/dislike_button.svg');
         }
         .rating_value {
-          padding: 5px 10px;
+          padding: 0.25rem 0.5rem;
           background: rgba(199, 255, 199, 0.5);
           border-radius: 7px;
           font-weight: 400;
-          font-size: 18px;
-          line-height: 21px;
+          font-size: 0.9rem;
           letter-spacing: 0.02em;
-          color: #02a902;
+          color: var(--green-color-1);
           &.bad {
             background: rgba(255, 199, 199, 0.5);
-            color: #a90202;
+            color: var(--red-color-1);
           }
         }
       }

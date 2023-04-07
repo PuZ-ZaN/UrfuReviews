@@ -2,6 +2,7 @@ import React from 'react';
 import { destinyTracks } from '../../../../const.ts';
 import './course_column_view.scss';
 import Tracks from './../../../tracks/Tracks';
+import { Grid } from '@mui/material';
 
 const CourseColumnView = ({ course, selectedCourse, setSelectedCourse }) => {
   const handleClickArrow = () => {

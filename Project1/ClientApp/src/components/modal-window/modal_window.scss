@@ -11,9 +11,9 @@
   position: fixed;
   .modal_window {
     cursor: auto;
-    background: #ffffff;
+    background: var(--white-color);
     box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.35);
-    color: #000000;
+    color: var(--black-color);
     border-radius: 25px;
     position: absolute;
     left: 50%;

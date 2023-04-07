@@ -10,6 +10,7 @@ import { getOriginalSubjects, getSelectedTrack, getFilteredSubjects } from '../.
 import { setSelectedTrack, setTracks } from '../../store/tracksSlice';
 import { setSelectedSubject, setSemester } from '../../store/subjectsSlice';
 import { addReviewAction } from '../../store/api-actions';
+import { Grid } from '@mui/material';
 
 const AddReview = () => {
   const dispatch = useDispatch();
@@ -140,8 +141,8 @@ const AddReview = () => {
         courseValues={courseValues}
       />
       <div className="hr_add_review"></div>
-      <div className="blocks">
-        <div className="left_block">
+      <Grid container className="blocks">
+        <Grid item lg={8} md={8} smmd={8} xs={12} className="left_block">
           <div className="assessments_blocks">
             <Assessment title={assessmentTitle.Interest} onChangeField={changeInterestField} />
             <Assessment title={assessmentTitle.Benefit} onChangeField={changeBenefitField} />
@@ -161,8 +162,8 @@ const AddReview = () => {
             <span>Добавить отзыв</span>
             <img src="/img/add_review_icon.png" width={24} height={24} alt="add" />
           </button>
-        </div>
-        <div className="right_block">
+        </Grid>
+        <Grid item lg md sm xs className="right_block">
           <div className="right_block_info">
             <CircleProgress countChecked={getCountCheckedFiels()} />
             <div className="right_block_info_title">
@@ -192,8 +193,8 @@ const AddReview = () => {
             </div>
             <div className="right_block_info_anon_text">Отзыв будет добавлен анонимно.</div>
           </div>
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     </div>
   );
 };

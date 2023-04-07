@@ -7,7 +7,8 @@ import { resetSubjectsState, setSemester } from '../../store/subjectsSlice';
 import { getSemester } from '../../store/selectors';
 import { useLocation } from 'react-router-dom';
 
-const Sidebar = () => {
+const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
+  const sidebarRef = React.useRef();
   const [activeCourse, setActiveCourse] = React.useState(null);
   const activeSemester = useSelector((state) => getSemester(state));
   const href = useLocation().pathname;
@@ -21,6 +22,21 @@ const Sidebar = () => {
     setActiveCourse(null);
     dispatch(setSemester('all'));
   }, [href]);
+
+  React.useEffect(() => {
+    if (!isSidebarShown) return;
+
+    const handleClick = (e) => {
+      console.log(e.target.classList);
+      if (e.target.classList == 'sidebar_layout ') setSidebarShown(false);
+    };
+
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, [isSidebarShown]);
 
   function isNeedBlock() {
     return href != '/' && href != '/search/';
@@ -38,22 +54,24 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar">
-      <Link to="/" className="sidebar_title" onClick={handleClickLogo}>
-        URFU Courses
-      </Link>
-      <div className="list_courses">
-        {listCourses.map((numberCourse) => (
-          <CourseBlock
-            numberCourse={numberCourse}
-            emojy={emojyCourses[numberCourse - 1]}
-            isActiveCourse={activeCourse === numberCourse}
-            setActiveCourse={isBlockedClick ? () => {} : setActiveCourse}
-            numberActiveSemester={activeSemester}
-            setActiveSemester={isBlockedClick ? () => {} : handleClickSemester}
-            key={numberCourse}
-          />
-        ))}
+    <div className={`sidebar_layout ${isSidebarShown ? '' : 'hidden'}`}>
+      <div className="sidebar" ref={sidebarRef}>
+        <Link to="/" className="sidebar_title" onClick={handleClickLogo}>
+          URFU Courses
+        </Link>
+        <div className="list_courses">
+          {listCourses.map((numberCourse) => (
+            <CourseBlock
+              numberCourse={numberCourse}
+              emojy={emojyCourses[numberCourse - 1]}
+              isActiveCourse={activeCourse === numberCourse}
+              setActiveCourse={isBlockedClick ? () => {} : setActiveCourse}
+              numberActiveSemester={activeSemester}
+              setActiveSemester={isBlockedClick ? () => {} : handleClickSemester}
+              key={numberCourse}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

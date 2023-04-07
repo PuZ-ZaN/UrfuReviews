@@ -1,20 +1,37 @@
 .layout {
   .modal_window {
+    &:after {
+      content: '';
+      height: 50px;
+      display: block;
+    }
+    width: 85%;
+    height: 80%;
+    overflow: auto;
+    max-width: 54rem;
+    box-sizing: border-box;
+    max-height: 35rem;
     .course_modal_window {
-      padding: 40px;
-      width: 1080px;
-      height: 702px;
+      padding: 2rem;
+      width: 100%;
+      position: relative;
+      height: 100%;
       box-sizing: border-box;
+      &:after {
+        content: '';
+        height: 2rem;
+        display: block;
+      }
     }
     .header {
       display: flex;
       justify-content: space-between;
-      gap: 30px;
+      gap: 1.5rem;
       align-items: flex-start;
       font-weight: 600;
-      font-size: 25px;
-      line-height: 29px;
-      margin-bottom: 13px;
+      font-size: 1.25rem;
+      line-height: 1.5rem;
+      margin-bottom: 0.75rem;
       img {
         cursor: pointer;
       }
@@ -22,20 +39,18 @@
     .values {
       display: flex;
       flex-wrap: wrap;
-      gap: 50px;
+      gap: 2.5rem;
       align-items: center;
-      margin-bottom: 41px;
+      margin-bottom: 2rem;
       div {
-        margin-bottom: 11px;
-        font-size: 20px;
-        line-height: 23px;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
         p {
           font-weight: 600;
           margin: 0;
           padding: 0;
           margin-bottom: 2px;
-          font-size: 22px;
-          line-height: 26px;
+          font-size: 1.1rem;
         }
       }
       div:last-child {

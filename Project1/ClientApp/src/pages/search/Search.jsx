@@ -18,6 +18,7 @@ import {
   setSemester,
   setTextSearch,
 } from '../../store/subjectsSlice';
+import { Grid } from '@mui/material';
 
 const Search = () => {
   const [tracks, setTracks] = React.useState([]);
@@ -79,9 +80,11 @@ const Search = () => {
           {filteredBy == searchFilters.Teacher ? 'преподавателем' : 'названием'} {`"${textSearch}"`}
           {semester != 'all' ? ` на ${semester} семестре` : ''}
         </div>
-        <div className="tracks_and_filters">
-          <Tracks tracks={tracks} destiny={destinyTracks.Search} />
-          <div className="tracks_filters">
+        <Grid container className="tracks_and_filters">
+          <Grid item lg={8} md={8} smmd={8} sm={12} xs={12}>
+            <Tracks tracks={tracks} destiny={destinyTracks.Search} />
+          </Grid>
+          <Grid item lg md smmd sm={6} xs={6} className="tracks_filters">
             <p className="filters_title">Фильтры</p>
             <p className="filters_description">Выполнять поиск по:</p>
             <div className="filters">
@@ -103,8 +106,8 @@ const Search = () => {
             <Link to="/" className="reset_filters" onClick={resetSearch}>
               Сбросить поиск
             </Link>
-          </div>
-        </div>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );

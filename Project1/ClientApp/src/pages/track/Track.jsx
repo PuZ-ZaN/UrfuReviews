@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { getSelectedTrack, getAllTracks, getFilteredReviews } from '../../store/selectors';
 import { getTrackValues } from '../../store/selectors';
 import { setSelectedTrack } from '../../store/tracksSlice';
+import { Grid } from '@mui/material';
 
 export default function Track() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ export default function Track() {
             countReviews={trackValues?.countReviews}
           />
         </div>
+
         <Rate frequencyStars={trackValues?.countStars} countReviews={trackValues?.countReviews} />
         <Criteria averageValues={trackValues?.averageValues} />
       </div>

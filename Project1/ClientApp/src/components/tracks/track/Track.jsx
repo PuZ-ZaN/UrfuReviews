@@ -21,6 +21,8 @@ const Track = ({ track }) => {
     setStyle(newStyle);
   }, [trackValues]);
 
+  // FIX: не обновляется рейтинг при поиске
+
   return (
     <Link to={`/track/${track.id}`}>
       <div className="track_for_course">

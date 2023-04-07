@@ -3,9 +3,11 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin: 30px 0;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
   position: relative;
-  font-family: 'Roboto', sans-serif;
+  font-family: inherit;
   z-index: 5;
   .blocked {
     opacity: 0.5;
@@ -18,35 +20,34 @@
     transform: rotate(180deg);
   }
   .select_teacher {
-    width: 442px;
+    position: relative;
+    width: 22rem;
     position: relative;
     .select_body {
-      width: 442px;
+      width: 22rem;
     }
   }
   .select_filters {
-    width: 280px;
+    position: relative;
+    width: 14rem;
     .select_body {
-      width: 280px;
-    }
-    .select_header {
-      background-position: 237px 25px;
+      width: 14rem;
     }
   }
   .select_header {
-    background: #ffffff;
+    background: var(--white-color);
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 23px;
-    color: #8a8a8a;
+    font-size: 1rem;
+    color: var(--gray-color-2);
     border: none;
     outline: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 17px 25px;
+    padding: 0.85rem 1.25rem;
+    min-height: 3rem;
     box-sizing: border-box;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -55,13 +56,13 @@
     position: relative;
     cursor: pointer;
     .select_header_icon {
-      width: 20px;
-      height: 20px;
+      width: 1rem;
+      height: 1rem;
       background-image: url('/img/arrow-bottom.svg');
       background-repeat: no-repeat;
       background-position: center center;
       transition: 0.3s;
-      margin-left: 14px;
+      margin-left: 0.75rem;
       flex-shrink: 0;
     }
     &::-ms-expand {
@@ -69,33 +70,51 @@
     }
   }
   .select_body {
-    background: #fff;
+    background: var(--white-color);
     margin-top: 0;
     border-radius: 8px;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
-    padding: 17px 25px;
+    padding: 0.85rem 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 1.1rem;
     box-sizing: border-box;
     position: absolute;
     top: 0;
-    z-index: 1;
+    z-index: 9;
     opacity: 0;
     transition: 0.3s;
     visibility: hidden;
     .option {
       width: 100%;
       font-weight: 400;
-      font-size: 17px;
-      line-height: 20px;
-      color: #333333;
+      font-size: 0.85rem;
+      line-height: 1rem;
+      color: var(--gray-color-4);
       cursor: pointer;
     }
   }
   .select_shown_body {
-    top: 100%;
-    margin-top: 30px;
+    top: calc(100% + 1.5rem);
     opacity: 1;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .filters_and_button,
+  .filters_add_review {
+    .select_teacher {
+      width: 18rem;
+      position: relative;
+      .select_body {
+        width: 18rem;
+      }
+    }
+    .select_filters {
+      width: 12rem;
+      .select_body {
+        width: 12rem;
+      }
+    }
   }
 }
