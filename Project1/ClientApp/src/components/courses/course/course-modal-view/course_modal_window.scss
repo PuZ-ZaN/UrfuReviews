@@ -1,10 +1,5 @@
 .layout {
   .modal_window {
-    &:after {
-      content: '';
-      height: 50px;
-      display: block;
-    }
     width: 85%;
     height: 80%;
     overflow: auto;
