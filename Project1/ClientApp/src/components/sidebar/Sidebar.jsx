@@ -27,7 +27,6 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
     if (!isSidebarShown) return;
 
     const handleClick = (e) => {
-      console.log(e.target.classList);
       if (e.target.classList == 'sidebar_layout ') setSidebarShown(false);
     };
 
@@ -52,6 +51,8 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
   const handleClickLogo = () => {
     dispatch(resetSubjectsState());
   };
+
+  console.log(isSidebarShown);
 
   return (
     <div className={`sidebar_layout ${isSidebarShown ? '' : 'hidden'}`}>

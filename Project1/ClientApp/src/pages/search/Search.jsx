@@ -18,7 +18,7 @@ import {
   setSemester,
   setTextSearch,
 } from '../../store/subjectsSlice';
-import { Grid } from '@mui/material';
+import { Col, Row } from 'antd';
 
 const Search = () => {
   const [tracks, setTracks] = React.useState([]);
@@ -80,34 +80,41 @@ const Search = () => {
           {filteredBy == searchFilters.Teacher ? 'преподавателем' : 'названием'} {`"${textSearch}"`}
           {semester != 'all' ? ` на ${semester} семестре` : ''}
         </div>
-        <Grid container className="tracks_and_filters">
-          <Grid item lg={8} md={8} smmd={8} sm={12} xs={12}>
+        <Row
+          gutter={[
+            { md: 24, xs: 16 },
+            { md: 24, xs: 16 },
+          ]}
+          className="tracks_and_filters">
+          <Col lg={16} md={16} sm={24} xs={24}>
             <Tracks tracks={tracks} destiny={destinyTracks.Search} />
-          </Grid>
-          <Grid item lg md smmd sm={6} xs={6} className="tracks_filters">
-            <p className="filters_title">Фильтры</p>
-            <p className="filters_description">Выполнять поиск по:</p>
-            <div className="filters">
-              <span
-                className={`filter_teacher ${
-                  searchFilters.Teacher == filteredBy ? 'active_filter' : ''
-                }`}
-                onClick={handleTeacherFilter}>
-                преподавателю
-              </span>
-              <span
-                className={`filter_track ${
-                  searchFilters.Track == filteredBy ? 'active_filter' : ''
-                }`}
-                onClick={handleTrackFilter}>
-                треку
-              </span>
+          </Col>
+          <Col lg={8} md={8} sm={8} xs={12}>
+            <div className="tracks_filters">
+              <p className="filters_title">Фильтры</p>
+              <p className="filters_description">Выполнять поиск по:</p>
+              <div className="filters">
+                <span
+                  className={`filter_teacher ${
+                    searchFilters.Teacher == filteredBy ? 'active_filter' : ''
+                  }`}
+                  onClick={handleTeacherFilter}>
+                  преподавателю
+                </span>
+                <span
+                  className={`filter_track ${
+                    searchFilters.Track == filteredBy ? 'active_filter' : ''
+                  }`}
+                  onClick={handleTrackFilter}>
+                  треку
+                </span>
+              </div>
+              <Link to="/" className="reset_filters" onClick={resetSearch}>
+                Сбросить поиск
+              </Link>
             </div>
-            <Link to="/" className="reset_filters" onClick={resetSearch}>
-              Сбросить поиск
-            </Link>
-          </Grid>
-        </Grid>
+          </Col>
+        </Row>
       </div>
     </div>
   );

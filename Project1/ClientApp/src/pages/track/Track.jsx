@@ -11,7 +11,6 @@ import { useParams } from 'react-router-dom';
 import { getSelectedTrack, getAllTracks, getFilteredReviews } from '../../store/selectors';
 import { getTrackValues } from '../../store/selectors';
 import { setSelectedTrack } from '../../store/tracksSlice';
-import { Grid } from '@mui/material';
 
 export default function Track() {
   const dispatch = useDispatch();

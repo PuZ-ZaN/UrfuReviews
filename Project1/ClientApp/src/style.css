@@ -16,6 +16,7 @@
   --blue-color-5: #81caf3;
   --blue-color-6: #d1eeff;
   --blue-color-7: #bde7ff;
+  --blue-color-8: #008cc8;
   --green-color-1: #02a902;
   --red-color-1: #a90202;
   --orange-color-1: #fff2de;
@@ -24,25 +25,35 @@
   --blue-gradient-3: linear-gradient(98.9deg, #00b2ff 47.3%, rgba(0, 178, 255, 0.51) 112.31%);
   --blue-gradient-4: linear-gradient(254.09deg, #8bdcff 57.62%, rgba(139, 220, 255, 0.23) 170.62%);
   --purple-gradient-1: linear-gradient(90deg, #4776e6 0%, #8e54e9 100%);
+  --purple-gradient-2: linear-gradient(
+    90deg,
+    rgba(46, 198, 219, 1) 8%,
+    rgba(57, 138, 227, 1) 38%,
+    rgba(240, 64, 231, 1) 100%
+  );
   --purple-color-1: #e1e9ff;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body,
 html {
   margin: 0;
   padding: 0;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 @media screen and (max-width: 1200px) {
   html {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
 @media screen and (max-width: 900px) {
   html {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -64,7 +75,6 @@ body {
   border-right: 3px solid #6f6f6f;
   box-shadow: 0px 0px 85px 20px rgba(0, 0, 0, 0.45);
   min-height: 100vh;
-  padding-bottom: 30px;
 }
 
 .wrapper:after {
@@ -73,7 +83,7 @@ body {
   clear: both;
 }
 
-.main_container {
+.container {
   max-width: 100%;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -81,4 +91,15 @@ body {
   margin-right: 45px;
   box-sizing: border-box;
   margin: 0 auto;
+}
+
+.main_container {
+  margin: 1.5rem 0;
+}
+
+/* ant-design reset styles */
+
+.ant-col {
+  font-size: inherit !important;
+  font-family: 'Roboto', sans-serif;
 }

@@ -10,7 +10,6 @@
     }
   }
   .tracks_and_filters {
-    gap: 1.25rem;
     flex-wrap: nowrap;
     .tracks_filters {
       width: 100%;
@@ -67,7 +66,7 @@
   }
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 767px) {
   .search_page {
     .tracks_and_filters {
       flex-direction: column-reverse;

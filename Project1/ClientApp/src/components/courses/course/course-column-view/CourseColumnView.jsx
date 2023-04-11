@@ -2,7 +2,6 @@ import React from 'react';
 import { destinyTracks } from '../../../../const.ts';
 import './course_column_view.scss';
 import Tracks from './../../../tracks/Tracks';
-import { Grid } from '@mui/material';
 
 const CourseColumnView = ({ course, selectedCourse, setSelectedCourse }) => {
   const handleClickArrow = () => {
@@ -18,7 +17,7 @@ const CourseColumnView = ({ course, selectedCourse, setSelectedCourse }) => {
           <p className="title">{course.subjectName}</p>
           <img src="img/arrow-bottom.svg" alt="show tracks" />
         </div>
-        {selectedCourse == course && (
+        {selectedCourse?.id == course?.id && (
           <Tracks tracks={course.tracks} destiny={destinyTracks.MainPage} />
         )}
       </div>

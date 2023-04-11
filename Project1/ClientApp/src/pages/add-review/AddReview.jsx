@@ -10,7 +10,7 @@ import { getOriginalSubjects, getSelectedTrack, getFilteredSubjects } from '../.
 import { setSelectedTrack, setTracks } from '../../store/tracksSlice';
 import { setSelectedSubject, setSemester } from '../../store/subjectsSlice';
 import { addReviewAction } from '../../store/api-actions';
-import { Grid } from '@mui/material';
+import { Col, Row } from 'antd';
 
 const AddReview = () => {
   const dispatch = useDispatch();
@@ -141,60 +141,66 @@ const AddReview = () => {
         courseValues={courseValues}
       />
       <div className="hr_add_review"></div>
-      <Grid container className="blocks">
-        <Grid item lg={8} md={8} smmd={8} xs={12} className="left_block">
-          <div className="assessments_blocks">
-            <Assessment title={assessmentTitle.Interest} onChangeField={changeInterestField} />
-            <Assessment title={assessmentTitle.Benefit} onChangeField={changeBenefitField} />
-            <Assessment title={assessmentTitle.Clarity} onChangeField={changeClarityField} />
-            <Assessment title={assessmentTitle.Rate} onChangeField={changeRateField} />
-          </div>
-          <p className="add_review_comment_text">Ваш комментарий</p>
-          <textarea
-            name=""
-            id=""
-            cols="30"
-            rows="10"
-            onChange={(e) => changeTextField(e)}></textarea>
-          <button
-            disabled={getCountCheckedFiels() !== 5 || !isCourseValuesValid}
-            onClick={addReview}>
-            <span>Добавить отзыв</span>
-            <img src="/img/add_review_icon.png" width={24} height={24} alt="add" />
-          </button>
-        </Grid>
-        <Grid item lg md sm xs className="right_block">
-          <div className="right_block_info">
-            <CircleProgress countChecked={getCountCheckedFiels()} />
-            <div className="right_block_info_title">
-              Чтобы отзыв был максимально полезен, заполните все поля:
+      <Row className="blocks">
+        <Col lg={16} md={16} xs={24}>
+          <div className="left_block">
+            <div className="assessments_blocks">
+              <Assessment title={assessmentTitle.Interest} onChangeField={changeInterestField} />
+              <Assessment title={assessmentTitle.Benefit} onChangeField={changeBenefitField} />
+              <Assessment title={assessmentTitle.Clarity} onChangeField={changeClarityField} />
+              <Assessment title={assessmentTitle.Rate} onChangeField={changeRateField} />
             </div>
-            <div className="right_block_info_criterias">
-              <ul>
-                <li className={`${isNumberFieldCorrect(fieldsValue.interest) ? 'checked_li' : ''}`}>
-                  Интерес к предмету
-                </li>
-                <li className={`${isNumberFieldCorrect(fieldsValue.benefit) ? 'checked_li' : ''}`}>
-                  Польза от предмета
-                </li>
-                <li
-                  className={`${
-                    isNumberFieldCorrect(fieldsValue.availability) ? 'checked_li' : ''
-                  }`}>
-                  Доступность изложения
-                </li>
-                <li className={`${isNumberFieldCorrect(fieldsValue.rating) ? 'checked_li' : ''}`}>
-                  Общая оценка
-                </li>
-                <li className={`${isStringFieldCorrect(fieldsValue.body) ? 'checked_li' : ''}`}>
-                  Отзыв(от 30 до 1000 символов)
-                </li>
-              </ul>
-            </div>
-            <div className="right_block_info_anon_text">Отзыв будет добавлен анонимно.</div>
+            <p className="add_review_comment_text">Ваш комментарий</p>
+            <textarea
+              name=""
+              id=""
+              cols="30"
+              rows="10"
+              onChange={(e) => changeTextField(e)}></textarea>
+            <button
+              disabled={getCountCheckedFiels() !== 5 || !isCourseValuesValid}
+              onClick={addReview}>
+              <span>Добавить отзыв</span>
+              <img src="/img/add_review_icon.png" width={24} height={24} alt="add" />
+            </button>
           </div>
-        </Grid>
-      </Grid>
+        </Col>
+        <Col lg="auto" md="auto" sm="auto" xs="auto">
+          <div className="right_block">
+            <div className="right_block_info">
+              <CircleProgress countChecked={getCountCheckedFiels()} />
+              <div className="right_block_info_title">
+                Чтобы отзыв был максимально полезен, заполните все поля:
+              </div>
+              <div className="right_block_info_criterias">
+                <ul>
+                  <li
+                    className={`${isNumberFieldCorrect(fieldsValue.interest) ? 'checked_li' : ''}`}>
+                    Интерес к предмету
+                  </li>
+                  <li
+                    className={`${isNumberFieldCorrect(fieldsValue.benefit) ? 'checked_li' : ''}`}>
+                    Польза от предмета
+                  </li>
+                  <li
+                    className={`${
+                      isNumberFieldCorrect(fieldsValue.availability) ? 'checked_li' : ''
+                    }`}>
+                    Доступность изложения
+                  </li>
+                  <li className={`${isNumberFieldCorrect(fieldsValue.rating) ? 'checked_li' : ''}`}>
+                    Общая оценка
+                  </li>
+                  <li className={`${isStringFieldCorrect(fieldsValue.body) ? 'checked_li' : ''}`}>
+                    Отзыв(от 30 до 1000 символов)
+                  </li>
+                </ul>
+              </div>
+              <div className="right_block_info_anon_text">Отзыв будет добавлен анонимно.</div>
+            </div>
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 };

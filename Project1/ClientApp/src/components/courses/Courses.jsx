@@ -4,7 +4,7 @@ import CourseModalWindow from './course/course-modal-view/CourseModalWindow';
 import CourseRowView from './course/course-row-view/CourseRowView';
 import CourseColumnView from './course/course-column-view/CourseColumnView';
 import { countAndGetCourseValues } from './../usefulMethods/usefulMethods';
-import { Grid } from '@mui/material';
+import { Col, Row } from 'antd';
 
 export default function Courses({ courses }) {
   const [isRowView, setIsRowView] = React.useState(true);
@@ -56,7 +56,7 @@ export default function Courses({ courses }) {
 
       {isRowView ? (
         <div className="courses_row_view">
-          <Grid container spacing={3}>
+          <Row gutter={[24, 24]}>
             {courses.map((course) => (
               <CourseRowView
                 course={course}
@@ -64,12 +64,12 @@ export default function Courses({ courses }) {
                 key={course.id}
               />
             ))}
-          </Grid>
+          </Row>
         </div>
       ) : (
         <div className="courses_column_view_container">
-          <Grid container spacing={{ lg: 5, md: 3.5, sm: 2 }}>
-            <Grid item md={8} lg={8}>
+          <Row gutter={{ lg: 35, md: 25, sm: 15 }}>
+            <Col sm={24} md={14} lg={16}>
               <div className="courses_column_view">
                 {courses.map((course) => (
                   <CourseColumnView
@@ -80,8 +80,8 @@ export default function Courses({ courses }) {
                   />
                 ))}
               </div>
-            </Grid>
-            <Grid item sm={0} md={4} lg={4} className="info_about_course_grid">
+            </Col>
+            <Col sm={0} md={10} lg={8} className="info_about_course_grid">
               {selectedCourse && (
                 <div className="info_about_course">
                   <p className="title">
@@ -106,8 +106,8 @@ export default function Courses({ courses }) {
                   </div>
                 </div>
               )}
-            </Grid>
-          </Grid>
+            </Col>
+          </Row>
         </div>
       )}
       {isRowView && selectedCourse && (

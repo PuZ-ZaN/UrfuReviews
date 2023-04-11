@@ -1,5 +1,4 @@
 .add_review_page {
-  padding: 1.5rem 0;
   color: var(--black-color);
   .add_review_title {
     font-weight: 700;
@@ -130,7 +129,7 @@
   }
 }
 
-@media screen and (max-width: 749px) {
+@media screen and (max-width: 767px) {
   .right_block {
     display: none !important;
   }

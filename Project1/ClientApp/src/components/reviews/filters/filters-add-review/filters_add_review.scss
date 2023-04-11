@@ -1,30 +1,35 @@
 .filters_add_review {
+  .select {
+    min-width: 11rem;
+    max-width: 18rem;
+    flex-grow: 1;
+  }
   .select_course_semester {
-    width: 10rem;
+    flex-basis: calc(20% - 0.25rem);
     position: relative;
     .select_body {
-      width: 10rem;
+      width: 100%;
     }
   }
   .select_subject {
-    width: 14.5rem;
+    flex-basis: calc(25% - 0.25rem);
     position: relative;
     .select_body {
-      width: 14.5rem;
+      width: 100%;
     }
   }
   .select_track {
-    width: 14.5rem;
+    flex-basis: calc(25% - 0.25rem);
     position: relative;
     .select_body {
-      width: 14.5rem;
+      width: 100%;
     }
   }
   .select_teacher {
-    width: 11.5rem;
+    flex-basis: calc(25% - 0.25rem);
     position: relative;
     .select_body {
-      width: 11.5rem;
+      width: 100%;
     }
   }
 }
