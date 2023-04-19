@@ -34,9 +34,21 @@
             font-size: 1.1rem;
             line-height: 26px;
           }
+          .icons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+          }
+          svg {
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.1rem;
+            color: var(--blue-color-1);
+          }
           img {
             cursor: pointer;
             transition: 0.3s;
+            flex-shrink: 0;
           }
         }
       }
