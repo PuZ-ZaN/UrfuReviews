@@ -1,5 +1,6 @@
 import React from 'react';
 import './review.scss';
+import { Avatar } from 'antd';
 
 const Review = ({ review, index }) => {
   const dateTime = new Date(review.addedDate);
@@ -8,7 +9,12 @@ const Review = ({ review, index }) => {
     <div class="review">
       <div class="header_review">
         <div class="header_id_date">
-          <div class="id">аноним</div>
+          <div class="id">
+            <Avatar size="large" className="id-avatar">
+              A
+            </Avatar>
+            аноним
+          </div>
           <div className="date">
             {review.isMoved
               ? 'перенесен из гугл таблиц'
@@ -39,7 +45,22 @@ const Review = ({ review, index }) => {
           </div>
         </div>
       </div>
-      <div class="text_review">{review.body}</div>
+      <div class="text_review">
+        {/* <p className="text_review_title">Достоинства</p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro est et commodi enim ratione
+          neque maxime quo laudantium aut dignissimos, quasi sunt molestiae rem, repudiandae ipsam
+          facere tempora reiciendis corporis?
+        </p>
+        <p className="text_review_title">Недостатки</p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim laudantium iure dolor
+          ipsam, dolores error quas consectetur quasi rerum doloremque sed aut sapiente ea eius quos
+          voluptate placeat harum tempora!
+        </p> */}
+        <p className="text_review_title">Комментарий</p>
+        <p>{review.body}</p>
+      </div>
       <div class="review_ratings_flex">
         <div class="review_ratings">
           <div class="like_button"></div>

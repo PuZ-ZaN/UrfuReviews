@@ -16,9 +16,9 @@
       margin-bottom: 0;
     }
     .header_review {
-      margin-bottom: 0.85rem;
-      border-bottom: 1px solid var(--gray-color-1);
-      padding-bottom: 0.85rem;
+      // margin-bottom: 0.85rem;
+      // border-bottom: 1px solid var(--gray-color-1);
+      // padding-bottom: 0.85rem;
       .header_id_date {
         display: flex;
         flex-wrap: wrap;
@@ -32,8 +32,15 @@
         }
         .id {
           font-weight: 600;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
           font-size: 1rem;
           letter-spacing: 0.02em;
+          .id-avatar {
+            background-color: #fde3cf;
+            color: #f56a00;
+          }
         }
       }
       .header_rates {
@@ -92,6 +99,9 @@
       font-size: 1rem;
       word-wrap: break-word;
       margin-bottom: 0.85rem;
+      .text_review_title {
+        font-weight: 500;
+      }
     }
     .review_ratings_flex {
       width: 100%;
