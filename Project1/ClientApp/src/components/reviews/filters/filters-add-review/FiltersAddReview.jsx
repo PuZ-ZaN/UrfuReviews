@@ -34,8 +34,6 @@ const FiltersAddReview = ({
     );
   };
 
-  console.log(courseValues);
-
   return (
     <div className="filters_add_review">
       <Filter

@@ -1,0 +1,19 @@
+.modal-my-class {
+  * {
+    flex-wrap: nowrap !important;
+  }
+
+  span,
+  svg,
+  path {
+    flex-shrink: 0;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .modal-my-class {
+    div {
+      font-size: 0.9rem !important;
+    }
+  }
+}

@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { getSelectedTrack, getAllTracks, getFilteredReviews } from '../../store/selectors';
 import { getTrackValues } from '../../store/selectors';
 import { setSelectedTrack } from '../../store/tracksSlice';
+import { message } from 'antd';
 
 export default function Track() {
   const dispatch = useDispatch();
@@ -23,36 +24,39 @@ export default function Track() {
   React.useEffect(() => {
     if (id !== -1 && tracks.length > 0) {
       dispatch(setSelectedTrack(id));
+      console.log('hello555');
     }
   }, [id, tracks]);
 
   if (!track || !trackValues || reviews.length == 0) return <></>;
 
   return (
-    <div className="course_title_container">
-      <p className="course_title">{track?.trackName}</p>
-      <div className="course_view">
-        <div className="circle_big">
-          <Circle
-            rating={trackValues?.averageValues.rating}
-            countReviews={trackValues?.countReviews}
-          />
+    <>
+      <div className="course_title_container">
+        <p className="course_title">{track?.trackName}</p>
+        <div className="course_view">
+          <div className="circle_big">
+            <Circle
+              rating={trackValues?.averageValues.rating}
+              countReviews={trackValues?.countReviews}
+            />
+          </div>
+
+          <Rate frequencyStars={trackValues?.countStars} countReviews={trackValues?.countReviews} />
+          <Criteria averageValues={trackValues?.averageValues} />
         </div>
 
-        <Rate frequencyStars={trackValues?.countStars} countReviews={trackValues?.countReviews} />
-        <Criteria averageValues={trackValues?.averageValues} />
-      </div>
+        <div className="filters_and_button">
+          <Filters teachers={track.prepods} />
+          <AddReviewBtn />
+        </div>
 
-      <div className="filters_and_button">
-        <Filters teachers={track.prepods} />
-        <AddReviewBtn />
+        <div className="reviews">
+          {reviews.map((review, index) => (
+            <Review key={review.id} review={review} index={index} />
+          ))}
+        </div>
       </div>
-
-      <div className="reviews">
-        {reviews.map((review, index) => (
-          <Review key={review.id} review={review} index={index} />
-        ))}
-      </div>
-    </div>
+    </>
   );
 }
