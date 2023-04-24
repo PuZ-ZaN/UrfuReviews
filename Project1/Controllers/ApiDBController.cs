@@ -79,14 +79,19 @@ namespace Project1.Controllers
         }
 
         [HttpGet("All/{pageNumber?}")]
-        public IEnumerable<Subject> GetAll(Int32? pageNumber)
+        public IEnumerable<Subject> GetAll(Int32? pageNumber, Int32? semester)
         {
-            var Subjects = Context.Subjects.Include(s => s.Tracks)
+            var Subjects = Context.Subjects.Where(subject => Convert.ToBoolean(semester) ? subject.Semester.Contains(Convert.ToInt32(semester)) : true)
+                                           .Include(s => s.Tracks)
                                            .ThenInclude(t => t.Prepods)
                                            .ThenInclude(p => p.Reviews);
 
+            if (pageNumber is null)
+                return Subjects;
+
             const Int32 pageSize = 10;
             return Subjects.Skip((pageNumber.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize);
+
         }
 
         /*[HttpGet("All2")]
