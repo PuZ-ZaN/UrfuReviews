@@ -94,6 +94,17 @@ namespace Project1.Controllers
 
         }
 
+        [HttpGet("Search")]
+        public IEnumerable<Track> Search(string text, string filteredBy)
+        {
+            var tracks = Context.Tracks.Where(track => filteredBy == "track" ? track.TrackName.ToLower().Contains(text) : true)
+                                       .Include(t => t.Prepods)
+                                       .ThenInclude(p => p.Reviews);
+
+            return tracks.Where(track => filteredBy == "teacher" ? track.Prepods.Where(teacher => teacher.PrepodName.ToLower().Contains(text)).Count() != 0 : true);
+
+        }
+
         /*[HttpGet("All2")]
         public CommonAddModel GetAll()
         {
