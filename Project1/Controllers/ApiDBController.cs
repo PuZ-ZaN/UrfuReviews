@@ -25,8 +25,17 @@ namespace Project1.Controllers
         }
 
         [HttpGet("Tracks/{i?}")]
-        public IEnumerable<Track> GetAllTracks(Guid? i)
+        public IEnumerable<Track> GetAllTracks(Guid? i, bool? isAdvanced)
         {
+            if (Convert.ToBoolean(isAdvanced))
+            {
+                if (i is null)
+                    return Context.Tracks.Include(t => t.Prepods);
+                else
+                    return Context.Tracks.Where(t => t.Id == i)
+                                         .Include(t => t.Prepods);
+            }
+
             if (i is null)
                 return Context.Tracks.ToList();
             else
@@ -43,12 +52,30 @@ namespace Project1.Controllers
         }
 
         [HttpGet("Reviews/{i?}")]
-        public IEnumerable<Review> GetAllReviews(Guid? i)
+        public IEnumerable<Review> GetAllReviews(Guid? i, Int32? pageNumber, Guid? trackId, Guid? teacherId)
         {
-            if (i is null)
-                return Context.Reviews.ToList();
-            else
-                return Context.Reviews.Where(t => t.Id == i);
+            List<Review> reviews = Context.Reviews.ToList();
+            const Int32 pageSize = 10;
+
+            if (!(trackId is null))
+            {
+                var prepodsId = Context.Prepods.Where(teacher => teacher.TrackId == trackId).Select(teacher => teacher.Id).ToList();
+                reviews = reviews.Where(review => prepodsId.Contains(review.PrepodId)).ToList();
+            }
+            if (!(teacherId is null))
+            {
+                reviews = reviews.Where(review => review.PrepodId == teacherId).ToList();
+            }
+            if (!(pageNumber is null))
+            {
+                reviews = reviews.Skip((pageNumber.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+            }
+            if (!(i is null))
+            {
+                reviews = Context.Reviews.Where(t => t.Id == i).ToList();
+            }
+
+            return reviews;
         }
 
         [HttpGet("All/{pageNumber?}")]
