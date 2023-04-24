@@ -170,13 +170,58 @@ namespace Project1.Controllers
             try
             {
                 Context.Reviews.Add(value);
+                calculateNewValueTeacher(value);
                 Context.SaveChanges();
                 return new JsonResult(new { value.Id });
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB ERROR" });
             }
+        }
+
+        public void calculateNewValueTeacher(Review newReview)
+        {
+            var reviews = Context.Reviews.Where(review => review.PrepodId == newReview.PrepodId).ToList();
+            reviews.Add(newReview);
+            var teacher = Context.Prepods.Where(prepod => prepod.Id == newReview.PrepodId).FirstOrDefault();
+            var countReviews = reviews.Count();
+            var values = new Values();
+
+            for (var i = 0; i < countReviews; i++)
+            {
+                var review = reviews[i];
+                switch (review.Rating)
+                {
+                    case 1:
+                        values.count1++;
+                        break;
+                    case 2:
+                        values.count2++;
+                        break;
+                    case 3:
+                        values.count3++;
+                        break;
+                    case 4:
+                        values.count4++;
+                        break;
+                    case 5:
+                        values.count5++;
+                        break;
+                }
+                values.avgRating += review.Rating;
+                values.avgInterest += review.Interest;
+                values.avgBenefit += review.Benefit;
+                values.avgAvailability += review.Availability;
+            }
+
+            values.avgRating = Math.Round(values.avgRating / (double)countReviews, 1);
+            values.avgInterest = Math.Round(values.avgInterest / (double)countReviews, 1);
+            values.avgBenefit = Math.Round(values.avgBenefit / (double)countReviews, 1);
+            values.avgAvailability = Math.Round(values.avgAvailability / (double)countReviews, 1);
+            values.countReviews = countReviews;
+
+            teacher.Values = values;
         }
 
         [HttpPost("AddAll")]
