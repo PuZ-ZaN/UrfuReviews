@@ -136,7 +136,7 @@ namespace Project1.Controllers
         }*/
 
 
-
+        [Authorize(Roles = "User")]
         [HttpPost("AddSubject")]
         public JsonResult AddSubject(Subject value)
         {
@@ -151,7 +151,7 @@ namespace Project1.Controllers
                 return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
             }
         }
-
+        [Authorize(Roles = "User")]
         [HttpPost("AddTrack")]
         public JsonResult AddTrack(Track value)
         {
@@ -166,7 +166,7 @@ namespace Project1.Controllers
                 return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
             }
         }
-
+        [Authorize(Roles = "User")]
         [HttpPost("AddPrepod")]
         public JsonResult AddPrepod(Prepod value)
         {
@@ -181,7 +181,7 @@ namespace Project1.Controllers
                 return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
             }
         }
-
+        [Authorize(Roles = "User")]
         [HttpPost("AddReview")]
         public JsonResult AddReview(Review value)
         {
@@ -243,7 +243,7 @@ namespace Project1.Controllers
 
             teacher.Values = values;
         }
-
+        [Authorize(Roles = "User")]
         [HttpPost("AddAll")]
         public JsonResult AddAll(CommonAddModel value)
         {

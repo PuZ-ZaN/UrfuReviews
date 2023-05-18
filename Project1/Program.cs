@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Project1;
+using Project1.Auth;
 using Project1.Data;
 
 using static System.Net.Mime.MediaTypeNames;
@@ -12,11 +15,36 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false; //TODO: поменять для прода
+    //options.Authority = "Beaver";
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        // укзывает, будет ли валидироваться издатель при валидации токена
+        ValidateIssuer = true,
+        // строка, представляющая издателя
+        ValidIssuer = AuthOptions.ISSUER,
+
+        // будет ли валидироваться потребитель токена
+        ValidateAudience = true,
+        // установка потребителя токена
+        ValidAudience = AuthOptions.AUDIENCE,
+        // будет ли валидироваться время существования
+        ValidateLifetime = true,
+
+        // установка ключа безопасности
+        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+        // валидация ключа безопасности
+        ValidateIssuerSigningKey = true,
+    };
+});
+builder.Services.AddControllersWithViews();
+
 // Add services to the container.
 
 var myAllowedSpecificOrigins = "_urfuReviewsSpecificOrigins";
 //builder.Services.AddDbContext<ApiDbContext>();
-builder.Services.AddControllersWithViews();
 
 builder.Services.AddCors(options =>
 {
@@ -34,18 +62,25 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseCors(myAllowedSpecificOrigins);
 app.UseHttpsRedirection();
+app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseCors(myAllowedSpecificOrigins);
+app.UseAuthentication();
+app.UseAuthorization();
+
+
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
-
 app.MapDefaultControllerRoute();
-
 app.MapFallbackToFile("index.html");
+
+
+app.UseEndpoints(endpoints => { 
+    endpoints.MapControllers();
+});
 
 app.Run();

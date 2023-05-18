@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using Project1.Models;
+using System;
 
 namespace Project1.Data
 {
@@ -10,7 +11,7 @@ namespace Project1.Data
         public virtual DbSet<Prepod> Prepods { get; set; }
         public virtual DbSet<Track> Tracks { get; set; }
         public virtual DbSet<Subject> Subjects { get; set; }
-
+        public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) { 
@@ -37,6 +38,7 @@ namespace Project1.Data
                 entity.HasMany(p => p.Reviews)
                       .WithOne(p => p.Prepod);
             });
+            modelBuilder.Entity<Prepod>();
         }
         
     }
