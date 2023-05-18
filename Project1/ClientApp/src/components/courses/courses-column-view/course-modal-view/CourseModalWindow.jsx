@@ -1,16 +1,15 @@
 import React from 'react';
 import { destinyTracks } from '../../../../const.ts';
 import './course_modal_window.scss';
-import Tracks from '../../../tracks/Tracks';
-import ModalWindow from '../../../modal-window/ModalWindow';
-import { countAndGetCourseValues } from '../../../usefulMethods/usefulMethods';
+import Tracks from '../../../tracks/Tracks.jsx';
+import ModalWindow from '../../../modal-window/ModalWindow.jsx';
+import { getValuesCourse } from '../../../usefulMethods/usefulMethods.js';
 
 const CourseModalWindow = ({ course, closeModalWindow }) => {
   const [courseValues, setCourseValues] = React.useState(null);
 
   React.useEffect(() => {
-    if (!course) return;
-    setCourseValues(countAndGetCourseValues(course));
+    setCourseValues(getValuesCourse(course));
   }, [course]);
 
   return (
@@ -22,15 +21,15 @@ const CourseModalWindow = ({ course, closeModalWindow }) => {
         </div>
         <div className="values">
           <div className="assessment">
-            <p>{courseValues ? courseValues.rating : '0'}</p>
+            <p>{courseValues?.avgRating ?? ''}</p>
             Средняя оценка
           </div>
           <div className="count_tracks">
-            <p>{courseValues ? courseValues.countTracks : '0'}</p>
+            <p>{course.tracks.length}</p>
             Всего треков
           </div>
           <div className="count_reviews">
-            <p>{courseValues ? courseValues.countReviews : '0'}</p>
+            <p>{courseValues?.countReviews ?? ''}</p>
             Добавлено отзывов
           </div>
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import './AdminPanel.scss';
 import { Col, Row } from 'antd';
 import Sidebar from '../../components/sidebar/Sidebar';
-import { fetchOriginalSubjects } from '../../store/api-actions';
+import { fetchSubjects } from '../../store/api-actions';
 import { useDispatch } from 'react-redux';
 import { DislikeOutlined, PlusOutlined } from '@ant-design/icons';
 import AdminTab from './admin-tab/AdminTab';
@@ -12,7 +12,7 @@ const AdminPanel = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(fetchOriginalSubjects());
+    dispatch(fetchSubjects());
   }, []);
 
   const tabsInfo = [

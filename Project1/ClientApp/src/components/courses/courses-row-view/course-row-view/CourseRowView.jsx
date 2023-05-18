@@ -1,19 +1,19 @@
 import React from 'react';
 import { destinyTracks } from '../../../../const.ts';
-import './course_column_view.scss';
-import Tracks from './../../../tracks/Tracks';
+import './course_row_view.scss';
+import Tracks from '../../../tracks/Tracks.jsx';
 
-const CourseColumnView = ({ course, selectedCourse, setSelectedCourse }) => {
+const CourseRowView = ({ course, selectedCourse, setSelectedCourse }) => {
   const handleClickArrow = () => {
     setSelectedCourse((prevCourse) => (prevCourse?.id === course?.id ? undefined : course));
   };
 
   return (
     <div
-      className={`course_column_view ${selectedCourse == course ? 'show_tracks' : ''}`}
+      className={`course_row_view ${selectedCourse == course ? 'show_tracks' : ''}`}
       key={course.id}>
       <div className="course_container">
-        <div className="course_column" onClick={handleClickArrow}>
+        <div className="course_row" onClick={handleClickArrow}>
           <p className="title">{course.subjectName}</p>
           <img src="img/arrow-bottom.svg" alt="show tracks" />
         </div>
@@ -25,4 +25,4 @@ const CourseColumnView = ({ course, selectedCourse, setSelectedCourse }) => {
   );
 };
 
-export default CourseColumnView;
+export default CourseRowView;

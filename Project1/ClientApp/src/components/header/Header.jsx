@@ -3,13 +3,14 @@ import './header.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTextSearch } from '../../store/subjectsSlice';
-import { getFilteredBy, getSemester } from './../../store/selectors';
+import { getSemester } from './../../store/selectors';
 import { MenuOutlined } from '@ant-design/icons';
 
 export default function Header({ isSidebarShown, setSidebarShown, sidebarIconRef }) {
   const [inputText, setInputText] = React.useState('');
   const [isFocusedInput, setFocusedInput] = React.useState(false);
-  const filteredBy = useSelector((state) => getFilteredBy(state));
+  //const filteredBy = useSelector((state) => getFilteredBy(state));
+  const filteredBy = 'teachers';
   const semester = useSelector((state) => getSemester(state));
   const dispatch = useDispatch();
 
@@ -26,7 +27,7 @@ export default function Header({ isSidebarShown, setSidebarShown, sidebarIconRef
     e.preventDefault();
     if (!inputText) return;
     navigate(`/search/?text=${inputText}&filteredBy=${filteredBy}&semester=${semester}`);
-    dispatch(setTextSearch(inputText));
+    //dispatch(setTextSearch(inputText));
     setInputText('');
   };
 

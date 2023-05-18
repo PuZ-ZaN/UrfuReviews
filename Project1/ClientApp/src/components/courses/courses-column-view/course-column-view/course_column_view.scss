@@ -1,9 +1,9 @@
-.courses_row_view {
+.courses_col_view {
   z-index: 0;
   width: 100%;
-  .course_row_view_grid {
+  .course_col_view_grid {
     display: flex;
-    .course_row_view {
+    .course_col_view {
       width: 100%;
       box-sizing: border-box;
       border: 1px solid var(--white-color);
@@ -21,7 +21,7 @@
         transform: scale(1.05);
       }
     }
-    .course_row_view_background {
+    .course_col_view_background {
       background: var(--blue-gradient-2);
       background-size: cover;
       position: absolute;
@@ -51,7 +51,7 @@
         );
       }
     }
-    .course_row_view_title {
+    .course_col_view_title {
       text-align: center;
       font-weight: 500;
       font-size: 1rem;

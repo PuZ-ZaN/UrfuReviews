@@ -67,6 +67,7 @@ body {
 
 .wrapper {
   max-width: 1440px;
+  position: relative;
   display: flex;
   flex-wrap: nowrap !important;
   box-sizing: border-box;
@@ -98,9 +99,16 @@ body {
   margin: 1.5rem 0;
 }
 
-/* ant-design reset styles */
-
-.ant-col {
-  font-size: inherit !important;
-  font-family: 'Roboto', sans-serif;
+.loading-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background-color: red;
+  display: none;
+  &.loading-true {
+    display: block;
+  }
 }

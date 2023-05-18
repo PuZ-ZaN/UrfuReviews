@@ -2,17 +2,19 @@ import React from 'react';
 import Filter from './filter/Filter';
 import { filtersData } from '../../../../const.ts';
 import { useDispatch } from 'react-redux';
-import { setFilteredTrackBy, setTeacher } from '../../../../store/tracksSlice';
+import { setTeacher } from '../../../../store/trackSlice';
 
-const FiltersTrackPage = ({ teachers }) => {
+const FiltersTrackPage = ({ teachers, setValuesTrack }) => {
   const dispatch = useDispatch();
 
-  const handleClickTeacher = (value) => {
-    dispatch(setTeacher(value));
+  const handleClickTeacher = (textValue) => {
+    const teacherObj = teachers.find((teacher) => teacher.prepodName === textValue);
+    dispatch(setTeacher(teacherObj));
+    setValuesTrack(teacherObj.values);
   };
 
   const handleClickFilter = (value) => {
-    dispatch(setFilteredTrackBy(value));
+    // dispatch(setFilteredTrackBy(value));
   };
 
   return (

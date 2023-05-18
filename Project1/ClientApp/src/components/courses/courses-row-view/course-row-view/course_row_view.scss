@@ -1,9 +1,9 @@
-.courses_column_view_container {
+.courses_row_view_container {
   .MuiGrid-root {
     width: 100%;
   }
-  .courses_column_view {
-    .course_column_view {
+  .courses_row_view {
+    .course_row_view {
       background: var(--white-color);
       margin-bottom: 1.25rem;
       border-radius: 15px;
@@ -14,7 +14,7 @@
         &:last-child {
           margin-bottom: 0;
         }
-        .course_column {
+        .course_row {
           padding: 0 1.25rem;
           display: flex;
           justify-content: space-between;
@@ -41,7 +41,7 @@
         }
       }
       &.show_tracks {
-        .course_column {
+        .course_row {
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
           img {
             transform: rotate(180deg);

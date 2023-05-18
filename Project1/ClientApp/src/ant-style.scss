@@ -10,6 +10,11 @@
   }
 }
 
+.ant-col {
+  font-size: inherit !important;
+  font-family: 'Roboto', sans-serif;
+}
+
 @media screen and (min-width: 1200px) {
   .modal-my-class {
     div {

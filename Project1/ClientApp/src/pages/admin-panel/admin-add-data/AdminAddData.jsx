@@ -1,7 +1,6 @@
 import React from 'react';
 import { Alert, Col, Dropdown, Modal, Row, message } from 'antd';
 import { useSelector } from 'react-redux';
-import { getFilteredSubjects } from '../../../store/selectors';
 import CourseColumnView from './../../../components/admin-panel/course-column-view/CourseColumnView';
 import {
   DeleteFilled,
@@ -17,7 +16,8 @@ const AdminAddData = () => {
   const [inputTeacher, setInputTeacher] = React.useState('');
   const [selectedCourse, setSelectedCourse] = React.useState();
   const [selectedTrack, setSelectedTrack] = React.useState();
-  const courses = useSelector((state) => getFilteredSubjects(state));
+  // const courses = useSelector((state) => getFilteredSubjects(state));
+  const courses = [];
 
   const handleSelectCourse = (course) => {
     setSelectedCourse(course);

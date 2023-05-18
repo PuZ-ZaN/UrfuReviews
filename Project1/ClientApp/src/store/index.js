@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { subjectsReducer } from './subjectsSlice';
-import { trackReducer } from './tracksSlice';
+import { searchReducer } from './searchSlice';
+import { trackReducer } from './trackSlice';
+import { generalReducer } from './generalSlice';
 
 export default configureStore({
   reducer: {
+    general: generalReducer,
     subjects: subjectsReducer,
-    tracks: trackReducer,
+    search: searchReducer,
+    track: trackReducer,
   },
 });

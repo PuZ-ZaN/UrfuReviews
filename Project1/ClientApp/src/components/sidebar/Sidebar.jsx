@@ -19,9 +19,10 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
   React.useEffect(() => {
     setIsBlockedClick(isNeedBlock());
     setActiveCourse(null);
-    setActiveCourse(null);
     dispatch(setSemester('all'));
   }, [href]);
+
+  // mobile sidebar-burger menu
 
   React.useEffect(() => {
     if (!isSidebarShown) return;
@@ -41,6 +42,8 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
     return href != '/' && href != '/search/';
   }
 
+  // dekstop version
+
   const dispatch = useDispatch();
 
   const handleClickSemester = (semester) => {
@@ -51,8 +54,6 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
   const handleClickLogo = () => {
     dispatch(resetSubjectsState());
   };
-
-  console.log(isSidebarShown);
 
   return (
     <div className={`sidebar_layout ${isSidebarShown ? '' : 'hidden'}`}>

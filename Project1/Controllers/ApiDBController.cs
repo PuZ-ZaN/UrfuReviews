@@ -19,7 +19,7 @@ namespace Project1.Controllers
         public IEnumerable<Subject> GetAllSubjects(Guid? i)
         {
             if (i is null)
-                return Context.Subjects.ToList();
+                return Context.Subjects;
             else
                 return Context.Subjects.Where(t => t.Id == i);
         }
@@ -37,7 +37,7 @@ namespace Project1.Controllers
             }
 
             if (i is null)
-                return Context.Tracks.ToList();
+                return Context.Tracks;
             else
                 return Context.Tracks.Where(t => t.Id == i);
         }
@@ -46,50 +46,68 @@ namespace Project1.Controllers
         public IEnumerable<Prepod> GetAllPrepods(Guid? i)
         {
             if (i is null)
-                return Context.Prepods.ToList();
+                return Context.Prepods;
             else
                 return Context.Prepods.Where(t => t.Id == i);
         }
 
         [HttpGet("Reviews/{i?}")]
-        public IEnumerable<Review> GetAllReviews(Guid? i, Int32? pageNumber, Guid? trackId, Guid? teacherId)
+        public IEnumerable<Review> GetAllReviews(Guid? i, Int32? pageNumber, Guid? trackId, Guid? teacherId, string? sortedBy)
         {
-            List<Review> reviews = Context.Reviews.ToList();
+            IQueryable<Review> reviews = Context.Reviews;
             const Int32 pageSize = 10;
 
             if (!(trackId is null))
             {
-                var prepodsId = Context.Prepods.Where(teacher => teacher.TrackId == trackId).Select(teacher => teacher.Id).ToList();
-                reviews = reviews.Where(review => prepodsId.Contains(review.PrepodId)).ToList();
+                var prepodsId = Context.Prepods.Where(teacher => teacher.TrackId == trackId).Select(teacher => teacher.Id);
+                reviews = reviews.Where(review => prepodsId.Contains(review.PrepodId));
             }
             if (!(teacherId is null))
             {
-                reviews = reviews.Where(review => review.PrepodId == teacherId).ToList();
+                reviews = reviews.Where(review => review.PrepodId == teacherId);
             }
             if (!(pageNumber is null))
             {
-                reviews = reviews.Skip((pageNumber.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize).ToList();
+                reviews = reviews.Skip((pageNumber.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize);
             }
             if (!(i is null))
             {
-                reviews = Context.Reviews.Where(t => t.Id == i).ToList();
+                reviews = Context.Reviews.Where(t => t.Id == i);
             }
+
+            var reviewsList = reviews.ToList();
+
+            if (!(sortedBy is null))
+            {
+                switch (sortedBy)
+                {
+                    case "rating":
+                        reviews = reviews.OrderBy(review => review.Rating);
+                        break;
+                    case "time":
+                        reviews = reviews.OrderBy(review => review.AddedDate);
+                        break;
+                    case "useful":
+                        // TO DO SORT BY USERS LIKE;
+                        break;
+                }
+        }
 
             return reviews;
         }
 
-        [HttpGet("All/{pageNumber?}")]
+        [HttpGet("All/")]
         public IEnumerable<Subject> GetAll(Int32? pageNumber, Int32? semester)
         {
             var Subjects = Context.Subjects.Where(subject => Convert.ToBoolean(semester) ? subject.Semester.Contains(Convert.ToInt32(semester)) : true)
                                            .Include(s => s.Tracks)
-                                           .ThenInclude(t => t.Prepods)
-                                           .ThenInclude(p => p.Reviews);
+                                           .ThenInclude(t => t.Prepods);                               
 
             if (pageNumber is null)
                 return Subjects;
 
             const Int32 pageSize = 10;
+
             return Subjects.Skip((pageNumber.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize);
 
         }
@@ -187,6 +205,8 @@ namespace Project1.Controllers
             var teacher = Context.Prepods.Where(prepod => prepod.Id == newReview.PrepodId).FirstOrDefault();
             var countReviews = reviews.Count();
             var values = new Values();
+
+            // group by
 
             for (var i = 0; i < countReviews; i++)
             {

@@ -26,11 +26,11 @@ const CircleProgress = ({ countChecked }) => {
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="114px" height="114px">
         <defs>
           <linearGradient id="GradientColor">
-            <stop offset="0%" stop-color="#56CCF2" />
-            <stop offset="100%" stop-color="#2F80ED" />
+            <stop offset="0%" stopColor="#56CCF2" />
+            <stop offset="100%" stopColor="#2F80ED" />
           </linearGradient>
         </defs>
-        <circle cx="57" cy="57" r="52" stroke-linecap="round" style={style} />
+        <circle cx="57" cy="57" r="52" strokeLinecap="round" style={style} />
       </svg>
     </div>
   );

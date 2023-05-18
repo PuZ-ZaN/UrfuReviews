@@ -41,7 +41,7 @@ const Filter = ({ filterData, options, onClick, activeValue, isBlocked }) => {
       </div>
       <div className={`select_body ${isShownBody ? 'select_shown_body' : ''}`}>
         {currentOptions.map((option) => (
-          <div className="option" onClick={() => changeCurrentTitle(option)}>
+          <div key={option} className="option" onClick={() => changeCurrentTitle(option)}>
             {option}
           </div>
         ))}

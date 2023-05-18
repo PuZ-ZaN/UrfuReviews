@@ -8,27 +8,46 @@ import AddReviewBtn from '../../components/reviews/add-review-btn/AddReviewBtn';
 import Circle from '../../components/reviews/circle-rating/CircleRating';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getSelectedTrack, getAllTracks, getFilteredReviews } from '../../store/selectors';
-import { getTrackValues } from '../../store/selectors';
-import { setSelectedTrack } from '../../store/tracksSlice';
-import { message } from 'antd';
+import { getReviews, getTeacher, getTrack } from './../../store/selectors';
+import { setTrack } from '../../store/trackSlice';
+import { fetchReviews, fetchTrack } from '../../store/api-actions';
+import { getValuesTrack } from '../../components/usefulMethods/usefulMethods';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 export default function Track() {
   const dispatch = useDispatch();
   const id = useParams().id || -1;
-  const tracks = useSelector((state) => getAllTracks(state));
-  const track = useSelector((state) => getSelectedTrack(state));
-  const reviews = useSelector((state) => getFilteredReviews(state));
-  const trackValues = useSelector((state) => getTrackValues(state));
+  const track = useSelector((state) => getTrack(state));
+  const reviews = useSelector((state) => getReviews(state));
+  const teacher = useSelector((state) => getTeacher(state));
+
+  const [pageNumber, setPageNumber] = React.useState(1);
+
+  const [valuesTrack, setValuesTrack] = React.useState();
 
   React.useEffect(() => {
-    if (id !== -1 && tracks.length > 0) {
-      dispatch(setSelectedTrack(id));
-      console.log('hello555');
+    if (id !== -1) {
+      dispatch(fetchTrack({ id }));
     }
-  }, [id, tracks]);
+  }, [id]);
 
-  if (!track || !trackValues || reviews.length == 0) return <></>;
+  React.useEffect(() => {
+    if (id !== -1) {
+      dispatch(fetchReviews({ trackId: id, pageNumber, teacherId: teacher?.id }));
+    }
+  }, [id, pageNumber, teacher]);
+
+  React.useEffect(() => {
+    setValuesTrack(getValuesTrack(track));
+  }, [track]);
+
+  const getNameTeacherReview = (review) => {
+    if (!track) return;
+
+    return track.prepods.find((prepod) => prepod.id == review.prepodId)?.prepodName;
+  };
+
+  if (!track || reviews.length == 0 || !valuesTrack) return <></>;
 
   return (
     <>
@@ -36,24 +55,21 @@ export default function Track() {
         <p className="course_title">{track?.trackName}</p>
         <div className="course_view">
           <div className="circle_big">
-            <Circle
-              rating={trackValues?.averageValues.rating}
-              countReviews={trackValues?.countReviews}
-            />
+            <Circle valuesTrack={valuesTrack} />
           </div>
 
-          <Rate frequencyStars={trackValues?.countStars} countReviews={trackValues?.countReviews} />
-          <Criteria averageValues={trackValues?.averageValues} />
+          <Rate valuesTrack={valuesTrack} />
+          <Criteria valuesTrack={valuesTrack} />
         </div>
 
         <div className="filters_and_button">
-          <Filters teachers={track.prepods} />
+          <Filters teachers={track?.prepods} setValuesTrack={setValuesTrack} />
           <AddReviewBtn />
         </div>
 
         <div className="reviews">
           {reviews.map((review, index) => (
-            <Review key={review.id} review={review} index={index} />
+            <Review key={review.id} teacher={getNameTeacherReview(review)} review={review} />
           ))}
         </div>
       </div>

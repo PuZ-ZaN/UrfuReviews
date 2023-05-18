@@ -1,85 +1,62 @@
 import React from 'react';
 
-export const countAndGetTrackValues = (track, teacherName) => {
-  const trackInfo = {
-    countReviews: 0,
-    countStars: {
-      fiveStars: 0,
-      fourStars: 0,
-      threeStars: 0,
-      twoStars: 0,
-      oneStars: 0,
-    },
-    averageValues: {
-      rating: 0,
-      interest: 0,
-      benefit: 0,
-      availability: 0,
-    },
-  };
-  const sumValues = { ...trackInfo.averageValues };
-
-  let teachers;
-  if (!teacherName) {
-    teachers = track.prepods;
-  } else {
-    teachers = track.prepods.filter((teacher) => teacher.prepodName === teacherName);
-  }
-
-  for (let teacher of teachers) {
-    const reviewsOnTeacher = teacher.reviews;
-    for (let review of reviewsOnTeacher) {
-      switch (review.rating) {
-        case 1:
-          trackInfo.countStars.oneStars++;
-          break;
-        case 2:
-          trackInfo.countStars.twoStars++;
-          break;
-        case 3:
-          trackInfo.countStars.threeStars++;
-          break;
-        case 4:
-          trackInfo.countStars.fourStars++;
-          break;
-        case 5:
-          trackInfo.countStars.fiveStars++;
-          break;
-      }
-      sumValues.rating += review.rating;
-      sumValues.interest += review.interest;
-      sumValues.benefit += review.benefit;
-      sumValues.availability += review.availability;
-    }
-    trackInfo.countReviews += reviewsOnTeacher.length;
-  }
-
-  trackInfo.averageValues = {
-    rating: Number((sumValues.rating / trackInfo.countReviews).toFixed(1)),
-    interest: Number((sumValues.interest / trackInfo.countReviews).toFixed(1)),
-    benefit: Number((sumValues.benefit / trackInfo.countReviews).toFixed(1)),
-    availability: Number((sumValues.availability / trackInfo.countReviews).toFixed(1)),
-  };
-
-  return trackInfo;
+export const getAvgRatingTrack = (track) => {
+  return +(
+    track.prepods.reduce((sum, prepod) => (sum += prepod.values.avgRating), 0) /
+    track.prepods.length
+  ).toFixed(1);
 };
 
-export const countAndGetCourseValues = (course) => {
-  const courseInfo = {
-    rating: 0,
-    countTracks: course.tracks.length,
-    countReviews: 0,
-  };
-  const sumValues = { rating: 0 };
+const getCountReviewsTrack = (track) => {
+  if (!track) return;
 
-  const tracks = course.tracks;
-  for (let track of tracks) {
-    const trackInfo = countAndGetTrackValues(track);
-    sumValues.rating += trackInfo.averageValues.rating;
-    courseInfo.countReviews += trackInfo.countReviews;
+  return track.prepods.reduce((sum, prepod) => (sum += prepod.values.countReviews), 0);
+};
+
+const getZeroValuesPrepod = (track) => {
+  if (!track) return;
+
+  const values = {};
+  for (let value in track.prepods[0].values) {
+    values[value] = 0;
   }
 
-  courseInfo.rating = (sumValues.rating / courseInfo.countTracks).toFixed(1);
+  return values;
+};
 
-  return courseInfo;
+export const getValuesTrack = (track) => {
+  if (!track) return;
+
+  const values = getZeroValuesPrepod(track);
+
+  track.prepods.forEach((prepod) => {
+    for (let value in prepod.values) {
+      values[value] += prepod.values[value];
+    }
+  });
+
+  for (let value in values) {
+    if (value.includes('avg')) {
+      values[value] = (values[value] / track.prepods.length).toFixed(1);
+    }
+  }
+
+  return values;
+};
+
+export const getValuesCourse = (course) => {
+  if (!course) return;
+
+  const values = { avgRating: 0, countReviews: 0 };
+  let countPrepods = 0;
+
+  course.tracks.forEach((track) => {
+    values.avgRating += getAvgRatingTrack(track);
+    values.countReviews += getCountReviewsTrack(track);
+    countPrepods += track.prepods.length;
+  });
+
+  values.avgRating = (values.avgRating / countPrepods).toFixed(1);
+
+  return values;
 };

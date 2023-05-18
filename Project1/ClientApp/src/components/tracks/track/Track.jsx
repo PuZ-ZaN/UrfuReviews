@@ -1,25 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { countAndGetTrackValues } from '../../usefulMethods/usefulMethods';
 import './track.scss';
+import { getAvgRatingTrack } from '../../usefulMethods/usefulMethods';
 
 const Track = ({ track }) => {
   const [style, setStyle] = React.useState({ width: 0 });
-  const [trackValues, setTrackValues] = React.useState(null);
+  const [avgRating, setAvgRating] = React.useState('');
 
   React.useEffect(() => {
     if (!track) return;
-    setTrackValues(countAndGetTrackValues(track));
+    setAvgRating(getAvgRatingTrack(track));
   }, []);
 
   React.useEffect(() => {
     const newStyle = {
       opacity: 1,
-      width: `${trackValues ? trackValues.averageValues.rating * 20 : 0}%`,
+      width: `${avgRating ? avgRating * 20 : 0}%`,
     };
 
     setStyle(newStyle);
-  }, [trackValues]);
+  }, [avgRating]);
 
   // FIX: не обновляется рейтинг при поиске
 
@@ -33,7 +33,7 @@ const Track = ({ track }) => {
           <div className="bar">
             <div className="bar_percent" style={style}></div>
           </div>
-          <p className="rating">{trackValues ? trackValues.averageValues.rating : '0'}</p>
+          <p className="rating">{avgRating ?? ''}</p>
         </div>
       </div>
     </Link>
