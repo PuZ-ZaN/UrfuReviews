@@ -10,9 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getReviews, getTeacher, getTrack } from './../../store/selectors';
 import { setTrack } from '../../store/trackSlice';
-import { fetchReviews, fetchTrack } from '../../store/api-actions';
+import { fetchReviews, fetchTrack, fetchTrackInfo } from '../../store/api-actions';
 import { getValuesTrack } from '../../components/usefulMethods/usefulMethods';
 import { ConsoleSqlOutlined } from '@ant-design/icons';
+import { setSubjects } from '../../store/subjectsSlice';
 
 export default function Track() {
   const dispatch = useDispatch();

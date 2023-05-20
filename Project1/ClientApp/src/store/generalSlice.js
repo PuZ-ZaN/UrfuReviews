@@ -1,10 +1,17 @@
-import { createSlice, isAllOf, isAnyOf } from '@reduxjs/toolkit';
+import { createSlice, isAllOf, isAnyOf, isFulfilled, isPending } from '@reduxjs/toolkit';
 import { fetchReviews, fetchSubjects, fetchTrack } from './api-actions';
 
 const generalSlice = createSlice({
   name: 'subjects',
   initialState: {
-    isLoading: false,
+    isLoading: {
+      subjects: undefined,
+      track: {
+        track: undefined,
+        reviews: undefined,
+      },
+      search: undefined,
+    },
   },
   reducers: {
     setLoadingTrue(state, action) {
@@ -15,17 +22,24 @@ const generalSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchSubjects.pending, (state, action) => {
-      state.isLoading = true;
+    builder.addCase(fetchTrack.pending, (state, action) => {
+      state.isLoading.track.track = true;
     });
-    builder.addMatcher(isAnyOf(fetchReviews.pending, fetchTrack.pending), (state, action) => ({
-      ...state,
-      isLoading: true,
-    }));
-    builder.addMatcher(isAllOf(fetchReviews.fulfilled, fetchTrack.fulfilled), (state, action) => ({
-      ...state,
-      isLoading: false,
-    }));
+    builder.addCase(fetchReviews.pending, (state, action) => {
+      state.isLoading.track.reviews = true;
+    });
+    builder.addCase(fetchSubjects.pending, (state, action) => {
+      state.isLoading.subjects = true;
+    });
+    builder.addCase(fetchTrack.fulfilled, (state, action) => {
+      state.isLoading.track.track = false;
+    });
+    builder.addCase(fetchReviews.fulfilled, (state, action) => {
+      state.isLoading.track.reviews = false;
+    });
+    builder.addCase(fetchSubjects.fulfilled, (state, action) => {
+      state.isLoading.subjects = false;
+    });
   },
 });
 

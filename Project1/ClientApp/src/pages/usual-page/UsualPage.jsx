@@ -6,18 +6,20 @@ import AddReview from '../../pages/add-review/AddReview';
 import Search from '../../pages/search/Search';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Track from '../../pages/track/Track';
-import { Col, Row } from 'antd';
+import { Col, Row, Spin } from 'antd';
 import { useSelector } from 'react-redux';
-import { getIsLoading } from '../../store/selectors';
+import { getIsLoadingStatus } from '../../store/selectors';
 
 const UsualPage = () => {
   const [isSidebarShown, setSidebarShown] = React.useState(false);
   const sidebarIconRef = useRef(null);
-  const isLoading = useSelector((state) => getIsLoading(state));
+  const isLoading = useSelector((state) => getIsLoadingStatus(state));
 
   return (
     <Row className="wrapper">
-      <div className={`loading-block ${isLoading ? 'loading-true' : ''}`}>Идет загрузка...</div>
+      <div className={`loading-block ${isLoading ? 'loading-true' : ''}`}>
+        <Spin tip="Идет загрузка..." size="large"></Spin>
+      </div>
       <Col flex={'240px'} className="sidebar-grid">
         <Sidebar
           isSidebarShown={isSidebarShown}

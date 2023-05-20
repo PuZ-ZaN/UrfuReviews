@@ -10,4 +10,24 @@ export const getTeacher = (state) => state.track.teacher;
 
 export const getReviews = (state) => state.track.reviews;
 
-export const getIsLoading = (state) => state.general.isLoading;
+export const getIsLoadingStatus = (state) => {
+  const isLoading = state.general.isLoading;
+  const values = getValues(isLoading);
+
+  // функция по получению всех значений объекта(в том числе вложенных)
+  function getValues(object, array = []) {
+    const objValues = Object.values(object);
+
+    for (let elem of objValues) {
+      if (typeof elem === 'object') {
+        getValues(elem, array);
+        continue;
+      }
+      array.push(elem);
+    }
+
+    return array;
+  }
+
+  return values.some((value) => value);
+};

@@ -7,8 +7,6 @@ import UsualPage from './pages/usual-page/UsualPage';
 import Register from './pages/register/Register';
 import AdminPanel from './pages/admin-panel/AdminPanel';
 import { message } from 'antd';
-import { useSelector } from 'react-redux';
-import { getIsLoading } from './store/selectors';
 
 function App() {
   const [_, contextHolder] = message.useMessage();
