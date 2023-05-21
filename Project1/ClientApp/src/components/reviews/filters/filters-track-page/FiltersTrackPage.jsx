@@ -14,6 +14,7 @@ const FiltersTrackPage = ({ teachers, setValuesTrack }) => {
   };
 
   const handleClickFilter = (value) => {
+    // to do: filter by
     // dispatch(setFilteredTrackBy(value));
   };
 

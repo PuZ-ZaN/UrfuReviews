@@ -3,6 +3,19 @@ import axios from 'axios';
 import { setSubjects } from './subjectsSlice';
 import { setReviews, setTrack } from './trackSlice';
 
+// export const fetchAddReviewSubjects = createAsyncThunk(
+//   'addReview/fetchAddReviewSubjects',
+//   async function ({ semester }, { dispatch }) {
+//     try {
+//       const result = await axios.get('/api/All', { params: { semester } });
+
+//       dispatch(setSubjects(result.data));
+//     } catch (error) {
+//       console.log('fetchSubjects error');
+//     }
+//   },
+// );
+
 export const fetchSubjects = createAsyncThunk(
   'subjects/fetchSubjects',
   async function ({ pageNumber, semester }, { dispatch }) {

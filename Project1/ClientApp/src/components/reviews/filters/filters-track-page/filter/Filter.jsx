@@ -3,14 +3,14 @@ import './filter.scss';
 
 const Filter = ({ filterData, options, onClick, activeValue, isBlocked }) => {
   const [isShownBody, setIsShownBody] = React.useState(false);
-  const [currentTitle, setCurrentTitle] = React.useState(filterData.text);
+  const [currentTitle, setCurrentTitle] = React.useState(activeValue ?? filterData.text);
   const currentOptions = 'options' in filterData ? Object.values(filterData.options) : options;
 
   const toggleShownBody = () => {
     setIsShownBody((prevValue) => !prevValue);
   };
 
-  const changeCurrentTitle = (newTitle) => {
+  const changeTitle = (newTitle) => {
     setCurrentTitle(newTitle);
     setIsShownBody(false);
     onClick(newTitle);
@@ -20,13 +20,13 @@ const Filter = ({ filterData, options, onClick, activeValue, isBlocked }) => {
     if (isBlocked) setIsShownBody(false);
   }, [isBlocked]);
 
-  React.useEffect(() => {
-    if (activeValue) {
-      setCurrentTitle(activeValue);
-    } else {
-      setCurrentTitle(filterData.text);
-    }
-  }, [activeValue]);
+  // React.useEffect(() => {
+  //   if (activeValue) {
+  //     setCurrentTitle(activeValue);
+  //   } else {
+  //     setCurrentTitle(filterData.text);
+  //   }
+  // }, [activeValue]);
 
   return (
     <div
@@ -41,7 +41,7 @@ const Filter = ({ filterData, options, onClick, activeValue, isBlocked }) => {
       </div>
       <div className={`select_body ${isShownBody ? 'select_shown_body' : ''}`}>
         {currentOptions.map((option) => (
-          <div key={option} className="option" onClick={() => changeCurrentTitle(option)}>
+          <div key={option} className="option" onClick={() => changeTitle(option)}>
             {option}
           </div>
         ))}

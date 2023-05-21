@@ -12,8 +12,8 @@ export enum searchFilters {
 export enum assessmentTitle {
   Interest = 'Интерес к предмету',
   Benefit = 'Польза от предмета',
-  Clarity = 'Доступность изложения',
-  Rate = 'Общая оценка',
+  Availability = 'Доступность изложения',
+  Rating = 'Общая оценка',
 }
 
 export const filtersData = {
@@ -67,4 +67,20 @@ export const statusesLogin = {
     text: 'При регистрации возникла ошибка. Попробуйте еще раз или позже.',
     img: 'fail_status_img',
   },
+};
+
+export const initCourseValues = {
+  semester: '',
+  course: '',
+  track: '',
+  teacher: '',
+};
+
+export const initFieldsValues = {
+  interest: 0,
+  benefit: 0,
+  availability: 0,
+  rating: 0,
+  body: '',
+  isMoved: false,
 };

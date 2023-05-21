@@ -6,7 +6,7 @@ const Assessment = ({ title, onChangeField }) => {
 
   const handleClickStar = (value) => {
     setCurrentValue(value);
-    onChangeField(value);
+    onChangeField(title, value);
   };
 
   return (
