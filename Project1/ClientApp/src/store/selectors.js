@@ -16,8 +16,6 @@ export const getIsLoadingStatus = (state) => {
   const isLoading = state.general.isLoading;
   const values = getValues(isLoading);
 
-  console.log(isLoading);
-
   // функция по получению всех значений объекта(в том числе вложенных)
   function getValues(object, array = []) {
     const objValues = Object.values(object);

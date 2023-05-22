@@ -15,8 +15,6 @@ const AdminPanel = () => {
   const isAuth = useSelector(getIsAuthUser);
   const isLoading = useSelector(getIsLoadingStatus);
 
-  console.log(isLoading);
-
   const tabsInfo = [
     { text: 'Добавление данных', icon: <PlusOutlined />, component: <AdminAddData /> },
     { text: 'Заминусованные комментарии', icon: <DislikeOutlined />, component: <p>hello</p> },

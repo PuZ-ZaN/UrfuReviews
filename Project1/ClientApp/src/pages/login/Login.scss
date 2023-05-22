@@ -43,7 +43,8 @@
     border-radius: 15px;
     min-height: 500px;
     background: var(--white-color);
-    .email-block {
+    .email-block,
+    .password-block {
       margin-bottom: 1.25rem;
     }
     .login_title {
@@ -53,8 +54,7 @@
       margin: 1.75rem 0 2.5rem 0;
     }
     .email-block,
-    .password-block,
-    .username-block {
+    .password-block {
       .email-title,
       .password-title {
         margin-top: 0;
@@ -74,10 +74,11 @@
       text-align: right;
       cursor: pointer;
     }
-    .password-block {
+    .password-block-repeat {
       margin-bottom: 2rem;
     }
-    .login-button {
+    .login-button,
+    .register-button {
       width: 100%;
       cursor: pointer;
       background: var(--blue-gradient-1);

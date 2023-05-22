@@ -4,6 +4,17 @@ import { setReviews, setTrack } from './trackSlice';
 import { setUser } from './userSlice';
 import axios from './../axios';
 
+export const authRegister = createAsyncThunk(
+  'auth/register',
+  async function (params, { rejectWithValue }) {
+    try {
+      const data = await axios.post('/auth/register', params);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const authLogin = createAsyncThunk('auth/login', async function (params, { dispatch }) {
   try {
     const { data } = await axios.post('/auth/login', params);
