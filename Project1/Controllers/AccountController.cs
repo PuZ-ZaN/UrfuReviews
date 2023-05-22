@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using Project1.Auth;
 using Project1.Data;
 using Project1.Models;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
+using System.Security.Principal;
+using System.Text;
 
 namespace Project1.Controllers
 {
@@ -42,11 +47,59 @@ namespace Project1.Controllers
             return Json(response);
         }
 
+        [HttpGet("me")]
+        public IActionResult Authme()
+        {
+            string token = Request.Headers["Authorization"];
+            token = token.Replace("Bearer ", "");
+
+            string role = "", name = "";
+
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+
+                // валидация токена
+
+                var jwtSecurityToken = handler.ReadJwtToken(token);
+                var validationParameters = AuthValidation.GetValidationParameters();
+
+                SecurityToken validatedToken;
+                IPrincipal principal = handler.ValidateToken(token, validationParameters, out validatedToken);
+
+                // сохранение нужных полей для ответа
+
+                var claims = jwtSecurityToken.Claims.ToList();
+
+                foreach (var claim in claims)
+                {
+                    if (claim.Type.Contains("role"))
+                    {
+                        role = claim.Value;
+                    }
+                    else if (claim.Type.Contains("name"))
+                    {
+                        name = claim.Value;
+                    }
+                }
+
+                return Json(new
+                {
+                    access_token = token,
+                    username = name,
+                    role = role
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { errorText = "Invalid token" });
+            }
+            
+        }
+
         private ClaimsIdentity GetIdentity(string email, string password)
         {
             Person person = Context.Person.FirstOrDefault(x => (x.Email == email && x.Password == password));
-            Console.WriteLine(email);
-            Console.WriteLine(password);
             if (person != null)
             {
                 var claims = new List<Claim>
