@@ -1,8 +1,8 @@
-import { createSlice, isAllOf, isAnyOf, isFulfilled, isPending } from '@reduxjs/toolkit';
-import { fetchReviews, fetchSubjects, fetchTrack } from './api-actions';
+import { createSlice } from '@reduxjs/toolkit';
+import { authLogin, authMe, fetchReviews, fetchSubjects, fetchTrack } from './api-actions';
 
 const generalSlice = createSlice({
-  name: 'subjects',
+  name: 'general',
   initialState: {
     isLoading: {
       subjects: undefined,
@@ -11,6 +11,7 @@ const generalSlice = createSlice({
         reviews: undefined,
       },
       search: undefined,
+      user: true,
     },
   },
   reducers: {
@@ -22,23 +23,31 @@ const generalSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchTrack.pending, (state, action) => {
+    // pending
+    builder.addCase(fetchTrack.pending, (state) => {
       state.isLoading.track.track = true;
     });
-    builder.addCase(fetchReviews.pending, (state, action) => {
+    builder.addCase(fetchReviews.pending, (state) => {
       state.isLoading.track.reviews = true;
     });
-    builder.addCase(fetchSubjects.pending, (state, action) => {
+    builder.addCase(fetchSubjects.pending, (state) => {
       state.isLoading.subjects = true;
     });
-    builder.addCase(fetchTrack.fulfilled, (state, action) => {
+    builder.addCase(authMe.pending, (state) => {
+      state.isLoading.user = true;
+    });
+    //fulfilled
+    builder.addCase(fetchTrack.fulfilled, (state) => {
       state.isLoading.track.track = false;
     });
-    builder.addCase(fetchReviews.fulfilled, (state, action) => {
+    builder.addCase(fetchReviews.fulfilled, (state) => {
       state.isLoading.track.reviews = false;
     });
-    builder.addCase(fetchSubjects.fulfilled, (state, action) => {
+    builder.addCase(fetchSubjects.fulfilled, (state) => {
       state.isLoading.subjects = false;
+    });
+    builder.addCase(authMe.fulfilled, (state) => {
+      state.isLoading.user = false;
     });
   },
 });

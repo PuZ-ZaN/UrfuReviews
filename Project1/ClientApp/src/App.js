@@ -7,9 +7,16 @@ import UsualPage from './pages/usual-page/UsualPage';
 import Register from './pages/register/Register';
 import AdminPanel from './pages/admin-panel/AdminPanel';
 import { message } from 'antd';
+import { useDispatch } from 'react-redux';
+import { authMe } from './store/api-actions';
 
 function App() {
   const [_, contextHolder] = message.useMessage();
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(authMe());
+  }, []);
 
   return (
     <>

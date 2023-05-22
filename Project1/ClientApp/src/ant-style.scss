@@ -10,9 +10,14 @@
   }
 }
 
-.ant-col {
+.ant-col,
+.form-item .ant-form-item-explain {
   font-size: inherit !important;
   font-family: 'Roboto', sans-serif;
+}
+
+.ant-form-item-explain {
+  margin-top: 0.5rem;
 }
 
 @media screen and (min-width: 1200px) {

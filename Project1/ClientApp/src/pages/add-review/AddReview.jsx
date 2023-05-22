@@ -4,14 +4,15 @@ import { assessmentTitle, initCourseValues, initFieldsValues } from '../../const
 import Assessment from '../../components/reviews/review/assessment/Assessment';
 import FiltersAddReview from '../../components/reviews/filters/filters-add-review/FiltersAddReview';
 import CircleProgress from '../../components/reviews/circle-progress/CircleProgress';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addReviewAction, fetchSubjects } from '../../store/api-actions';
+import { addReviewAction, addSubjects, fetchSubjects } from '../../store/api-actions';
 import { Col, Modal, Row, message } from 'antd';
-import { getSemester, getSubjects } from './../../store/selectors';
+import { getIsAuthUser, getSemester, getSubjects } from './../../store/selectors';
 
 const AddReview = () => {
   const dispatch = useDispatch();
+  const isAuth = useSelector(getIsAuthUser);
   const navigate = useNavigate();
   const semester = useSelector((state) => getSemester(state));
 
@@ -68,6 +69,8 @@ const AddReview = () => {
       success();
     }
   };
+
+  if (!isAuth) return <Navigate to="/login" />;
 
   return (
     <>

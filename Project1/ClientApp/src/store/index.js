@@ -3,6 +3,7 @@ import { subjectsReducer } from './subjectsSlice';
 import { searchReducer } from './searchSlice';
 import { trackReducer } from './trackSlice';
 import { generalReducer } from './generalSlice';
+import { userReducer } from './userSlice';
 
 export default configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
     subjects: subjectsReducer,
     search: searchReducer,
     track: trackReducer,
+    user: userReducer,
   },
 });

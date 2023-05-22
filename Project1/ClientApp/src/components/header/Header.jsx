@@ -3,15 +3,18 @@ import './header.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTextSearch } from '../../store/subjectsSlice';
-import { getSemester } from './../../store/selectors';
-import { MenuOutlined } from '@ant-design/icons';
+import { getIsAuthUser, getSemester } from './../../store/selectors';
+import { MenuOutlined, PlusOutlined } from '@ant-design/icons';
+import Search from 'antd/es/input/Search';
+import { logout } from '../../store/userSlice';
 
 export default function Header({ isSidebarShown, setSidebarShown, sidebarIconRef }) {
   const [inputText, setInputText] = React.useState('');
   const [isFocusedInput, setFocusedInput] = React.useState(false);
   //const filteredBy = useSelector((state) => getFilteredBy(state));
   const filteredBy = 'teachers';
-  const semester = useSelector((state) => getSemester(state));
+  const semester = useSelector(getSemester);
+  const isAuth = useSelector(getIsAuthUser);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -33,6 +36,10 @@ export default function Header({ isSidebarShown, setSidebarShown, sidebarIconRef
 
   const onClickSidebarIcon = () => {
     setSidebarShown((prevValue) => !prevValue);
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -66,18 +73,23 @@ export default function Header({ isSidebarShown, setSidebarShown, sidebarIconRef
 
         <div className="nav-items-grid">
           <div className="nav-items">
-            <Link to="/login" className="login">
-              <span>Добавить отзыв</span>
-              <img src="/img/arrow-right.svg" alt="arrow-right" />
-            </Link>
-            {/* <a href="/review" className="add_review">
-              <span>Добавить отзыв</span>
-              <img src="/img/add_review_icon.png" width={19} height={19} alt="add" />
-            </a>
-            <a href='/review' className='faq'>
-          <span>FAQ</span>
-          <img src='/img/question.svg' alt='arrow-right' />
-        </a> */}
+            {!isAuth ? (
+              <Link to="/login" className="logout">
+                <span>Войти</span>
+                <img src="/img/arrow-right.svg" alt="logout" />
+              </Link>
+            ) : (
+              <>
+                <Link to="/add_review" className="add-review">
+                  <span>Добавить отзыв</span>
+                  <img src="/img/add_review_icon.png" alt="add" />
+                </Link>
+                <div className="logout" onClick={handleLogout}>
+                  <span>Выйти</span>
+                  <img src="/img/arrow-right.svg" alt="logout" />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

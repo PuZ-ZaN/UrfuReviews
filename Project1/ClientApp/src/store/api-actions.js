@@ -1,20 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { setSubjects } from './subjectsSlice';
 import { setReviews, setTrack } from './trackSlice';
+import { setUser } from './userSlice';
+import axios from './../axios';
 
-// export const fetchAddReviewSubjects = createAsyncThunk(
-//   'addReview/fetchAddReviewSubjects',
-//   async function ({ semester }, { dispatch }) {
-//     try {
-//       const result = await axios.get('/api/All', { params: { semester } });
+export const authLogin = createAsyncThunk('auth/login', async function (params, { dispatch }) {
+  try {
+    const { data } = await axios.post('/auth/login', params);
+    localStorage.setItem('token', data.access_token);
+    dispatch(setUser(data));
+  } catch (error) {
+    console.log('authLogin error');
+  }
+});
 
-//       dispatch(setSubjects(result.data));
-//     } catch (error) {
-//       console.log('fetchSubjects error');
-//     }
-//   },
-// );
+export const authMe = createAsyncThunk('auth/me', async function (_, { dispatch }) {
+  try {
+    const { data } = await axios.get('/auth/me');
+    dispatch(setUser(data));
+  } catch (error) {
+    console.log('authLogin error');
+  }
+});
 
 export const fetchSubjects = createAsyncThunk(
   'subjects/fetchSubjects',

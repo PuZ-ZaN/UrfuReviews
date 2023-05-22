@@ -10,9 +10,13 @@ export const getTeacher = (state) => state.track.teacher;
 
 export const getReviews = (state) => state.track.reviews;
 
+export const getIsAuthUser = (state) => Boolean(state.user.user);
+
 export const getIsLoadingStatus = (state) => {
   const isLoading = state.general.isLoading;
   const values = getValues(isLoading);
+
+  console.log(isLoading);
 
   // функция по получению всех значений объекта(в том числе вложенных)
   function getValues(object, array = []) {
