@@ -49,3 +49,9 @@ export const getIsLoadingStatus = (state) => {
 
   return values.some((value) => value);
 };
+
+export const getSearchTracks = (state) => state.search.tracks;
+
+export const getTextSearch = (state) => state.search.text;
+
+export const getFilterdBySearch = (state) => state.search.filteredBy;

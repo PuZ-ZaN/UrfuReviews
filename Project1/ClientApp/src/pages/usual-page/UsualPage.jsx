@@ -18,7 +18,9 @@ const UsualPage = () => {
   return (
     <Row className="wrapper">
       <div className={`loading-block ${isLoading ? 'loading-true' : ''}`}>
-        <Spin tip="Идет загрузка..." size="large"></Spin>
+        <div className="loading-content">
+          <Spin tip="Идет загрузка..." size="large"></Spin>
+        </div>
       </div>
       <Col flex={'240px'} className="sidebar-grid">
         <Sidebar

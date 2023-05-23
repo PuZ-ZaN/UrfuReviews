@@ -3,6 +3,7 @@ import { setCountSubjects, setSubjects } from './subjectsSlice';
 import { resetTrack, setReviews, setTrack } from './trackSlice';
 import { setUser } from './userSlice';
 import axios from './../axios';
+import { setSearchTracks } from './searchSlice';
 
 export const authRegister = createAsyncThunk(
   'auth/register',
@@ -100,6 +101,20 @@ export const fetchReviews = createAsyncThunk(
       dispatch(setReviews(data));
     } catch (error) {
       console.log('fetchReviews error');
+    }
+  },
+);
+
+export const searchTracks = createAsyncThunk(
+  'search/searchTracks',
+  async function ({ text, filteredBy }, { dispatch }) {
+    try {
+      if (!text) return;
+
+      const { data } = await axios.get('/api/Search/', { params: { text, filteredBy } });
+      dispatch(setSearchTracks(data));
+    } catch (error) {
+      console.log('searchTracks error');
     }
   },
 );

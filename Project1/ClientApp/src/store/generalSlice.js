@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { authLogin, authMe, fetchReviews, fetchSubjects, fetchTrack } from './api-actions';
+import {
+  authLogin,
+  authMe,
+  fetchReviews,
+  fetchSubjects,
+  fetchTrack,
+  searchTracks,
+} from './api-actions';
 
 const generalSlice = createSlice({
   name: 'general',
@@ -52,6 +59,9 @@ const generalSlice = createSlice({
     builder.addCase(authMe.pending, (state) => {
       state.isLoading.user = true;
     });
+    builder.addCase(searchTracks.pending, (state) => {
+      state.isLoading.search = true;
+    });
     //fulfilled
     builder.addCase(fetchTrack.fulfilled, (state) => {
       state.isLoading.track.track = false;
@@ -66,6 +76,9 @@ const generalSlice = createSlice({
     });
     builder.addCase(authMe.fulfilled, (state) => {
       state.isLoading.user = false;
+    });
+    builder.addCase(searchTracks.fulfilled, (state) => {
+      state.isLoading.search = false;
     });
   },
 });

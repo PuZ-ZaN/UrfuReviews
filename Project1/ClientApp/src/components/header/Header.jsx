@@ -2,18 +2,16 @@ import React from 'react';
 import './header.scss';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setTextSearch } from '../../store/subjectsSlice';
-import { getIsAuthUser, getSemester } from './../../store/selectors';
-import { MenuOutlined, PlusOutlined } from '@ant-design/icons';
-import Search from 'antd/es/input/Search';
+import { getFilterdBySearch, getIsAuthUser } from './../../store/selectors';
+import { MenuOutlined } from '@ant-design/icons';
 import { logout } from '../../store/userSlice';
+import { setTextSearch } from '../../store/searchSlice';
 
 export default function Header({ isSidebarShown, setSidebarShown, sidebarIconRef }) {
   const [inputText, setInputText] = React.useState('');
   const [isFocusedInput, setFocusedInput] = React.useState(false);
-  //const filteredBy = useSelector((state) => getFilteredBy(state));
-  const filteredBy = 'teachers';
-  const semester = useSelector(getSemester);
+
+  const filteredBy = useSelector(getFilterdBySearch);
   const isAuth = useSelector(getIsAuthUser);
   const dispatch = useDispatch();
 
@@ -29,8 +27,8 @@ export default function Header({ isSidebarShown, setSidebarShown, sidebarIconRef
   const searchResults = (e) => {
     e.preventDefault();
     if (!inputText) return;
-    navigate(`/search/?text=${inputText}&filteredBy=${filteredBy}&semester=${semester}`);
-    //dispatch(setTextSearch(inputText));
+    navigate(`/search/?text=${inputText}&filteredBy=${filteredBy}`);
+    dispatch(setTextSearch(inputText));
     setInputText('');
   };
 
