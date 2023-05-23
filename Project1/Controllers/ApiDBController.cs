@@ -78,8 +78,6 @@ namespace Project1.Controllers
 
             if (!(sortedBy is null))
             {
-                Console.WriteLine(sortedBy);
-                Console.WriteLine("QQQQQQQQQQ");
                 switch (sortedBy)
                 {
                     case "rating":
@@ -117,8 +115,6 @@ namespace Project1.Controllers
             if (limit is null)
                 return Subjects;
 
-            Console.WriteLine(Subjects.Count());
-
             return Subjects.Take(limit.GetValueOrDefault(1));
 
         }
@@ -126,11 +122,17 @@ namespace Project1.Controllers
         [HttpGet("Search")]
         public IEnumerable<Track> Search(string text, string filteredBy)
         {
-            var tracks = Context.Tracks.Where(track => filteredBy == "track" ? track.TrackName.ToLower().Contains(text) : true)
-                                       .Include(t => t.Prepods)
-                                       .ThenInclude(p => p.Reviews);
+            IQueryable<Track> tracks = Context.Tracks;
 
-            return tracks.Where(track => filteredBy == "teacher" ? track.Prepods.Where(teacher => teacher.PrepodName.ToLower().Contains(text)).Count() != 0 : true);
+            tracks = tracks.Where(track => filteredBy == "track" ? track.TrackName.ToLower().Contains(text) : true)
+                           .Include(t => t.Prepods)
+                           .OrderBy(track => track.AddedDate);
+
+            tracks = tracks.Where(track => filteredBy == "teacher" ? 
+                                  track.Prepods.Where(teacher => teacher.PrepodName.ToLower().Contains(text)).Count() != 0 
+                                  : true);
+
+            return tracks;
 
         }
 
