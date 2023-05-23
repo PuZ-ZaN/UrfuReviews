@@ -14,6 +14,7 @@ const trackSlice = createSlice({
     teacher: undefined,
     sortedReviewsBy: undefined,
     reviews: [],
+    limit: 8,
   },
   reducers: {
     setTrack(state, action) {
@@ -28,9 +29,19 @@ const trackSlice = createSlice({
     setTeacher(state, action) {
       state.teacher = action.payload;
     },
+    addLimitReviews(state) {
+      state.limit += 8;
+    },
+    resetTrack(state) {
+      state.track = undefined;
+      state.teacher = undefined;
+      state.sortedReviewsBy = undefined;
+      state.reviews = [];
+      state.limit = 8;
+    },
   },
 });
 
-export const { setTrack, setReviews, setTeacher } = trackSlice.actions;
+export const { setTrack, setReviews, setTeacher, addLimitReviews, resetTrack } = trackSlice.actions;
 
 export const trackReducer = trackSlice.reducer;

@@ -7,7 +7,7 @@ export const getAvgRatingTrack = (track) => {
   ).toFixed(1);
 };
 
-const getCountReviewsTrack = (track) => {
+export const getCountReviewsTrack = (track) => {
   if (!track) return;
 
   return track.prepods.reduce((sum, prepod) => (sum += prepod.values.countReviews), 0);

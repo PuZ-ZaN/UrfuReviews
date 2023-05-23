@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setSubjects } from './subjectsSlice';
-import { setReviews, setTrack } from './trackSlice';
+import { setCountSubjects, setSubjects } from './subjectsSlice';
+import { resetTrack, setReviews, setTrack } from './trackSlice';
 import { setUser } from './userSlice';
 import axios from './../axios';
 
@@ -8,7 +8,11 @@ export const authRegister = createAsyncThunk(
   'auth/register',
   async function (params, { rejectWithValue }) {
     try {
-      const data = await axios.post('/auth/register', params);
+      const data = await axios.post('/auth/register', params, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -17,7 +21,11 @@ export const authRegister = createAsyncThunk(
 
 export const authLogin = createAsyncThunk('auth/login', async function (params, { dispatch }) {
   try {
-    const { data } = await axios.post('/auth/login', params);
+    const { data } = await axios.post('/auth/login', params, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     localStorage.setItem('token', data.access_token);
     dispatch(setUser(data));
   } catch (error) {
@@ -34,15 +42,33 @@ export const authMe = createAsyncThunk('auth/me', async function (_, { dispatch 
   }
 });
 
-export const fetchSubjects = createAsyncThunk(
-  'subjects/fetchSubjects',
-  async function ({ pageNumber, semester }, { dispatch }) {
+export const fetchCountSubjects = createAsyncThunk(
+  'subjects/fetchCountSubjects',
+  async function ({ semester }, { dispatch }) {
     try {
       let result;
       if (!isNaN(semester)) {
-        result = await axios.get('/api/All', { params: { pageNumber, semester } });
+        result = await axios.get('/api/All/count', { params: { semester } });
       } else {
-        result = await axios.get('/api/All', { params: { pageNumber } });
+        result = await axios.get('/api/All/count');
+      }
+
+      dispatch(setCountSubjects(result.data));
+    } catch (error) {
+      console.log('fetchCountSubjects error');
+    }
+  },
+);
+
+export const fetchSubjects = createAsyncThunk(
+  'subjects/fetchSubjects',
+  async function ({ limit = 6, semester }, { dispatch }) {
+    try {
+      let result;
+      if (!isNaN(semester)) {
+        result = await axios.get('/api/All', { params: { limit, semester } });
+      } else {
+        result = await axios.get('/api/All', { params: { limit } });
       }
 
       dispatch(setSubjects(result.data));
@@ -66,10 +92,10 @@ export const fetchTrack = createAsyncThunk(
 
 export const fetchReviews = createAsyncThunk(
   'track/fetchReviews',
-  async function ({ trackId, pageNumber = 1, teacherId }, { dispatch }) {
+  async function ({ trackId, limit = 10, teacherId }, { dispatch }) {
     try {
       const { data } = await axios.get('/api/Reviews/', {
-        params: { trackId, pageNumber, teacherId },
+        params: { trackId, limit, teacherId },
       });
       dispatch(setReviews(data));
     } catch (error) {

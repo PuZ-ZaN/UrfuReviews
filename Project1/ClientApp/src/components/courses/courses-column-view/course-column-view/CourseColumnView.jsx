@@ -20,7 +20,7 @@ const CourseColumnView = ({ course, setSelectedCourse }) => {
         className="course_col_view_grid">
         <div className="course_col_view">
           <div className="course_col_view_background"></div>
-          <p className="course_col_view_title">{course.subjectName} 123</p>
+          <p className="course_col_view_title">{course.subjectName}</p>
         </div>
       </Col>
     </>

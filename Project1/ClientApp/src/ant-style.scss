@@ -11,9 +11,10 @@
 }
 
 .ant-col,
-.form-item .ant-form-item-explain {
-  font-size: inherit !important;
-  font-family: 'Roboto', sans-serif;
+.form-item .ant-form-item-explain,
+button {
+  font-size: inherit;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 .ant-form-item-explain {

@@ -8,21 +8,29 @@ import AddReviewBtn from '../../components/reviews/add-review-btn/AddReviewBtn';
 import Circle from '../../components/reviews/circle-rating/CircleRating';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getReviews, getTeacher, getTrack } from './../../store/selectors';
-import { setTrack } from '../../store/trackSlice';
+import {
+  getIsLoadingShowMoreReviews,
+  getIsLoadingStatus,
+  getLimitReviews,
+  getReviews,
+  getTeacher,
+  getTrack,
+} from './../../store/selectors';
+import { addLimitReviews, resetTrack, setTrack } from '../../store/trackSlice';
 import { fetchReviews, fetchTrack, fetchTrackInfo } from '../../store/api-actions';
-import { getValuesTrack } from '../../components/usefulMethods/usefulMethods';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
+import { getCountReviewsTrack, getValuesTrack } from '../../components/usefulMethods/usefulMethods';
+import { ArrowDownOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 import { setSubjects } from '../../store/subjectsSlice';
+import { Button, Pagination } from 'antd';
 
 export default function Track() {
   const dispatch = useDispatch();
   const id = useParams().id || -1;
-  const track = useSelector((state) => getTrack(state));
-  const reviews = useSelector((state) => getReviews(state));
-  const teacher = useSelector((state) => getTeacher(state));
-
-  const [pageNumber, setPageNumber] = React.useState(1);
+  const track = useSelector(getTrack);
+  const reviews = useSelector(getReviews);
+  const teacher = useSelector(getTeacher);
+  const isLoadingShowMoreReviews = useSelector(getIsLoadingShowMoreReviews);
+  const limit = useSelector(getLimitReviews);
 
   const [valuesTrack, setValuesTrack] = React.useState();
 
@@ -30,13 +38,15 @@ export default function Track() {
     if (id !== -1) {
       dispatch(fetchTrack({ id }));
     }
+
+    return () => dispatch(resetTrack());
   }, [id]);
 
   React.useEffect(() => {
     if (id !== -1) {
-      dispatch(fetchReviews({ trackId: id, pageNumber, teacherId: teacher?.id }));
+      dispatch(fetchReviews({ trackId: id, limit, teacherId: teacher?.id }));
     }
-  }, [id, pageNumber, teacher]);
+  }, [id, limit, teacher]);
 
   React.useEffect(() => {
     setValuesTrack(getValuesTrack(track));
@@ -46,6 +56,18 @@ export default function Track() {
     if (!track) return;
 
     return track.prepods.find((prepod) => prepod.id == review.prepodId)?.prepodName;
+  };
+
+  const showMoreReviews = () => {
+    dispatch(addLimitReviews());
+  };
+
+  const isShowButtonShowMore = () => {
+    if (teacher) {
+      return teacher.values.countReviews > limit;
+    }
+
+    return getCountReviewsTrack(track) > limit;
   };
 
   if (!track || reviews.length == 0 || !valuesTrack) return <></>;
@@ -73,6 +95,21 @@ export default function Track() {
             <Review key={review.id} teacher={getNameTeacherReview(review)} review={review} />
           ))}
         </div>
+
+        {(isShowButtonShowMore() || isLoadingShowMoreReviews) && (
+          <div className="pagination">
+            <div className="pagination-content2">
+              <Button
+                type="primary"
+                icon={<ArrowDownOutlined />}
+                size="large"
+                loading={isLoadingShowMoreReviews}
+                onClick={showMoreReviews}>
+                Показать больше отзывов
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

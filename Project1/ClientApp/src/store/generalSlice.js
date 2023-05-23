@@ -5,10 +5,16 @@ const generalSlice = createSlice({
   name: 'general',
   initialState: {
     isLoading: {
-      subjects: undefined,
+      subjects: {
+        init: undefined,
+        showMore: undefined,
+      },
       track: {
         track: undefined,
-        reviews: undefined,
+        reviews: {
+          init: undefined,
+          showMore: undefined,
+        },
       },
       search: undefined,
       user: true,
@@ -27,11 +33,21 @@ const generalSlice = createSlice({
     builder.addCase(fetchTrack.pending, (state) => {
       state.isLoading.track.track = true;
     });
-    builder.addCase(fetchReviews.pending, (state) => {
-      state.isLoading.track.reviews = true;
+    builder.addCase(fetchReviews.pending, (state, action) => {
+      const limitReviews = action.meta.arg?.limit;
+      if (limitReviews === 8) {
+        state.isLoading.track.reviews.init = true;
+      } else {
+        state.isLoading.track.reviews.showMore = true;
+      }
     });
-    builder.addCase(fetchSubjects.pending, (state) => {
-      state.isLoading.subjects = true;
+    builder.addCase(fetchSubjects.pending, (state, action) => {
+      const limitSubjects = action.meta.arg?.limit;
+      if (limitSubjects === 6) {
+        state.isLoading.subjects.init = true;
+      } else {
+        state.isLoading.subjects.showMore = true;
+      }
     });
     builder.addCase(authMe.pending, (state) => {
       state.isLoading.user = true;
@@ -41,10 +57,12 @@ const generalSlice = createSlice({
       state.isLoading.track.track = false;
     });
     builder.addCase(fetchReviews.fulfilled, (state) => {
-      state.isLoading.track.reviews = false;
+      state.isLoading.track.reviews.init = false;
+      state.isLoading.track.reviews.showMore = false;
     });
     builder.addCase(fetchSubjects.fulfilled, (state) => {
-      state.isLoading.subjects = false;
+      state.isLoading.subjects.init = false;
+      state.isLoading.subjects.showMore = false;
     });
     builder.addCase(authMe.fulfilled, (state) => {
       state.isLoading.user = false;
