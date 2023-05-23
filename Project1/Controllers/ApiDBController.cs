@@ -52,10 +52,9 @@ namespace Project1.Controllers
         }
 
         [HttpGet("Reviews/{i?}")]
-        public IEnumerable<Review> GetAllReviews(Guid? i, Int32? pageNumber, Guid? trackId, Guid? teacherId, string? sortedBy)
+        public IEnumerable<Review> GetAllReviews(Guid? i, Int32? limit, Guid? trackId, Guid? teacherId, string? sortedBy = "time")
         {
             IQueryable<Review> reviews = Context.Reviews;
-            const Int32 pageSize = 10;
 
             if (!(trackId is null))
             {
@@ -66,9 +65,9 @@ namespace Project1.Controllers
             {
                 reviews = reviews.Where(review => review.PrepodId == teacherId);
             }
-            if (!(pageNumber is null))
+            if (!(limit is null))
             {
-                reviews = reviews.Skip((pageNumber.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize);
+                reviews = reviews.Take(limit.GetValueOrDefault(1));
             }
             if (!(i is null))
             {
@@ -79,13 +78,15 @@ namespace Project1.Controllers
 
             if (!(sortedBy is null))
             {
+                Console.WriteLine(sortedBy);
+                Console.WriteLine("QQQQQQQQQQ");
                 switch (sortedBy)
                 {
                     case "rating":
                         reviews = reviews.OrderBy(review => review.Rating);
                         break;
                     case "time":
-                        reviews = reviews.OrderBy(review => review.AddedDate);
+                        reviews = reviews.OrderByDescending(review => review.AddedDate);
                         break;
                     case "useful":
                         // TO DO SORT BY USERS LIKE;
@@ -96,19 +97,29 @@ namespace Project1.Controllers
             return reviews;
         }
 
+        [HttpGet("All/count")]
+        public Int32 GetAll(Int32? semester)
+        {
+            var Subjects = Context.Subjects.Where(subject => Convert.ToBoolean(semester) ? subject.Semester.Contains(Convert.ToInt32(semester)) : true);
+
+            return Subjects.Count();
+
+        }
+
         [HttpGet("All/")]
-        public IEnumerable<Subject> GetAll(Int32? pageNumber, Int32? semester)
+        public IEnumerable<Subject> GetAll(Int32? limit, Int32? semester)
         {
             var Subjects = Context.Subjects.Where(subject => Convert.ToBoolean(semester) ? subject.Semester.Contains(Convert.ToInt32(semester)) : true)
                                            .Include(s => s.Tracks)
-                                           .ThenInclude(t => t.Prepods);                               
+                                           .ThenInclude(t => t.Prepods)
+                                           .OrderBy(subject => subject.AddedDate);                               
 
-            if (pageNumber is null)
+            if (limit is null)
                 return Subjects;
 
-            const Int32 pageSize = 10;
+            Console.WriteLine(Subjects.Count());
 
-            return Subjects.Skip((pageNumber.GetValueOrDefault(1) - 1) * pageSize).Take(pageSize);
+            return Subjects.Take(limit.GetValueOrDefault(1));
 
         }
 
