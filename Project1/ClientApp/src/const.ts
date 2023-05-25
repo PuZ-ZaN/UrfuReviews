@@ -16,6 +16,13 @@ export enum assessmentTitle {
   Rating = 'Общая оценка',
 }
 
+export const optionsCourse = [
+  { course: 1, semesters: [1, 2] },
+  { course: 2, semesters: [3, 4] },
+  { course: 3, semesters: [5, 6] },
+  { course: 4, semesters: [7, 8] },
+];
+
 export const filtersData = {
   teacher: {
     text: 'Преподаватель',

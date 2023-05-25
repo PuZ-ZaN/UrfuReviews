@@ -24,9 +24,12 @@ const Main = () => {
   const semester = useSelector((state) => getSemester(state));
 
   React.useEffect(() => {
-    dispatch(fetchCountSubjects({ semester }));
     dispatch(fetchSubjects({ limit, semester }));
   }, [limit, semester]);
+
+  React.useEffect(() => {
+    dispatch(fetchCountSubjects({ semester }));
+  }, [semester]);
 
   const showMoreCourses = () => {
     dispatch(addLimitSubjects());

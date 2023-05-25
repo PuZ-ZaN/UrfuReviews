@@ -39,7 +39,7 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
   }, [isSidebarShown]);
 
   function isNeedBlock() {
-    return href != '/' && href != '/search/';
+    return href != '/' && href != '/search/' && href != '/admin';
   }
 
   // dekstop version

@@ -1,8 +1,10 @@
 import React from 'react';
-import { Alert, Col, Dropdown, Modal, Row, message } from 'antd';
-import { useSelector } from 'react-redux';
+import './AdminAddData.scss';
+import { Alert, Button, Col, Dropdown, Modal, Row, Select, message } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import CourseColumnView from './../../../components/admin-panel/course-column-view/CourseColumnView';
 import {
+  ArrowDownOutlined,
   DeleteFilled,
   EditFilled,
   FolderAddOutlined,
@@ -10,14 +12,39 @@ import {
   UserAddOutlined,
 } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
+import {
+  getCountSubjects,
+  getIsLoadingShowMoreCourses,
+  getLimitSubjects,
+  getSemester,
+  getSubjects,
+} from '../../../store/selectors';
+import { addCourse, fetchCountSubjects, fetchSubjects } from '../../../store/api-actions';
+import { addLimitSubjects } from '../../../store/subjectsSlice';
+import { filtersData, optionsCourse } from '../../../const.ts';
 
 const AdminAddData = () => {
+  const dispatch = useDispatch();
+  const semester = useSelector(getSemester);
+  const courses = useSelector(getSubjects);
+  const countCourses = useSelector(getCountSubjects);
+  const isLoadingShowMoreCourses = useSelector(getIsLoadingShowMoreCourses);
+  const limit = useSelector(getLimitSubjects);
+
   const [inputCourse, setInputCourse] = React.useState('');
+  const [isCheckedCourseNotExist, setIsCheckedCourseNotExist] = React.useState(false);
+
   const [inputTeacher, setInputTeacher] = React.useState('');
   const [selectedCourse, setSelectedCourse] = React.useState();
   const [selectedTrack, setSelectedTrack] = React.useState();
-  // const courses = useSelector((state) => getFilteredSubjects(state));
-  const courses = [];
+
+  React.useEffect(() => {
+    dispatch(fetchSubjects({ limit, semester }));
+  }, [semester, limit]);
+
+  React.useEffect(() => {
+    dispatch(fetchCountSubjects({ semester }));
+  }, [semester]);
 
   const handleSelectCourse = (course) => {
     setSelectedCourse(course);
@@ -44,11 +71,25 @@ const AdminAddData = () => {
     });
   };
 
+  const addNewCourse = () => {
+    dispatch(addCourse({ name: inputCourse, semester }));
+    success();
+  };
+
+  const semesters = filtersData.courseSemester.options;
+  const [semesterItems, setSemesterItems] = React.useState([]);
+
   const configCourse = {
-    title: `Курс "${inputCourse}"`,
+    title: (
+      <>
+        Курс "{inputCourse}"
+        <br />
+        {semesterItems.join(', ')}
+      </>
+    ),
     content: <>Вы действительно хотите добавить курс с таким названием?</>,
     centered: true,
-    onOk: success,
+    onOk: addNewCourse,
   };
 
   const configTeacher = {
@@ -79,6 +120,14 @@ const AdminAddData = () => {
     },
   ];
 
+  const showMoreCourses = () => {
+    dispatch(addLimitSubjects());
+  };
+
+  const isShowButtonShowMore = () => countCourses > limit;
+
+  console.log(semesterItems);
+
   return (
     <>
       {contextHolder}
@@ -99,23 +148,55 @@ const AdminAddData = () => {
               closable
               className="alert-new-data"
             />
-            <Search
-              placeholder="Название нового курса"
-              allowClear
-              enterButton={
-                <div
-                  className="enter-button-new"
-                  onClick={() => {
-                    Modal.confirm(configCourse);
-                  }}>
-                  <p>Добавить</p> <FolderAddOutlined />
-                </div>
-              }
-              value={inputCourse}
-              onChange={handleChangeNewCourse}
-              size="large"
-              className="add_new_course"
-            />
+            <div className="semester-search">
+              <Select
+                defaultValue="lucy"
+                mode="multiple"
+                className="semester"
+                placeholder="Семестры нового курса"
+                style={{ width: 200 }}
+                value={semesterItems}
+                onChange={setSemesterItems}
+                options={optionsCourse.map((option) => ({
+                  label: `${option.course} курс`,
+                  options: option.semesters.map((semester) => {
+                    const value = `${semester} семестр`;
+                    return { label: value, value };
+                  }),
+                }))}
+              />
+              {/* <Select
+                className="semester"
+                mode="multiple"
+                placeholder="Семестры нового курса"
+                value={semesterItems}
+                onChange={setSemesterItems}
+                style={{ width: '100%' }}
+                options={filteredOptions.map((item) => ({
+                  value: item,
+                  label: item,
+                }))}
+              /> */}
+              <Search
+                placeholder="Название нового курса"
+                allowClear
+                enterButton={
+                  <div
+                    className="enter-button-new"
+                    onClick={() => {
+                      Modal.confirm(configCourse);
+                    }}>
+                    <p>{isCheckedCourseNotExist ? 'Добавить' : 'Проверить'}</p>{' '}
+                    <FolderAddOutlined />
+                  </div>
+                }
+                value={inputCourse}
+                onChange={handleChangeNewCourse}
+                size="large"
+                className="add_new_course"
+              />
+            </div>
+
             {courses.map((course) => (
               <CourseColumnView
                 course={course}
@@ -126,6 +207,20 @@ const AdminAddData = () => {
               />
             ))}
           </div>
+          {(isShowButtonShowMore() || isLoadingShowMoreCourses) && (
+            <div className="pagination">
+              <div className="pagination-content">
+                <Button
+                  type="default"
+                  icon={<ArrowDownOutlined />}
+                  size="large"
+                  onClick={showMoreCourses}
+                  loading={isLoadingShowMoreCourses}>
+                  Показать больше курсов
+                </Button>
+              </div>
+            </div>
+          )}
         </Col>
         <Col sm={0} md={10} lg={10} className="info_about_course_grid">
           {selectedCourse && selectedTrack && (

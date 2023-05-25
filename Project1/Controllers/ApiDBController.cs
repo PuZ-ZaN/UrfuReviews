@@ -56,6 +56,27 @@ namespace Project1.Controllers
         {
             IQueryable<Review> reviews = Context.Reviews;
 
+            var reviewsList = reviews.ToList();
+
+
+            if (!(sortedBy is null))
+            {
+                switch (sortedBy)
+                {
+                    case "rating":
+                        reviews = reviews.OrderBy(review => review.Rating);
+                        break;
+                    case "time":
+                        reviews = reviews.OrderByDescending(review => review.AddedDate);
+                        break;
+                    case "useful":
+                        // TO DO SORT BY USERS LIKE;
+                        break;
+                }
+            }
+
+            reviews = reviews.OrderByDescending(review => review.AddedDate);
+
             if (!(trackId is null))
             {
                 var prepodsId = Context.Prepods.Where(teacher => teacher.TrackId == trackId).Select(teacher => teacher.Id);
@@ -73,24 +94,6 @@ namespace Project1.Controllers
             {
                 reviews = Context.Reviews.Where(t => t.Id == i);
             }
-
-            var reviewsList = reviews.ToList();
-
-            if (!(sortedBy is null))
-            {
-                switch (sortedBy)
-                {
-                    case "rating":
-                        reviews = reviews.OrderBy(review => review.Rating);
-                        break;
-                    case "time":
-                        reviews = reviews.OrderByDescending(review => review.AddedDate);
-                        break;
-                    case "useful":
-                        // TO DO SORT BY USERS LIKE;
-                        break;
-                }
-        }
 
             return reviews;
         }
@@ -164,6 +167,7 @@ namespace Project1.Controllers
                 return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
             }
         }
+
         [Authorize(Roles = "User")]
         [HttpPost("AddTrack")]
         public JsonResult AddTrack(Track value)

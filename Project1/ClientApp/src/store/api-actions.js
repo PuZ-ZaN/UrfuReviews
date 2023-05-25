@@ -4,6 +4,25 @@ import { resetTrack, setReviews, setTrack } from './trackSlice';
 import { setUser } from './userSlice';
 import axios from './../axios';
 import { setSearchTracks } from './searchSlice';
+import { mocksData } from './../mocks/data.js';
+
+export const addMocksData = createAsyncThunk('add/mocks', async function (_, { rejectWithValue }) {
+  console.log('1213');
+  console.log(mocksData);
+  console.log('1233333');
+  try {
+    for (let key in mocksData) {
+      var data = mocksData[key];
+      var route = `add${key.slice(0, -1)}`;
+      console.log(data, route);
+      data.forEach(async (element) => {
+        await axios.post(`/api/${route}`, element);
+      });
+    }
+  } catch (error) {
+    return rejectWithValue(error);
+  }
+});
 
 export const authRegister = createAsyncThunk(
   'auth/register',
@@ -124,6 +143,19 @@ export const addReviewAction = createAsyncThunk(
   async function (review, { rejectWithValue }) {
     try {
       await axios.post('/api/AddReview', review);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+// admin panel
+
+export const addCourse = createAsyncThunk(
+  'course/addCourse',
+  async function ({ name, semester }, { rejectWithValue }) {
+    try {
+      await axios.post('/api/AddSubject', { name, semester });
     } catch (error) {
       return rejectWithValue(error);
     }
