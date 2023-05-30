@@ -127,15 +127,27 @@ namespace Project1.Controllers
         {
             IQueryable<Track> tracks = Context.Tracks;
 
-            tracks = tracks.Where(track => filteredBy == "track" ? track.TrackName.ToLower().Contains(text) : true)
+            tracks = tracks.Where(track => filteredBy == "track" ? track.TrackName.ToLower().Contains(text.ToLower()) : true)
                            .Include(t => t.Prepods)
                            .OrderBy(track => track.AddedDate);
 
             tracks = tracks.Where(track => filteredBy == "teacher" ? 
-                                  track.Prepods.Where(teacher => teacher.PrepodName.ToLower().Contains(text)).Count() != 0 
+                                  track.Prepods.Where(teacher => teacher.PrepodName.ToLower().Contains(text.ToLower())).Count() != 0 
                                   : true);
 
             return tracks;
+
+        }
+
+        [HttpGet("SearchSubjects")]
+        public IEnumerable<Subject> SearchSubjects(string text)
+        {
+            IQueryable<Subject> subjects = Context.Subjects;
+
+            return subjects.Where(subject => subject.SubjectName.ToLower().Contains(text.ToLower()))
+                           .Include(s => s.Tracks)
+                           .ThenInclude(t => t.Prepods)
+                           .OrderBy(subject => subject.AddedDate);
 
         }
 

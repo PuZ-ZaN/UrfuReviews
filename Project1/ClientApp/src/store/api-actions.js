@@ -152,11 +152,25 @@ export const addReviewAction = createAsyncThunk(
 
 // admin panel
 
+export const searchCourses = createAsyncThunk(
+  'course/searchCourses',
+  async function ({ text }, { dispatch, rejectWithValue }) {
+    try {
+      console.log(text);
+      const result = await axios.get('/api/searchSubjects', { params: { text } });
+      dispatch(setSubjects(result.data));
+      dispatch(setCountSubjects(null));
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const addCourse = createAsyncThunk(
   'course/addCourse',
   async function ({ name, semester }, { rejectWithValue }) {
     try {
-      await axios.post('/api/AddSubject', { name, semester });
+      await axios.post('/api/AddSubject', { subjectName: name, semester });
     } catch (error) {
       return rejectWithValue(error);
     }

@@ -3,8 +3,9 @@ import Track from './track/Track';
 import { FileAddOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
 import { Modal } from 'antd';
+import { destinyTracks } from '../../../const.ts';
 
-const Tracks = ({ tracks, destiny, setSelectedTrack }) => {
+const Tracks = ({ tracks, setSelectedTrack }) => {
   const [inputTrack, setInputTrack] = React.useState('');
 
   const configTrack = {
@@ -19,8 +20,12 @@ const Tracks = ({ tracks, destiny, setSelectedTrack }) => {
     setInputTrack(e.target.value);
   };
 
+  React.useEffect(() => {
+    return () => setSelectedTrack(null);
+  }, []);
+
   return (
-    <div className={`tracks ${destiny}`}>
+    <div className={`tracks ${destinyTracks.MainPage}`}>
       <Search
         placeholder="Название нового трека"
         allowClear
