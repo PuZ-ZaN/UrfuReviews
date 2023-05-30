@@ -7,9 +7,6 @@ import { setSearchTracks } from './searchSlice';
 import { mocksData } from './../mocks/data.js';
 
 export const addMocksData = createAsyncThunk('add/mocks', async function (_, { rejectWithValue }) {
-  console.log('1213');
-  console.log(mocksData);
-  console.log('1233333');
   try {
     for (let key in mocksData) {
       var data = mocksData[key];
@@ -39,26 +36,30 @@ export const authRegister = createAsyncThunk(
   },
 );
 
-export const authLogin = createAsyncThunk('auth/login', async function (params, { dispatch }) {
-  try {
-    const { data } = await axios.post('/auth/login', params, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    localStorage.setItem('token', data.access_token);
-    dispatch(setUser(data));
-  } catch (error) {
-    console.log('authLogin error');
-  }
-});
+export const authLogin = createAsyncThunk(
+  'auth/login',
+  async function (params, { dispatch, rejectWithValue }) {
+    try {
+      const { data } = await axios.post('/auth/login', params, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      localStorage.setItem('token', data.access_token);
+      dispatch(setUser(data));
+    } catch (error) {
+      console.log('authLogin error');
+      return rejectWithValue(error);
+    }
+  },
+);
 
 export const authMe = createAsyncThunk('auth/me', async function (_, { dispatch }) {
   try {
     const { data } = await axios.get('/auth/me');
     dispatch(setUser(data));
   } catch (error) {
-    console.log('authLogin error');
+    console.log('authMe error');
   }
 });
 

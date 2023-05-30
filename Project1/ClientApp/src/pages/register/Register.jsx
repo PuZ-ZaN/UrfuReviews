@@ -3,7 +3,7 @@ import './../login/Login.scss';
 import './Register.scss';
 import Icon, { ArrowLeftOutlined, FontColorsOutlined, SendOutlined } from '@ant-design/icons';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Alert, Form, Input } from 'antd';
+import { Alert, Form, Input, Modal, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authRegister } from '../../store/api-actions';
@@ -17,17 +17,34 @@ const Register = () => {
   const onSubmit = async ({ email, password }) => {
     const data = await dispatch(authRegister({ email, password }));
     if (data?.error) {
-      // to do alert
+      error();
     } else {
-      // alert
+      success();
       navigate('/login');
     }
+  };
+
+  const [_, contextHolder] = message.useMessage();
+
+  const error = () => {
+    Modal.error({
+      content: 'Не удалось зарегистрироваться в системе. Возможно, такой аккаунт уже существует',
+      className: 'modal-my-class',
+      centered: true,
+    });
+  };
+  const success = () => {
+    Modal.success({
+      content: 'Регистрация прошла успешно! Можете войти в аккаунт',
+      className: 'modal-my-class',
+    });
   };
 
   const [password, setPassword] = React.useState();
 
   const handleChangePassword = (_, value) => {
     setPassword(value);
+    if (value.length < 5) return Promise.reject('Длина пароля не менее 5 символов');
     return Promise.resolve();
   };
 
@@ -73,10 +90,7 @@ const Register = () => {
             <p className="password-title">Пароль</p>
             <Form.Item
               name="password"
-              rules={[
-                { required: true, message: 'Укажите пароль' },
-                { validator: handleChangePassword },
-              ]}
+              rules={[{ validator: handleChangePassword }]}
               className="form-item">
               <Input.Password size="large" placeholder="Введите пароль" prefix={<LockOutlined />} />
             </Form.Item>
