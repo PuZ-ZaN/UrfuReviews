@@ -22,13 +22,26 @@ const subjectsSlice = createSlice({
     addLimitSubjects(state) {
       state.limit += 6;
     },
+    updateSubject(state, action) {
+      console.log(action.payload);
+      state.subjects = state.subjects.map((subject) => {
+        if (subject.id == action.payload.id) return action.payload;
+        return subject;
+      });
+    },
     resetSubjectsState(state, action) {
       state.semester = 'all';
     },
   },
 });
 
-export const { setSubjects, setSemester, setCountSubjects, addLimitSubjects, resetSubjectsState } =
-  subjectsSlice.actions;
+export const {
+  setSubjects,
+  setSemester,
+  setCountSubjects,
+  addLimitSubjects,
+  updateSubject,
+  resetSubjectsState,
+} = subjectsSlice.actions;
 
 export const subjectsReducer = subjectsSlice.reducer;

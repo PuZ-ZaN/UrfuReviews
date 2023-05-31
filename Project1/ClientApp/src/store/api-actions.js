@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { setCountSubjects, setSubjects } from './subjectsSlice';
+import { setCountSubjects, setSubjects, updateSubject } from './subjectsSlice';
 import { resetTrack, setReviews, setTrack } from './trackSlice';
 import { setUser } from './userSlice';
 import axios from './../axios';
@@ -171,6 +171,19 @@ export const addCourse = createAsyncThunk(
   async function ({ name, semester }, { rejectWithValue }) {
     try {
       await axios.post('/api/AddSubject', { subjectName: name, semester });
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const addTrack = createAsyncThunk(
+  'track/addTrack',
+  async function ({ name, courseId }, { dispatch, rejectWithValue }) {
+    try {
+      await axios.post('/api/addTrack', { trackName: name, subjectId: courseId });
+      const { data } = await axios.get('/api/searchSubjects', { params: { id: courseId } });
+      dispatch(updateSubject(data[0]));
     } catch (error) {
       return rejectWithValue(error);
     }

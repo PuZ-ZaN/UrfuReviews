@@ -36,8 +36,12 @@ const Track = ({ track, setSelectedTrack }) => {
       <div className="left">
         <p className="title">{track.trackName}</p>
       </div>
-      <div className="right" onClick={(e) => e.stopPropagation()}>
-        <Dropdown menu={{ items: itemsEdit }} placement="bottomRight" trigger={['click']}>
+      <div className="right">
+        <Dropdown
+          menu={{ items: itemsEdit }}
+          placement="bottomRight"
+          trigger={['click']}
+          onClick={(e) => e.stopPropagation()}>
           <FormOutlined />
         </Dropdown>
       </div>

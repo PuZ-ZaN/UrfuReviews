@@ -27,6 +27,8 @@ import TeachersBlock from '../../../components/admin-panel/teachers-block/Teache
 const AdminAddData = () => {
   const [selectedTrack, setSelectedTrack] = React.useState();
 
+  console.log(selectedTrack);
+
   const [messageApi, contextHolder] = message.useMessage();
 
   return (

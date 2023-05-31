@@ -48,7 +48,7 @@ const Course = ({ course, selectedCourse, setSelectedCourse, setSelectedTrack })
           </div>
         </div>
         {selectedCourse?.id == course?.id && (
-          <Tracks tracks={course.tracks} setSelectedTrack={setSelectedTrack} />
+          <Tracks tracks={course.tracks} setSelectedTrack={setSelectedTrack} course={course} />
         )}
       </div>
     </div>

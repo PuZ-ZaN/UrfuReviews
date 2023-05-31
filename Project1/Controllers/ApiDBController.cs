@@ -18,37 +18,43 @@ namespace Project1.Controllers
         [HttpGet("Subjects/{i?}")]
         public IEnumerable<Subject> GetAllSubjects(Guid? i)
         {
+            var subjects = Context.Subjects;
+
             if (i is null)
-                return Context.Subjects;
+                return subjects;
             else
-                return Context.Subjects.Where(t => t.Id == i);
+                return subjects.Where(t => t.Id == i);
         }
 
         [HttpGet("Tracks/{i?}")]
         public IEnumerable<Track> GetAllTracks(Guid? i, bool? isAdvanced)
         {
+            var tracks = Context.Tracks;
+
             if (Convert.ToBoolean(isAdvanced))
             {
                 if (i is null)
-                    return Context.Tracks.Include(t => t.Prepods);
+                    return tracks.Include(t => t.Prepods);
                 else
-                    return Context.Tracks.Where(t => t.Id == i)
+                    return tracks.Where(t => t.Id == i)
                                          .Include(t => t.Prepods);
             }
 
             if (i is null)
-                return Context.Tracks;
+                return tracks;
             else
-                return Context.Tracks.Where(t => t.Id == i);
+                return tracks.Where(t => t.Id == i);
         }
 
         [HttpGet("Prepods/{i?}")]
         public IEnumerable<Prepod> GetAllPrepods(Guid? i)
         {
+            var prepods = Context.Prepods;
+
             if (i is null)
-                return Context.Prepods;
+                return prepods;
             else
-                return Context.Prepods.Where(t => t.Id == i);
+                return prepods.Where(t => t.Id == i);
         }
 
         [HttpGet("Reviews/{i?}")]
@@ -92,7 +98,7 @@ namespace Project1.Controllers
             }
             if (!(i is null))
             {
-                reviews = Context.Reviews.Where(t => t.Id == i);
+                reviews = reviews.Where(t => t.Id == i);
             }
 
             return reviews;
@@ -140,14 +146,23 @@ namespace Project1.Controllers
         }
 
         [HttpGet("SearchSubjects")]
-        public IEnumerable<Subject> SearchSubjects(string text)
+        public IEnumerable<Subject> SearchSubjects(string? text, Guid? id)
         {
-            IQueryable<Subject> subjects = Context.Subjects;
+            IQueryable<Subject> subjects = Context.Subjects
+                                                  .Include(s => s.Tracks)
+                                                  .ThenInclude(t => t.Prepods)
+                                                  .OrderBy(subject => subject.AddedDate);
 
-            return subjects.Where(subject => subject.SubjectName.ToLower().Contains(text.ToLower()))
-                           .Include(s => s.Tracks)
-                           .ThenInclude(t => t.Prepods)
-                           .OrderBy(subject => subject.AddedDate);
+            if (!(id is null))
+            {
+                subjects = subjects.Where(subject => subject.Id == id);
+            }
+            else if (!(text is null))
+            {
+                subjects = subjects.Where(subject => subject.SubjectName.ToLower().Contains(text.ToLower()));
+            }
+
+            return subjects;
 
         }
 
