@@ -2,29 +2,84 @@ import React from 'react';
 import { Dropdown, Modal, message } from 'antd';
 import Search from 'antd/es/input/Search';
 import { DeleteFilled, EditFilled, FormOutlined, UserAddOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTeacher } from '../../../store/api-actions';
+import { getSubjects } from '../../../store/selectors';
 
-const TeachersBlock = ({ selectedCourse, selectedTrack }) => {
-  const [messageApi, contextHolder] = message.useMessage();
-
+const TeachersBlock = ({ selectedTrack, setSelectedTrack }) => {
+  const dispatch = useDispatch();
+  const courses = useSelector(getSubjects);
   const [inputTeacher, setInputTeacher] = React.useState('');
 
-  const handleChangeNewTeacher = (e) => {
-    setInputTeacher(e.target.value);
+  const addNewTrack = async () => {
+    const result = await dispatch(
+      addTeacher({
+        name: inputTeacher,
+        trackId: selectedTrack.id,
+        courseId: selectedTrack.subjectId,
+      }),
+    );
+
+    if (result?.error) {
+      error();
+    } else {
+      success();
+      setInputTeacher('');
+    }
   };
 
   const success = () => {
-    messageApi.open({
-      type: 'success',
-      content: 'Действие было успешно выполнено',
+    Modal.success({
+      content: 'Данные были успешно добавлены',
+      className: 'modal-my-class',
+      centered: true,
+    });
+  };
+
+  const error = () => {
+    Modal.error({
+      content: 'Возникла ошибка при добавлении данных',
+      className: 'modal-my-class',
+      centered: true,
     });
   };
 
   const configTeacher = {
     title: `Преподаватель "${inputTeacher}"`,
-    content: <>Вы действительно хотите добавить преподавателя с таким ФИО?</>,
+    content: (
+      <>
+        Вы действительно хотите добавить преподавателя с таким ФИО в трек{' '}
+        <b>"{selectedTrack?.trackName}"</b>?
+      </>
+    ),
     centered: true,
-    onOk: success,
+    onOk: addNewTrack,
   };
+
+  const configTeacherError = {
+    title: <>Какие-то из полей были не заполнены</>,
+    content: <>Введите ФИО преподавателя</>,
+    centered: true,
+  };
+
+  const handleChangeNewTeacher = (e) => {
+    setInputTeacher(e.target.value);
+  };
+
+  const handleAddNewTrack = () => {
+    if (!inputTeacher) {
+      Modal.error(configTeacherError);
+    } else {
+      Modal.confirm(configTeacher);
+    }
+  };
+
+  React.useEffect(() => {
+    if (!selectedTrack || !courses) return;
+    const course = courses.find((course) => course.id == selectedTrack.subjectId);
+    const updateTrack = course.tracks.find((track) => track.id === selectedTrack.id);
+    setSelectedTrack(updateTrack);
+  }, [courses]);
 
   const itemsEdit = [
     {
@@ -61,12 +116,9 @@ const TeachersBlock = ({ selectedCourse, selectedTrack }) => {
           <Search
             placeholder="ФИО нового преподавателя"
             allowClear
+            onPressEnter={handleAddNewTrack}
             enterButton={
-              <div
-                className="enter-button-new"
-                onClick={() => {
-                  Modal.confirm(configTeacher);
-                }}>
+              <div className="enter-button-new" onClick={handleAddNewTrack}>
                 <p>Добавить</p> <UserAddOutlined />
               </div>
             }

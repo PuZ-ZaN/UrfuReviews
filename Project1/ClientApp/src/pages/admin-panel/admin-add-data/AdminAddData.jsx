@@ -27,8 +27,6 @@ import TeachersBlock from '../../../components/admin-panel/teachers-block/Teache
 const AdminAddData = () => {
   const [selectedTrack, setSelectedTrack] = React.useState();
 
-  console.log(selectedTrack);
-
   const [messageApi, contextHolder] = message.useMessage();
 
   return (
@@ -56,7 +54,7 @@ const AdminAddData = () => {
           </div>
         </Col>
         <Col sm={0} md={10} lg={10} className="info_about_course_grid">
-          <TeachersBlock selectedTrack={selectedTrack} />
+          <TeachersBlock selectedTrack={selectedTrack} setSelectedTrack={setSelectedTrack} />
         </Col>
       </Row>
     </>

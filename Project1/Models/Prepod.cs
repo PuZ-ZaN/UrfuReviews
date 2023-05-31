@@ -28,7 +28,7 @@ namespace Project1.Models
 
         public string PrepodName { get; set; } = "";
 
-        public Values Values { get; set; }
+        public Values Values { get; set; } = new Values { };
         [NotMapped]
         public virtual Track? Track { get; set; }
         [NotMapped]

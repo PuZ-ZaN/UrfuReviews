@@ -51,7 +51,7 @@ const Tracks = ({ tracks, setSelectedTrack, course }) => {
 
   const configTrackError = {
     title: <>Какие-то из полей были не заполнены</>,
-    content: <>Введи название трека</>,
+    content: <>Введите название трека</>,
     centered: true,
   };
 

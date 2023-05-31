@@ -189,3 +189,16 @@ export const addTrack = createAsyncThunk(
     }
   },
 );
+
+export const addTeacher = createAsyncThunk(
+  'teacher/addTeacher',
+  async function ({ name, trackId, courseId }, { dispatch, rejectWithValue }) {
+    try {
+      await axios.post('/api/addPrepod', { prepodName: name, trackId });
+      const { data } = await axios.get('/api/searchSubjects', { params: { id: courseId } });
+      dispatch(updateSubject(data[0]));
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
