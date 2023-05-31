@@ -8,6 +8,8 @@ import { getValuesCourse } from '../../../usefulMethods/usefulMethods.js';
 const CourseModalWindow = ({ course, closeModalWindow }) => {
   const [courseValues, setCourseValues] = React.useState(null);
 
+  console.log(courseValues);
+
   React.useEffect(() => {
     setCourseValues(getValuesCourse(course));
   }, [course]);

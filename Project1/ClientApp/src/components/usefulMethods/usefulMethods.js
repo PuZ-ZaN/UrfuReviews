@@ -3,7 +3,7 @@ import React from 'react';
 export const getAvgRatingTrack = (track) => {
   return +(
     track.prepods.reduce((sum, prepod) => (sum += prepod.values.avgRating), 0) /
-    track.prepods.length
+      getCountPrepodsWithReviews(track) || 0
   ).toFixed(1);
 };
 
@@ -24,6 +24,10 @@ const getZeroValuesPrepod = (track) => {
   return values;
 };
 
+export const getCountPrepodsWithReviews = (track) => {
+  return track.prepods.filter((prepod) => prepod.values.countReviews > 0).length;
+};
+
 export const getValuesTrack = (track) => {
   if (!track) return;
 
@@ -37,7 +41,7 @@ export const getValuesTrack = (track) => {
 
   for (let value in values) {
     if (value.includes('avg')) {
-      values[value] = (values[value] / track.prepods.length).toFixed(1);
+      values[value] = (values[value] / getCountPrepodsWithReviews(track) || 0).toFixed(1);
     }
   }
 
@@ -48,15 +52,17 @@ export const getValuesCourse = (course) => {
   if (!course) return;
 
   const values = { avgRating: 0, countReviews: 0 };
-  let countPrepods = 0;
 
   course.tracks.forEach((track) => {
     values.avgRating += getAvgRatingTrack(track);
     values.countReviews += getCountReviewsTrack(track);
-    countPrepods += track.prepods.length;
   });
 
-  values.avgRating = (values.avgRating / countPrepods).toFixed(1);
+  const countTracks = course.tracks.filter((track) => getCountReviewsTrack(track) > 0).length;
+
+  console.log(values.avgRating, countTracks);
+
+  values.avgRating = (values.avgRating / countTracks || 0).toFixed(1);
 
   return values;
 };

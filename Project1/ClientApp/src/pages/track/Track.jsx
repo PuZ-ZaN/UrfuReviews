@@ -70,7 +70,9 @@ export default function Track() {
     return getCountReviewsTrack(track) > limit;
   };
 
-  if (!track || reviews.length == 0 || !valuesTrack) return <></>;
+  if (!track || !valuesTrack) return <></>;
+
+  console.log(valuesTrack);
 
   return (
     <>
