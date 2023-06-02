@@ -32,10 +32,12 @@ const Login = () => {
       centered: true,
     });
   };
+
   const success = () => {
     Modal.success({
       content: 'Вы успешно вошли в систему',
       className: 'modal-my-class',
+      onOk: window.location.reload(),
     });
   };
 

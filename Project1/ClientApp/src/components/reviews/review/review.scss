@@ -121,13 +121,27 @@
           &:hover {
             transform: scale(1.1);
           }
+          &.liked,
+          .disliked {
+            width: 1.4rem;
+            height: 1.4rem;
+          }
         }
-        .like_button {
-          background-image: url('/img/like_button.svg');
+
+        .liked {
+          path {
+            fill: var(--green-color-1);
+            stroke-width: 1px;
+          }
         }
-        .dislike_button {
-          background-image: url('/img/dislike_button.svg');
+
+        .disliked {
+          path {
+            fill: var(--red-color-1);
+            stroke-width: 1px;
+          }
         }
+
         .rating_value {
           padding: 0.25rem 0.5rem;
           background: rgba(199, 255, 199, 0.5);
@@ -136,7 +150,7 @@
           font-size: 0.9rem;
           letter-spacing: 0.02em;
           color: var(--green-color-1);
-          &.bad {
+          &.useless {
             background: rgba(255, 199, 199, 0.5);
             color: var(--red-color-1);
           }

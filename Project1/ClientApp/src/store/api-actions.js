@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { setCountSubjects, setSubjects, updateSubject } from './subjectsSlice';
-import { resetTrack, setReviews, setTrack } from './trackSlice';
+import { resetTrack, setReviews, setTrack, updateReview } from './trackSlice';
 import { setUser } from './userSlice';
 import axios from './../axios';
 import { setSearchTracks } from './searchSlice';
@@ -47,7 +47,6 @@ export const authLogin = createAsyncThunk(
       });
       localStorage.setItem('token', data.access_token);
       dispatch(setUser(data));
-      window.location.reload();
     } catch (error) {
       console.log('authLogin error');
       return rejectWithValue(error);
@@ -146,6 +145,19 @@ export const addReviewAction = createAsyncThunk(
     try {
       await axios.post('/api/AddReview', review);
     } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const changeRatingReview = createAsyncThunk(
+  'review/changeRating',
+  async function ({ review, isLike }, { rejectWithValue, dispatch }) {
+    try {
+      const { data } = await axios.post('/api/changeRatingReview', { review, isLike });
+      dispatch(updateReview(data));
+    } catch (error) {
+      console.log('error');
       return rejectWithValue(error);
     }
   },

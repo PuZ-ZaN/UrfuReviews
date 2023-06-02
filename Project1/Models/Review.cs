@@ -13,6 +13,9 @@ namespace Project1.Models
         public Int32 Benefit { get; set; }
         public Int32 Availability { get; set; }
         public string userName { get; set; } = "";
+        public List<string> likes { get; set; } = new List<string>();
+        public List<string> disLikes { get; set; } = new List<string>();
+
         public bool isAnonym { get; set; } = false;
 
         public bool isMoved { get; set; }

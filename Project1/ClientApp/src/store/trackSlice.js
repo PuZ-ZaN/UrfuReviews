@@ -32,6 +32,11 @@ const trackSlice = createSlice({
     addLimitReviews(state) {
       state.limit += 8;
     },
+    updateReview(state, action) {
+      state.reviews = state.reviews.map((review) =>
+        review.id === action.payload.id ? action.payload : review,
+      );
+    },
     resetTrack(state) {
       state.track = undefined;
       state.teacher = undefined;
@@ -42,6 +47,7 @@ const trackSlice = createSlice({
   },
 });
 
-export const { setTrack, setReviews, setTeacher, addLimitReviews, resetTrack } = trackSlice.actions;
+export const { setTrack, setReviews, setTeacher, addLimitReviews, resetTrack, updateReview } =
+  trackSlice.actions;
 
 export const trackReducer = trackSlice.reducer;

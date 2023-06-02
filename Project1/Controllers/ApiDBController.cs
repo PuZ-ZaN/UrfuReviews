@@ -235,11 +235,14 @@ namespace Project1.Controllers
         [HttpPost("AddReview")]
         public IActionResult AddReview(Review value)
         {
-            string userName = getUserName();
-            if (userName == "Invalid token")
-                return BadRequest(new { errorText = "Invalid token" });
+            if (value.userName == "") // убрать проверку в продакшне
+            {
+                string userName = getUserName();
+                if (userName == "Invalid token")
+                    return BadRequest(new { errorText = "Invalid token" });
 
-            value.userName = userName;
+                value.userName = userName;
+            }
 
             try
             {
@@ -252,6 +255,41 @@ namespace Project1.Controllers
             {
                 return StatusCode(500);
             }
+        }
+
+
+        [Authorize(Roles = "User")]
+        [HttpPost("ChangeRatingReview")]
+        public IActionResult ChangeRatingReview([FromBody] JObject data)
+        {
+            Review review = data["review"].ToObject<Review>();
+            Boolean isLike = data["isLike"].ToObject<Boolean>();
+
+            IQueryable<Review> reviews = Context.Reviews;
+            Review reviewInDB = reviews.FirstOrDefault(rev => review.Id == rev.Id);
+
+            string userName = getUserName();
+            if (userName == "Invalid token")
+                return BadRequest(new { errorText = "Invalid token" });
+
+            if (reviewInDB.userName == userName)
+                return BadRequest(new { errorText = "Author review equals user" });
+
+            if (reviewInDB.likes.Contains(userName) || reviewInDB.disLikes.Contains(userName))
+                return BadRequest(new { errorText = "Author already appreciated the review" });
+
+            if (isLike)
+            {
+                reviewInDB.likes.Add(userName);
+            }
+            else
+            {
+                reviewInDB.disLikes.Add(userName);
+            }
+
+            Context.SaveChanges();
+
+            return new JsonResult(reviewInDB);
         }
 
         public string getUserName()
@@ -272,17 +310,10 @@ namespace Project1.Controllers
                 SecurityToken validatedToken;
                 IPrincipal principal = handler.ValidateToken(token, validationParameters, out validatedToken);
 
-                // сохранение нужных полей для ответа
+                // получение userName
 
                 var claims = jwtSecurityToken.Claims.ToList();
-
-                foreach (var claim in claims)
-                {
-                    if (claim.Type.Contains("name"))
-                    {
-                        userName = claim.Value;
-                    }
-                }
+                userName = claims.FirstOrDefault(claim => claim.Type.Contains("name")).Value;
             }
             catch (Exception ex)
             {
@@ -337,6 +368,7 @@ namespace Project1.Controllers
 
             teacher.Values = values;
         }
+
         [Authorize(Roles = "User")]
         [HttpPost("AddAll")]
         public IActionResult AddAll(CommonAddModel value)

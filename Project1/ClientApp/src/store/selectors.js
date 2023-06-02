@@ -18,6 +18,8 @@ export const getLimitSubjects = (state) => state.subjects.limit;
 
 export const getIsAuthUser = (state) => Boolean(state.user.user);
 
+export const getUserName = (state) => state?.user?.user?.username;
+
 export const getIsLoadingShowMoreReviews = (state) =>
   state.general.isLoading.track.reviews.showMore;
 
