@@ -21,7 +21,7 @@ import { fetchReviews, fetchTrack, fetchTrackInfo } from '../../store/api-action
 import { getCountReviewsTrack, getValuesTrack } from '../../components/usefulMethods/usefulMethods';
 import { ArrowDownOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 import { setSubjects } from '../../store/subjectsSlice';
-import { Button, Pagination } from 'antd';
+import { Button, Empty, Pagination } from 'antd';
 
 export default function Track() {
   const dispatch = useDispatch();
@@ -72,8 +72,6 @@ export default function Track() {
 
   if (!track || !valuesTrack) return <></>;
 
-  console.log(valuesTrack);
-
   return (
     <>
       <div className="course_title_container">
@@ -92,25 +90,31 @@ export default function Track() {
           <AddReviewBtn />
         </div>
 
-        <div className="reviews">
-          {reviews.map((review, index) => (
-            <Review key={review.id} teacher={getNameTeacherReview(review)} review={review} />
-          ))}
-        </div>
-
-        {(isShowButtonShowMore() || isLoadingShowMoreReviews) && (
-          <div className="pagination">
-            <div className="pagination-content2">
-              <Button
-                type="primary"
-                icon={<ArrowDownOutlined />}
-                size="large"
-                loading={isLoadingShowMoreReviews}
-                onClick={showMoreReviews}>
-                Показать больше отзывов
-              </Button>
+        {reviews.length ? (
+          <>
+            <div className="reviews">
+              {reviews.map((review, index) => (
+                <Review key={review.id} teacher={getNameTeacherReview(review)} review={review} />
+              ))}
             </div>
-          </div>
+
+            {(isShowButtonShowMore() || isLoadingShowMoreReviews) && (
+              <div className="pagination">
+                <div className="pagination-content2">
+                  <Button
+                    type="primary"
+                    icon={<ArrowDownOutlined />}
+                    size="large"
+                    loading={isLoadingShowMoreReviews}
+                    onClick={showMoreReviews}>
+                    Показать больше отзывов
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
+        ) : (
+          <Empty style={{ marginTop: '2rem' }} description="Напишите первый комментарий!" />
         )}
       </div>
     </>

@@ -123,3 +123,10 @@ body {
     display: block;
   }
 }
+
+input {
+  font-family: 'Roboto', sans-serif !important;
+  &::placeholder {
+    font-family: 'Roboto', sans-serif !important;
+  }
+}
