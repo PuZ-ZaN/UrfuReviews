@@ -3,9 +3,15 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
+using Project1.Auth;
 using Project1.Data;
 using Project1.Models;
+using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Principal;
+using System.Xml.Linq;
 
 namespace Project1.Controllers
 {
@@ -181,7 +187,7 @@ namespace Project1.Controllers
 
         [Authorize(Roles = "User")]
         [HttpPost("AddSubject")]
-        public JsonResult AddSubject(Subject value)
+        public IActionResult AddSubject(Subject value)
         {
             try
             {
@@ -191,13 +197,13 @@ namespace Project1.Controllers
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+                return StatusCode(500);
             }
         }
 
         [Authorize(Roles = "User")]
         [HttpPost("AddTrack")]
-        public JsonResult AddTrack(Track value)
+        public IActionResult AddTrack(Track value)
         {
             try
             {
@@ -207,12 +213,12 @@ namespace Project1.Controllers
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+                return StatusCode(500);
             }
         }
         [Authorize(Roles = "User")]
         [HttpPost("AddPrepod")]
-        public JsonResult AddPrepod(Prepod value)
+        public IActionResult AddPrepod(Prepod value)
         {
             try
             {
@@ -222,13 +228,19 @@ namespace Project1.Controllers
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+                return StatusCode(500);
             }
         }
         [Authorize(Roles = "User")]
         [HttpPost("AddReview")]
-        public JsonResult AddReview(Review value)
+        public IActionResult AddReview(Review value)
         {
+            string userName = getUserName();
+            if (userName == "Invalid token")
+                return BadRequest(new { errorText = "Invalid token" });
+
+            value.userName = userName;
+
             try
             {
                 Context.Reviews.Add(value);
@@ -238,8 +250,46 @@ namespace Project1.Controllers
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB ERROR" });
+                return StatusCode(500);
             }
+        }
+
+        public string getUserName()
+        {
+            string token = Request.Headers["Authorization"];
+            token = token.Replace("Bearer ", "");
+            string userName = "";
+
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+
+                // валидация токена
+
+                var jwtSecurityToken = handler.ReadJwtToken(token);
+                var validationParameters = AuthValidation.GetValidationParameters();
+
+                SecurityToken validatedToken;
+                IPrincipal principal = handler.ValidateToken(token, validationParameters, out validatedToken);
+
+                // сохранение нужных полей для ответа
+
+                var claims = jwtSecurityToken.Claims.ToList();
+
+                foreach (var claim in claims)
+                {
+                    if (claim.Type.Contains("name"))
+                    {
+                        userName = claim.Value;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return "Invalid token";
+            }
+
+            return userName;
         }
 
         public void calculateNewValueTeacher(Review newReview)
@@ -289,7 +339,7 @@ namespace Project1.Controllers
         }
         [Authorize(Roles = "User")]
         [HttpPost("AddAll")]
-        public JsonResult AddAll(CommonAddModel value)
+        public IActionResult AddAll(CommonAddModel value)
         {
             try
             {
@@ -320,7 +370,7 @@ namespace Project1.Controllers
             }
             catch (Exception ex)
             {
-                return new JsonResult(new { Error = ex.InnerException?.Message ?? "DB Error" });
+                return StatusCode(500);
             }
         }
 

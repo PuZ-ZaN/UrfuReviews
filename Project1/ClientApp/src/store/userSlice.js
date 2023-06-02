@@ -9,6 +9,7 @@ const userSlice = createSlice({
     logout(state, action) {
       state.user = null;
       localStorage.removeItem('token');
+      window.location.reload();
     },
     setUser(state, action) {
       state.user = action.payload;

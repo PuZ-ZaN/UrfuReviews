@@ -39,7 +39,7 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
   }, [isSidebarShown]);
 
   function isNeedBlock() {
-    return href != '/' && href != '/search/' && href != '/admin';
+    return href != '/' && href != '/admin';
   }
 
   // dekstop version
@@ -47,7 +47,6 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
   const dispatch = useDispatch();
 
   const handleClickSemester = (semester) => {
-    if (isBlockedClick) return;
     dispatch(setSemester(activeSemester !== semester ? semester : 'all'));
   };
 
@@ -61,15 +60,15 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
         <Link to="/" className="sidebar_title" onClick={handleClickLogo}>
           URFU Courses
         </Link>
-        <div className="list_courses">
+        <div className={`list_courses ${isBlockedClick ? 'hide' : ''}`}>
           {listCourses.map((numberCourse) => (
             <CourseBlock
               numberCourse={numberCourse}
               emojy={emojyCourses[numberCourse - 1]}
               isActiveCourse={activeCourse === numberCourse}
-              setActiveCourse={isBlockedClick ? () => {} : setActiveCourse}
+              setActiveCourse={setActiveCourse}
               numberActiveSemester={activeSemester}
-              setActiveSemester={isBlockedClick ? () => {} : handleClickSemester}
+              setActiveSemester={handleClickSemester}
               key={numberCourse}
             />
           ))}

@@ -94,7 +94,6 @@ namespace Project1.Controllers
             {
                 return BadRequest(new { errorText = "Invalid token" });
             }
-            
         }
 
         private ClaimsIdentity GetIdentity(string email, string password)

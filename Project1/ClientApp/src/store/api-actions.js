@@ -47,6 +47,7 @@ export const authLogin = createAsyncThunk(
       });
       localStorage.setItem('token', data.access_token);
       dispatch(setUser(data));
+      window.location.reload();
     } catch (error) {
       console.log('authLogin error');
       return rejectWithValue(error);

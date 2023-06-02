@@ -33,6 +33,9 @@
   & .list_courses {
     width: 87%;
     margin: 0 auto;
+    &.hide {
+      display: none;
+    }
   }
   & .number_course {
     width: 100%;

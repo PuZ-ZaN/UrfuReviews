@@ -10,9 +10,11 @@ const Review = ({ review, teacher }) => {
         <div className="header_id_date">
           <div className="id">
             <Avatar size="large" className="id-avatar">
-              A
+              {review.isAnonym ? 'А' : review.userName[0].toUpperCase()}
             </Avatar>
-            аноним
+            {review.isAnonym
+              ? 'Аноним'
+              : review.userName[0].toUpperCase() + review.userName.slice(1)}
           </div>
           <div className="date">
             {review.isMoved
