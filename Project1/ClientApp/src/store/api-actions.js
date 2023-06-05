@@ -6,20 +6,23 @@ import axios from './../axios';
 import { setSearchTracks } from './searchSlice';
 import { mocksData } from './../mocks/data.js';
 
-export const addMocksData = createAsyncThunk('add/mocks', async function (_, { rejectWithValue }) {
-  try {
-    for (let key in mocksData) {
-      var data = mocksData[key];
-      var route = `add${key.slice(0, -1)}`;
-      console.log(data, route);
-      data.forEach(async (element) => {
-        await axios.post(`/api/${route}`, element);
-      });
+export const addMocksData = createAsyncThunk(
+  'add/mocks',
+  async function (_, { rejectWithValue }) {
+    try {
+      for (let key in mocksData) {
+        var data = mocksData[key];
+        var route = `add${key.slice(0, -1)}`;
+        console.log(data, route);
+        data.forEach(async (element) => {
+          await axios.post(`/api/${route}`, element);
+        });
+      }
+    } catch (error) {
+      return rejectWithValue(error);
     }
-  } catch (error) {
-    return rejectWithValue(error);
   }
-});
+);
 
 export const authRegister = createAsyncThunk(
   'auth/register',
@@ -33,7 +36,7 @@ export const authRegister = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
 export const authLogin = createAsyncThunk(
@@ -51,17 +54,20 @@ export const authLogin = createAsyncThunk(
       console.log('authLogin error');
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
-export const authMe = createAsyncThunk('auth/me', async function (_, { dispatch }) {
-  try {
-    const { data } = await axios.get('/auth/me');
-    dispatch(setUser(data));
-  } catch (error) {
-    console.log('authMe error');
+export const authMe = createAsyncThunk(
+  'auth/me',
+  async function (_, { dispatch }) {
+    try {
+      const { data } = await axios.get('/auth/me');
+      dispatch(setUser(data));
+    } catch (error) {
+      console.log('authMe error');
+    }
   }
-});
+);
 
 export const fetchCountSubjects = createAsyncThunk(
   'subjects/fetchCountSubjects',
@@ -78,7 +84,7 @@ export const fetchCountSubjects = createAsyncThunk(
     } catch (error) {
       console.log('fetchCountSubjects error');
     }
-  },
+  }
 );
 
 export const fetchSubjects = createAsyncThunk(
@@ -96,33 +102,38 @@ export const fetchSubjects = createAsyncThunk(
     } catch (error) {
       console.log('fetchSubjects error');
     }
-  },
+  }
 );
 
 export const fetchTrack = createAsyncThunk(
   'track/fetchTrack',
   async function ({ id }, { dispatch }) {
     try {
-      const { data } = await axios.get(`/api/Tracks/${id}`, { params: { isAdvanced: true } });
+      const { data } = await axios.get(`/api/Tracks/${id}`, {
+        params: { isAdvanced: true },
+      });
       dispatch(setTrack(data[0]));
     } catch (error) {
       console.log('fetchTrack error');
     }
-  },
+  }
 );
 
 export const fetchReviews = createAsyncThunk(
   'track/fetchReviews',
-  async function ({ trackId, limit = 10, teacherId }, { dispatch }) {
+  async function (
+    { trackId, limit = 10, teacherId, sortedBy = 'время' },
+    { dispatch }
+  ) {
     try {
       const { data } = await axios.get('/api/Reviews/', {
-        params: { trackId, limit, teacherId },
+        params: { trackId, limit, teacherId, sortedBy },
       });
       dispatch(setReviews(data));
     } catch (error) {
       console.log('fetchReviews error');
     }
-  },
+  }
 );
 
 export const searchTracks = createAsyncThunk(
@@ -131,12 +142,14 @@ export const searchTracks = createAsyncThunk(
     try {
       if (!text) return;
 
-      const { data } = await axios.get('/api/Search/', { params: { text, filteredBy } });
+      const { data } = await axios.get('/api/Search/', {
+        params: { text, filteredBy },
+      });
       dispatch(setSearchTracks(data));
     } catch (error) {
       console.log('searchTracks error');
     }
-  },
+  }
 );
 
 export const addReviewAction = createAsyncThunk(
@@ -147,20 +160,23 @@ export const addReviewAction = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
 export const changeRatingReview = createAsyncThunk(
   'review/changeRating',
   async function ({ review, isLike }, { rejectWithValue, dispatch }) {
     try {
-      const { data } = await axios.post('/api/changeRatingReview', { review, isLike });
+      const { data } = await axios.post('/api/changeRatingReview', {
+        review,
+        isLike,
+      });
       dispatch(updateReview(data));
     } catch (error) {
       console.log('error');
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
 // admin panel
@@ -170,13 +186,15 @@ export const searchCourses = createAsyncThunk(
   async function ({ text }, { dispatch, rejectWithValue }) {
     try {
       console.log(text);
-      const result = await axios.get('/api/searchSubjects', { params: { text } });
+      const result = await axios.get('/api/searchSubjects', {
+        params: { text },
+      });
       dispatch(setSubjects(result.data));
       dispatch(setCountSubjects(null));
     } catch (error) {
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
 export const addCourse = createAsyncThunk(
@@ -187,20 +205,25 @@ export const addCourse = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
 export const addTrack = createAsyncThunk(
   'track/addTrack',
   async function ({ name, courseId }, { dispatch, rejectWithValue }) {
     try {
-      await axios.post('/api/addTrack', { trackName: name, subjectId: courseId });
-      const { data } = await axios.get('/api/searchSubjects', { params: { id: courseId } });
+      await axios.post('/api/addTrack', {
+        trackName: name,
+        subjectId: courseId,
+      });
+      const { data } = await axios.get('/api/searchSubjects', {
+        params: { id: courseId },
+      });
       dispatch(updateSubject(data[0]));
     } catch (error) {
       return rejectWithValue(error);
     }
-  },
+  }
 );
 
 export const addTeacher = createAsyncThunk(
@@ -208,10 +231,12 @@ export const addTeacher = createAsyncThunk(
   async function ({ name, trackId, courseId }, { dispatch, rejectWithValue }) {
     try {
       await axios.post('/api/addPrepod', { prepodName: name, trackId });
-      const { data } = await axios.get('/api/searchSubjects', { params: { id: courseId } });
+      const { data } = await axios.get('/api/searchSubjects', {
+        params: { id: courseId },
+      });
       dispatch(updateSubject(data[0]));
     } catch (error) {
       return rejectWithValue(error);
     }
-  },
+  }
 );

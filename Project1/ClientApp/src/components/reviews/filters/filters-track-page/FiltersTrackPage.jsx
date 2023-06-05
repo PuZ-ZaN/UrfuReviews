@@ -2,20 +2,22 @@ import React from 'react';
 import Filter from './filter/Filter';
 import { filtersData } from '../../../../const.ts';
 import { useDispatch } from 'react-redux';
-import { setTeacher } from '../../../../store/trackSlice';
+import { setSortedReviewsBy, setTeacher } from '../../../../store/trackSlice';
 
 const FiltersTrackPage = ({ teachers, setValuesTrack }) => {
   const dispatch = useDispatch();
+  const filtersOptions = filtersData.filters.options;
 
   const handleClickTeacher = (textValue) => {
-    const teacherObj = teachers.find((teacher) => teacher.prepodName === textValue);
+    const teacherObj = teachers.find(
+      (teacher) => teacher.prepodName === textValue
+    );
     dispatch(setTeacher(teacherObj));
     setValuesTrack(teacherObj.values);
   };
 
   const handleClickFilter = (value) => {
-    // to do: filter by
-    // dispatch(setFilteredTrackBy(value));
+    dispatch(setSortedReviewsBy(value.toLowerCase()));
   };
 
   return (

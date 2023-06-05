@@ -12,6 +12,8 @@ export const getReviews = (state) => state.track.reviews;
 
 export const getLimitReviews = (state) => state.track.limit;
 
+export const getSortedReviewsBy = (state) => state.track.sortedReviewsBy;
+
 export const getCountSubjects = (state) => state.subjects.count;
 
 export const getLimitSubjects = (state) => state.subjects.limit;
@@ -23,7 +25,8 @@ export const getUserName = (state) => state?.user?.user?.username;
 export const getIsLoadingShowMoreReviews = (state) =>
   state.general.isLoading.track.reviews.showMore;
 
-export const getIsLoadingShowMoreCourses = (state) => state.general.isLoading.subjects.showMore;
+export const getIsLoadingShowMoreCourses = (state) =>
+  state.general.isLoading.subjects.showMore;
 
 export const getIsLoadingStatus = (state) => {
   const isLoading = JSON.parse(JSON.stringify(state.general.isLoading));

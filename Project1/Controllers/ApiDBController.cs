@@ -64,30 +64,28 @@ namespace Project1.Controllers
         }
 
         [HttpGet("Reviews/{i?}")]
-        public IEnumerable<Review> GetAllReviews(Guid? i, Int32? limit, Guid? trackId, Guid? teacherId, string? sortedBy = "time")
+        public IEnumerable<Review> GetAllReviews(Guid? i, Int32? limit, Guid? trackId, Guid? teacherId, string? sortedBy = "время")
         {
             IQueryable<Review> reviews = Context.Reviews;
 
             var reviewsList = reviews.ToList();
 
-
             if (!(sortedBy is null))
             {
                 switch (sortedBy)
                 {
-                    case "rating":
-                        reviews = reviews.OrderBy(review => review.Rating);
+                    case "общая оценка":
+                        reviews = reviews.OrderByDescending(r => r.Rating).ThenByDescending(r => r.AddedDate);
                         break;
-                    case "time":
-                        reviews = reviews.OrderByDescending(review => review.AddedDate);
+                    case "время":
+                        reviews = reviews.OrderByDescending(r => r.AddedDate);
                         break;
-                    case "useful":
-                        // TO DO SORT BY USERS LIKE;
+                    case "полезность":
+                        reviews = reviews.OrderByDescending(r => r.likes.Count - r.disLikes.Count).ThenByDescending(r => r.AddedDate);
                         break;
                 }
             }
 
-            reviews = reviews.OrderByDescending(review => review.AddedDate);
 
             if (!(trackId is null))
             {

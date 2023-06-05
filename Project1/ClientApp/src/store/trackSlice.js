@@ -24,7 +24,7 @@ const trackSlice = createSlice({
       state.reviews = action.payload;
     },
     setSortedReviewsBy(state, action) {
-      state.sortedReviewsBy = '';
+      state.sortedReviewsBy = action.payload;
     },
     setTeacher(state, action) {
       state.teacher = action.payload;
@@ -34,7 +34,7 @@ const trackSlice = createSlice({
     },
     updateReview(state, action) {
       state.reviews = state.reviews.map((review) =>
-        review.id === action.payload.id ? action.payload : review,
+        review.id === action.payload.id ? action.payload : review
       );
     },
     resetTrack(state) {
@@ -47,7 +47,14 @@ const trackSlice = createSlice({
   },
 });
 
-export const { setTrack, setReviews, setTeacher, addLimitReviews, resetTrack, updateReview } =
-  trackSlice.actions;
+export const {
+  setTrack,
+  setReviews,
+  setTeacher,
+  addLimitReviews,
+  resetTrack,
+  updateReview,
+  setSortedReviewsBy,
+} = trackSlice.actions;
 
 export const trackReducer = trackSlice.reducer;

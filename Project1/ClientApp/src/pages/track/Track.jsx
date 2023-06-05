@@ -15,10 +15,18 @@ import {
   getReviews,
   getTeacher,
   getTrack,
+  getSortedReviewsBy,
 } from './../../store/selectors';
 import { addLimitReviews, resetTrack, setTrack } from '../../store/trackSlice';
-import { fetchReviews, fetchTrack, fetchTrackInfo } from '../../store/api-actions';
-import { getCountReviewsTrack, getValuesTrack } from '../../components/usefulMethods/usefulMethods';
+import {
+  fetchReviews,
+  fetchTrack,
+  fetchTrackInfo,
+} from '../../store/api-actions';
+import {
+  getCountReviewsTrack,
+  getValuesTrack,
+} from '../../components/usefulMethods/usefulMethods';
 import { ArrowDownOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 import { setSubjects } from '../../store/subjectsSlice';
 import { Button, Empty, Pagination } from 'antd';
@@ -29,6 +37,7 @@ export default function Track() {
   const track = useSelector(getTrack);
   const reviews = useSelector(getReviews);
   const teacher = useSelector(getTeacher);
+  const sortedReviewsBy = useSelector(getSortedReviewsBy);
   const isLoadingShowMoreReviews = useSelector(getIsLoadingShowMoreReviews);
   const limit = useSelector(getLimitReviews);
 
@@ -44,9 +53,16 @@ export default function Track() {
 
   React.useEffect(() => {
     if (id !== -1) {
-      dispatch(fetchReviews({ trackId: id, limit, teacherId: teacher?.id }));
+      dispatch(
+        fetchReviews({
+          trackId: id,
+          limit,
+          teacherId: teacher?.id,
+          sortedBy: sortedReviewsBy,
+        })
+      );
     }
-  }, [id, limit, teacher]);
+  }, [id, limit, teacher, sortedReviewsBy]);
 
   React.useEffect(() => {
     setValuesTrack(getValuesTrack(track));
@@ -55,7 +71,8 @@ export default function Track() {
   const getNameTeacherReview = (review) => {
     if (!track) return;
 
-    return track.prepods.find((prepod) => prepod.id == review.prepodId)?.prepodName;
+    return track.prepods.find((prepod) => prepod.id == review.prepodId)
+      ?.prepodName;
   };
 
   const showMoreReviews = () => {
@@ -74,10 +91,10 @@ export default function Track() {
 
   return (
     <>
-      <div className="course_title_container">
-        <p className="course_title">{track?.trackName}</p>
-        <div className="course_view">
-          <div className="circle_big">
+      <div className='course_title_container'>
+        <p className='course_title'>{track?.trackName}</p>
+        <div className='course_view'>
+          <div className='circle_big'>
             <Circle valuesTrack={valuesTrack} />
           </div>
 
@@ -85,26 +102,30 @@ export default function Track() {
           <Criteria valuesTrack={valuesTrack} />
         </div>
 
-        <div className="filters_and_button">
+        <div className='filters_and_button'>
           <Filters teachers={track?.prepods} setValuesTrack={setValuesTrack} />
           <AddReviewBtn />
         </div>
 
         {reviews.length ? (
           <>
-            <div className="reviews">
+            <div className='reviews'>
               {reviews.map((review, index) => (
-                <Review key={review.id} teacher={getNameTeacherReview(review)} review={review} />
+                <Review
+                  key={review.id}
+                  teacher={getNameTeacherReview(review)}
+                  review={review}
+                />
               ))}
             </div>
 
             {(isShowButtonShowMore() || isLoadingShowMoreReviews) && (
-              <div className="pagination">
-                <div className="pagination-content2">
+              <div className='pagination'>
+                <div className='pagination-content2'>
                   <Button
-                    type="primary"
+                    type='primary'
                     icon={<ArrowDownOutlined />}
-                    size="large"
+                    size='large'
                     loading={isLoadingShowMoreReviews}
                     onClick={showMoreReviews}>
                     Показать больше отзывов
@@ -114,7 +135,10 @@ export default function Track() {
             )}
           </>
         ) : (
-          <Empty style={{ marginTop: '2rem' }} description="Напишите первый комментарий!" />
+          <Empty
+            style={{ marginTop: '2rem' }}
+            description='Напишите первый комментарий!'
+          />
         )}
       </div>
     </>
