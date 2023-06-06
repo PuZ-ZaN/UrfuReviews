@@ -31,6 +31,9 @@ const subjectsSlice = createSlice({
     },
     resetSubjectsState(state, action) {
       state.semester = 'all';
+      state.subjects = [];
+      state.count = undefined;
+      state.limit = 6;
     },
   },
 });

@@ -42,7 +42,10 @@ const UsualPage = () => {
               <Route path="/" element={<Main />} />
               <Route path="/search" element={<Search />}></Route>
               <Route path="/track/:id" element={<Track />} />
-              <Route path="/add_review/" element={<AddReview />} />
+              <Route path="/add_review/">
+                <Route path="" element={<AddReview />} />
+                <Route path=":id" element={<AddReview />} />
+              </Route>
             </Routes>
           </div>
         </div>

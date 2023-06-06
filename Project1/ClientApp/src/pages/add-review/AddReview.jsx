@@ -1,30 +1,75 @@
 import React from 'react';
 import './AddReview.scss';
-import { assessmentTitle, initCourseValues, initFieldsValues } from '../../const.ts';
+import {
+  assessmentTitle,
+  initCourseValues,
+  initFieldsValues,
+} from '../../const.ts';
 import Assessment from '../../components/reviews/review/assessment/Assessment';
 import FiltersAddReview from '../../components/reviews/filters/filters-add-review/FiltersAddReview';
 import CircleProgress from '../../components/reviews/circle-progress/CircleProgress';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addReviewAction, addSubjects, fetchSubjects } from '../../store/api-actions';
+import {
+  addReviewAction,
+  addSubjects,
+  fetchSubjects,
+  fetchSubjectByTrackId,
+} from '../../store/api-actions';
 import { Col, Modal, Row, message } from 'antd';
-import { getIsAuthUser, getSemester, getSubjects } from './../../store/selectors';
+import {
+  getIsAuthUser,
+  getSemester,
+  getSubjects,
+  getIsLoadingStatus,
+} from './../../store/selectors';
+import { resetSubjectsState } from '../../store/subjectsSlice';
 
 const AddReview = () => {
   const dispatch = useDispatch();
-  const isAuth = useSelector(getIsAuthUser);
   const navigate = useNavigate();
-  const semester = useSelector((state) => getSemester(state));
 
-  React.useEffect(() => {
-    dispatch(fetchSubjects({ semester }));
-  }, [semester]);
+  const { id } = useParams();
+  const isLoading = useSelector(getIsLoadingStatus);
+  const isAuth = useSelector(getIsAuthUser);
+  const semester = useSelector((state) => getSemester(state));
+  const subjects = useSelector(getSubjects);
 
   const [courseValues, setCourseValues] = React.useState(initCourseValues);
   const [fieldsValues, setFieldsValues] = React.useState(initFieldsValues);
 
+  React.useEffect(() => {
+    if (semester != 'all') dispatch(fetchSubjects({ semester, limit: 999 }));
+  }, [semester]);
+
+  React.useEffect(() => {
+    console.log(id);
+    if (id) {
+      dispatch(fetchSubjectByTrackId({ trackId: id }));
+    } else {
+      dispatch(resetSubjectsState());
+      setCourseValues(initCourseValues);
+    }
+  }, [id]);
+
+  React.useEffect(() => {
+    const subject = subjects.length === 1 ? subjects[0] : null;
+    if (!subject) return;
+
+    const track = subject.tracks.find((track) => track.id == id);
+    setCourseValues((prev) => ({
+      ...prev,
+      semester: subject.semester[0],
+      course: subject,
+      track,
+      teacher: track.prepods.length === 1 ? track.prepods[0] : '',
+    }));
+  }, [subjects]);
+
   const handleChangeFieldStars = (fieldTitle, value) => {
-    let field = Object.keys(assessmentTitle).find((title) => assessmentTitle[title] === fieldTitle);
+    let field = Object.keys(assessmentTitle).find(
+      (title) => assessmentTitle[title] === fieldTitle
+    );
     field = field[0].toLowerCase() + field.slice(1);
     setFieldsValues((prev) => ({ ...prev, [field]: value }));
   };
@@ -41,7 +86,8 @@ const AddReview = () => {
   };
 
   const getCountCheckedFields = () => {
-    return Object.values(fieldsValues).filter((value) => isFieldCorrect(value)).length;
+    return Object.values(fieldsValues).filter((value) => isFieldCorrect(value))
+      .length;
   };
 
   const [_, contextHolder] = message.useMessage();
@@ -53,7 +99,8 @@ const AddReview = () => {
   };
   const success = () => {
     Modal.success({
-      content: 'Отзыв был успешно добавлен. Вы будете перенаправлены на страницу с треком.',
+      content:
+        'Отзыв был успешно добавлен. Вы будете перенаправлены на страницу с треком.',
       className: 'modal-my-class',
       onOk: () => navigate(`/track/${courseValues.track.id}`),
     });
@@ -61,7 +108,7 @@ const AddReview = () => {
 
   const addReview = async () => {
     const result = await dispatch(
-      addReviewAction({ ...fieldsValues, prepodId: courseValues.teacher.id }),
+      addReviewAction({ ...fieldsValues, prepodId: courseValues.teacher.id })
     );
     if (result?.error) {
       error();
@@ -70,14 +117,19 @@ const AddReview = () => {
     }
   };
 
-  if (!isAuth) return <Navigate to="/login" />;
+  console.log(courseValues);
+
+  if (!isAuth && !isLoading) return <Navigate to="/login" />;
 
   return (
     <>
       {contextHolder}
       <div className="add_review_page">
         <p className="add_review_title">Страница добавления отзыва</p>
-        <FiltersAddReview courseValues={courseValues} setCourseValues={setCourseValues} />
+        <FiltersAddReview
+          courseValues={courseValues}
+          setCourseValues={setCourseValues}
+        />
         <div className="hr_add_review"></div>
         <Row className="blocks">
           <Col lg={16} md={16} xs={24}>
@@ -95,7 +147,10 @@ const AddReview = () => {
                   title={assessmentTitle.Availability}
                   onChangeField={handleChangeFieldStars}
                 />
-                <Assessment title={assessmentTitle.Rating} onChangeField={handleChangeFieldStars} />
+                <Assessment
+                  title={assessmentTitle.Rating}
+                  onChangeField={handleChangeFieldStars}
+                />
               </div>
               <p className="add_review_comment_text">Ваш комментарий</p>
               <textarea
@@ -104,9 +159,16 @@ const AddReview = () => {
                 cols="30"
                 rows="10"
                 onChange={(e) => changeTextField(e)}></textarea>
-              <button disabled={getCountCheckedFields() !== 5} onClick={addReview}>
+              <button
+                disabled={getCountCheckedFields() !== 5}
+                onClick={addReview}>
                 <span>Добавить отзыв</span>
-                <img src="/img/add_review_icon.png" width={24} height={24} alt="add" />
+                <img
+                  src="/img/add_review_icon.png"
+                  width={24}
+                  height={24}
+                  alt="add"
+                />
               </button>
             </div>
           </Col>
@@ -119,22 +181,37 @@ const AddReview = () => {
                 </div>
                 <div className="right_block_info_criterias">
                   <ul>
-                    <li className={`${fieldsValues.interest ? 'checked_li' : ''}`}>
+                    <li
+                      className={`${
+                        fieldsValues.interest ? 'checked_li' : ''
+                      }`}>
                       Интерес к предмету
                     </li>
-                    <li className={`${fieldsValues.benefit ? 'checked_li' : ''}`}>
+                    <li
+                      className={`${fieldsValues.benefit ? 'checked_li' : ''}`}>
                       Польза от предмета
                     </li>
-                    <li className={`${fieldsValues.availability ? 'checked_li' : ''}`}>
+                    <li
+                      className={`${
+                        fieldsValues.availability ? 'checked_li' : ''
+                      }`}>
                       Доступность изложения
                     </li>
-                    <li className={`${fieldsValues.rating ? 'checked_li' : ''}`}>Общая оценка</li>
-                    <li className={`${isFieldCorrect(fieldsValues.body) ? 'checked_li' : ''}`}>
+                    <li
+                      className={`${fieldsValues.rating ? 'checked_li' : ''}`}>
+                      Общая оценка
+                    </li>
+                    <li
+                      className={`${
+                        isFieldCorrect(fieldsValues.body) ? 'checked_li' : ''
+                      }`}>
                       Отзыв(от 30 до 1000 символов)
                     </li>
                   </ul>
                 </div>
-                <div className="right_block_info_anon_text">Отзыв будет добавлен анонимно.</div>
+                <div className="right_block_info_anon_text">
+                  Отзыв будет добавлен анонимно.
+                </div>
               </div>
             </div>
           </Col>

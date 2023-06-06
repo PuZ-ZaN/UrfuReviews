@@ -52,6 +52,23 @@ namespace Project1.Controllers
                 return tracks.Where(t => t.Id == i);
         }
 
+        [HttpGet("SubjectByTrackId/{trackId}")]
+        public IActionResult GetSubjectByTrackId(Guid trackId)
+        {
+            Console.WriteLine(trackId);
+            var track = GetAllTracks(trackId, false).FirstOrDefault();
+            if ((track is null)) return BadRequest(new { errorText = "Invalid track ID" });
+
+
+            var subjects = Context.Subjects.Where(subject => subject.Id == track.SubjectId)
+                                           .Include(s => s.Tracks)
+                                           .ThenInclude(t => t.Prepods);
+
+
+
+            return new JsonResult(new { subject = subjects.FirstOrDefault() });
+        }
+
         [HttpGet("Prepods/{i?}")]
         public IEnumerable<Prepod> GetAllPrepods(Guid? i)
         {
@@ -109,7 +126,7 @@ namespace Project1.Controllers
         }
 
         [HttpGet("All/count")]
-        public Int32 GetAll(Int32? semester)
+        public Int32 GetAllCount(Int32? semester)
         {
             var Subjects = Context.Subjects.Where(subject => Convert.ToBoolean(semester) ? subject.Semester.Contains(Convert.ToInt32(semester)) : true);
 

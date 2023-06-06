@@ -5,10 +5,13 @@ import './filters_add_review.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSubjects } from '../../../../store/selectors.js';
 import { setSemester } from '../../../../store/subjectsSlice.js';
+import { useParams } from 'react-router-dom';
 
 const FiltersAddReview = ({ courseValues, setCourseValues }) => {
   const subjects = useSelector((state) => getSubjects(state));
   const dispatch = useDispatch();
+  const { id } = useParams();
+  const isBlocked = Boolean(id);
 
   // handle changes courseValues
 
@@ -24,12 +27,16 @@ const FiltersAddReview = ({ courseValues, setCourseValues }) => {
   };
 
   const handleChangeTrack = (value) => {
-    const track = courseValues.course.tracks.find((track) => track.trackName === value);
+    const track = courseValues.course.tracks.find(
+      (track) => track.trackName === value
+    );
     setCourseValues((prev) => ({ ...prev, track, teacher: '' }));
   };
 
   const handleChangeTeacher = (value) => {
-    const teacher = courseValues.track.prepods.find((teacher) => teacher.prepodName === value);
+    const teacher = courseValues.track.prepods.find(
+      (teacher) => teacher.prepodName === value
+    );
     setCourseValues((prev) => ({ ...prev, teacher }));
   };
 
@@ -45,7 +52,7 @@ const FiltersAddReview = ({ courseValues, setCourseValues }) => {
 
   const getSemesterText = () => {
     return Object.values(filtersData.courseSemester.options).find(
-      (semester) => Number(semester.split(',')[1][1]) == courseValues.semester,
+      (semester) => Number(semester.split(',')[1][1]) == courseValues.semester
     );
   };
 
@@ -55,27 +62,33 @@ const FiltersAddReview = ({ courseValues, setCourseValues }) => {
         filterData={filtersData.courseSemester}
         onClick={handleChangeSemester}
         activeValue={getSemesterText()}
+        isBlocked={isBlocked}
       />
       <Filter
         filterData={filtersData.subject}
         onClick={handleChangeCourse}
         options={filteredNameCourses}
         activeValue={courseValues?.course?.subjectName}
-        isBlocked={!Boolean(courseValues?.semester)}
+        isBlocked={!Boolean(courseValues?.semester) || isBlocked}
       />
       <Filter
         filterData={filtersData.track}
         onClick={handleChangeTrack}
         options={filteredNameTracks}
         activeValue={courseValues?.track?.trackName}
-        isBlocked={!Boolean(courseValues?.course)}
+        isBlocked={!Boolean(courseValues?.course) || isBlocked}
       />
       <Filter
         filterData={filtersData.teacher}
         onClick={handleChangeTeacher}
         options={filteredNameTeachers}
         activeValue={courseValues?.teacher?.prepodName}
-        isBlocked={!Boolean(courseValues?.track)}
+        isBlocked={
+          !Boolean(courseValues?.track) ||
+          (courseValues.teacher &&
+            courseValues.track.prepods.length === 1 &&
+            isBlocked)
+        }
       />
     </div>
   );

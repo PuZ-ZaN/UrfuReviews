@@ -91,10 +91,10 @@ export default function Track() {
 
   return (
     <>
-      <div className='course_title_container'>
-        <p className='course_title'>{track?.trackName}</p>
-        <div className='course_view'>
-          <div className='circle_big'>
+      <div className="course_title_container">
+        <p className="course_title">{track?.trackName}</p>
+        <div className="course_view">
+          <div className="circle_big">
             <Circle valuesTrack={valuesTrack} />
           </div>
 
@@ -102,14 +102,14 @@ export default function Track() {
           <Criteria valuesTrack={valuesTrack} />
         </div>
 
-        <div className='filters_and_button'>
+        <div className="filters_and_button">
           <Filters teachers={track?.prepods} setValuesTrack={setValuesTrack} />
-          <AddReviewBtn />
+          <AddReviewBtn trackId={track?.id} />
         </div>
 
         {reviews.length ? (
           <>
-            <div className='reviews'>
+            <div className="reviews">
               {reviews.map((review, index) => (
                 <Review
                   key={review.id}
@@ -120,12 +120,12 @@ export default function Track() {
             </div>
 
             {(isShowButtonShowMore() || isLoadingShowMoreReviews) && (
-              <div className='pagination'>
-                <div className='pagination-content2'>
+              <div className="pagination">
+                <div className="pagination-content2">
                   <Button
-                    type='primary'
+                    type="primary"
                     icon={<ArrowDownOutlined />}
-                    size='large'
+                    size="large"
                     loading={isLoadingShowMoreReviews}
                     onClick={showMoreReviews}>
                     Показать больше отзывов
@@ -137,7 +137,7 @@ export default function Track() {
         ) : (
           <Empty
             style={{ marginTop: '2rem' }}
-            description='Напишите первый комментарий!'
+            description="Напишите первый комментарий!"
           />
         )}
       </div>

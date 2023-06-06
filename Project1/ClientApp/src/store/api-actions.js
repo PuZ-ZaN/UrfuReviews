@@ -105,6 +105,18 @@ export const fetchSubjects = createAsyncThunk(
   }
 );
 
+export const fetchSubjectByTrackId = createAsyncThunk(
+  'subjects/fetchSubjectsByTrackId',
+  async function ({ trackId }, { dispatch, fulfillWithValue }) {
+    try {
+      const { data } = await axios.get(`/api/subjectByTrackId/${trackId}`);
+      dispatch(setSubjects([data.subject]));
+    } catch (error) {
+      console.log('fetchSubjectsByTrack error');
+    }
+  }
+);
+
 export const fetchTrack = createAsyncThunk(
   'track/fetchTrack',
   async function ({ id }, { dispatch }) {

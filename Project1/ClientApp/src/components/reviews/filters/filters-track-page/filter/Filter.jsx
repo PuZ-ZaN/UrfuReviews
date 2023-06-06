@@ -1,10 +1,17 @@
 import React from 'react';
 import './filter.scss';
+import { Select } from 'antd';
+import { useParams } from 'react-router-dom';
 
 const Filter = ({ filterData, options, onClick, activeValue, isBlocked }) => {
   const [isShownBody, setIsShownBody] = React.useState(false);
-  const [currentTitle, setCurrentTitle] = React.useState(activeValue ?? filterData.text);
-  const currentOptions = 'options' in filterData ? Object.values(filterData.options) : options;
+  const [currentTitle, setCurrentTitle] = React.useState(
+    activeValue ?? filterData.text
+  );
+  const { id } = useParams();
+
+  const currentOptions =
+    'options' in filterData ? Object.values(filterData.options) : options;
 
   const toggleShownBody = () => {
     setIsShownBody((prevValue) => !prevValue);
@@ -20,20 +27,21 @@ const Filter = ({ filterData, options, onClick, activeValue, isBlocked }) => {
     if (isBlocked) setIsShownBody(false);
   }, [isBlocked]);
 
-  // React.useEffect(() => {
-  //   if (activeValue) {
-  //     setCurrentTitle(activeValue);
-  //   } else {
-  //     setCurrentTitle(filterData.text);
-  //   }
-  // }, [activeValue]);
+  React.useEffect(() => {
+    if (activeValue) {
+      setCurrentTitle(activeValue);
+    } else {
+      setCurrentTitle(filterData.text);
+    }
+  }, [activeValue]);
 
   return (
     <div
       className={`select 
       ${filterData.class} 
       ${isShownBody ? 'select_active' : ''} 
-      ${isBlocked ? 'blocked' : ''}`}
+      ${isBlocked ? 'blocked' : ''}
+      ${id ? 'id' : ''}`}
       disabled={isBlocked}>
       <div className="select_header" onClick={toggleShownBody}>
         <div className="select_header_title">{currentTitle}</div>
@@ -41,7 +49,10 @@ const Filter = ({ filterData, options, onClick, activeValue, isBlocked }) => {
       </div>
       <div className={`select_body ${isShownBody ? 'select_shown_body' : ''}`}>
         {currentOptions.map((option) => (
-          <div key={option} className="option" onClick={() => changeTitle(option)}>
+          <div
+            key={option}
+            className="option"
+            onClick={() => changeTitle(option)}>
             {option}
           </div>
         ))}

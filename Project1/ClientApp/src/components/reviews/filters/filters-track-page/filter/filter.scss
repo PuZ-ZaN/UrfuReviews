@@ -12,6 +12,9 @@
   .blocked {
     opacity: 0.5;
     pointer-events: none;
+    &.id {
+      opacity: 0.7;
+    }
   }
   .select_active .select_body {
     visibility: visible;
@@ -53,7 +56,6 @@
     -moz-appearance: none;
     position: relative;
     z-index: 3;
-    position: relative;
     cursor: pointer;
     .select_header_icon {
       width: 1rem;
@@ -75,6 +77,8 @@
     border-radius: 8px;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.2);
     padding: 0.85rem 1.25rem;
+    max-height: 20rem;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     gap: 1.1rem;
@@ -85,6 +89,14 @@
     opacity: 0;
     transition: 0.3s;
     visibility: hidden;
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+      width: 7px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 4px;
+      background-color: var(--gray-color-2);
+    }
     .option {
       width: 100%;
       font-weight: 400;
