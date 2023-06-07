@@ -133,7 +133,14 @@ const AddReview = () => {
     <>
       {contextHolder}
       <div className="add_review_page">
-        <p className="add_review_title">Страница добавления отзыва</p>
+        <p className="add_review_title">
+          Страница добавления отзыва{' '}
+          {id && subjects.length === 1
+            ? ` - "${
+                subjects[0].tracks.find((track) => track.id == id).trackName
+              }"`
+            : ''}
+        </p>
         <FiltersAddReview
           courseValues={courseValues}
           setCourseValues={setCourseValues}

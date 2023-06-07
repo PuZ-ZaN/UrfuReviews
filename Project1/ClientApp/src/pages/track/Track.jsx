@@ -48,10 +48,11 @@ export default function Track() {
       dispatch(fetchTrack({ id }));
     }
 
-    return () => dispatch(resetTrack());
+    // return () => dispatch(resetTrack());
   }, [id]);
 
   React.useEffect(() => {
+    console.log(id);
     if (id !== -1) {
       dispatch(
         fetchReviews({

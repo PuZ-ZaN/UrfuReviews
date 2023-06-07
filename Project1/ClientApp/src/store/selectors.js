@@ -22,6 +22,8 @@ export const getIsAuthUser = (state) => Boolean(state.user.user);
 
 export const getUserName = (state) => state?.user?.user?.username;
 
+export const getUserId = (state) => state?.user?.user?.id;
+
 export const getIsLoadingShowMoreReviews = (state) =>
   state.general.isLoading.track.reviews.showMore;
 

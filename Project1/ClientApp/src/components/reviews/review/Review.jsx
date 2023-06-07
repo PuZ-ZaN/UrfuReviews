@@ -4,17 +4,17 @@ import { Avatar, Modal, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeRatingReview } from '../../../store/api-actions';
 import { LikeOutlined } from '@ant-design/icons';
-import { getUserName } from '../../../store/selectors';
+import { getUserId, getUserName } from '../../../store/selectors';
 
 const Review = ({ review, teacher }) => {
   const dispatch = useDispatch();
   const dateTime = new Date(review.addedDate);
-  const userName = useSelector(getUserName);
+  const userId = useSelector(getUserId);
   const usersRatingReview =
     review?.likes?.length - review?.disLikes?.length || 0;
 
   const handleChangeRatingReview = (isLike) => {
-    if (userName == review.userName) {
+    if (userId == review.user?.id) {
       errorReviewBelongsUser();
       return;
     }
@@ -30,11 +30,11 @@ const Review = ({ review, teacher }) => {
   const handleDisLikeButton = () => handleChangeRatingReview(false);
 
   const isLikedReview = () => {
-    return review.likes.includes(userName);
+    return review.likes.includes(userId);
   };
 
   const isDisLikedReview = () => {
-    return review.disLikes.includes(userName);
+    return review.disLikes.includes(userId);
   };
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -65,11 +65,11 @@ const Review = ({ review, teacher }) => {
               <Avatar size="large" className="id-avatar">
                 {review.isAnonym || review.isMoved
                   ? 'А'
-                  : review.userName[0].toUpperCase()}
+                  : review.user.name[0].toUpperCase()}
               </Avatar>
               {review.isAnonym || review.isMoved
                 ? 'Аноним'
-                : review.userName[0].toUpperCase() + review.userName.slice(1)}
+                : review.user.name[0].toUpperCase() + review.user.name.slice(1)}
             </div>
             <div className="date">
               {review.isMoved

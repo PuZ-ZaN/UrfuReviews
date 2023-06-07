@@ -194,10 +194,9 @@ export const changeRatingReview = createAsyncThunk(
 // admin panel
 
 export const searchCourses = createAsyncThunk(
-  'course/searchCourses',
+  'admin/course/searchCourses',
   async function ({ text }, { dispatch, rejectWithValue }) {
     try {
-      console.log(text);
       const result = await axios.get('/api/searchSubjects', {
         params: { text },
       });
@@ -209,8 +208,23 @@ export const searchCourses = createAsyncThunk(
   }
 );
 
+export const getBadReviews = createAsyncThunk(
+  'admin/reviews/getBadReviews',
+  async function ({ limit }, { dispatch, rejectWithValue }) {
+    console.log('badReviews');
+    try {
+      const result = await axios.get('/api/badReviews', {
+        params: { limit },
+      });
+      dispatch(setReviews(result.data));
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const addCourse = createAsyncThunk(
-  'course/addCourse',
+  'admin/course/addCourse',
   async function ({ name, semester }, { rejectWithValue }) {
     try {
       await axios.post('/api/AddSubject', { subjectName: name, semester });
@@ -221,7 +235,7 @@ export const addCourse = createAsyncThunk(
 );
 
 export const addTrack = createAsyncThunk(
-  'track/addTrack',
+  'admin/track/addTrack',
   async function ({ name, courseId }, { dispatch, rejectWithValue }) {
     try {
       await axios.post('/api/addTrack', {
@@ -239,7 +253,7 @@ export const addTrack = createAsyncThunk(
 );
 
 export const addTeacher = createAsyncThunk(
-  'teacher/addTeacher',
+  'admin/teacher/addTeacher',
   async function ({ name, trackId, courseId }, { dispatch, rejectWithValue }) {
     try {
       await axios.post('/api/addPrepod', { prepodName: name, trackId });

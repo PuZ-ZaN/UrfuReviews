@@ -41,7 +41,7 @@ namespace Project1.Controllers
             var response = new
             {
                 access_token = encodedJwt,
-                username = identity.Name
+                username = identity.Name,
             };
 
             return Json(response);
@@ -54,6 +54,7 @@ namespace Project1.Controllers
             token = token.Replace("Bearer ", "");
 
             string role = "", name = "";
+            Guid id = Guid.Empty;
 
             try
             {
@@ -67,7 +68,7 @@ namespace Project1.Controllers
                 SecurityToken validatedToken;
                 IPrincipal principal = handler.ValidateToken(token, validationParameters, out validatedToken);
 
-                // сохранение нужных полей для ответа
+                // сохранение нужных полей для ответа    
 
                 var claims = jwtSecurityToken.Claims.ToList();
 
@@ -81,13 +82,18 @@ namespace Project1.Controllers
                     {
                         name = claim.Value;
                     }
+                    else if (claim.Type.Contains("userdata"))
+                    {
+                        id = new Guid(claim.Value);
+                    }
                 }
 
                 return Json(new
                 {
                     access_token = token,
                     username = name,
-                    role = role
+                    role = role,
+                    id = id,
                 });
             }
             catch (Exception ex)
@@ -104,6 +110,7 @@ namespace Project1.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, person.Email),
+                    new Claim(ClaimTypes.UserData, person.Id.ToString()),
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role)
                 };
                 ClaimsIdentity claimsIdentity =

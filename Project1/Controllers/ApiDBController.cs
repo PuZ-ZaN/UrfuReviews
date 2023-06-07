@@ -62,7 +62,7 @@ namespace Project1.Controllers
 
             var subjects = Context.Subjects.Where(subject => subject.Id == track.SubjectId)
                                            .Include(s => s.Tracks)
-                                           .ThenInclude(t => t.Prepods);
+                                           .ThenInclude(t => t.Prepods);    
 
 
 
@@ -103,7 +103,6 @@ namespace Project1.Controllers
                 }
             }
 
-
             if (!(trackId is null))
             {
                 var prepodsId = Context.Prepods.Where(teacher => teacher.TrackId == trackId).Select(teacher => teacher.Id);
@@ -120,6 +119,13 @@ namespace Project1.Controllers
             if (!(i is null))
             {
                 reviews = reviews.Where(t => t.Id == i);
+            }
+
+            // сокрытие userName;
+
+            foreach (Review review in reviews)
+            {
+                review.user = review.isAnonym ? null : review.user;
             }
 
             return reviews;
@@ -187,17 +193,26 @@ namespace Project1.Controllers
 
         }
 
-        /*[HttpGet("All2")]
-        public CommonAddModel GetAll()
+        [HttpGet("BadReviews/{i?}")]
+        public IEnumerable<Review> GetBadReviews(Guid? i, Int32? limit)
         {
-            return new CommonAddModel()
+            IQueryable<Review> reviews = Context.Reviews;
+
+            reviews = reviews.Where(review => review.disLikes.Count > review.likes.Count)
+                             .OrderByDescending(r => r.likes.Count - r.disLikes.Count)
+                             .ThenByDescending(r => r.AddedDate);
+
+            if (!(limit is null))
             {
-                Subjects = Context.Subjects.ToList(),
-                Prepods = Context.Prepods.ToList(),
-                Reviews = Context.Reviews.ToList(),
-                Tracks = Context.Tracks.ToList(),
-            };
-        }*/
+                reviews = reviews.Take(limit.GetValueOrDefault(1));
+            }
+            if (!(i is null))
+            {
+                reviews = reviews.Where(t => t.Id == i);
+            }
+
+            return reviews;
+        }
 
 
         [Authorize(Roles = "User")]
@@ -250,14 +265,12 @@ namespace Project1.Controllers
         [HttpPost("AddReview")]
         public IActionResult AddReview(Review value)
         {
-            if (value.userName == "") // убрать проверку в продакшне
-            {
-                string userName = getUserName();
-                if (userName == "Invalid token")
-                    return BadRequest(new { errorText = "Invalid token" });
+            PersonReview user = getUserReview();
+            Console.WriteLine(user.id);
+            if (user.id == Guid.Empty)
+                return BadRequest(new { errorText = "Invalid token" });
 
-                value.userName = userName;
-            }
+            value.user = user;
 
             try
             {
@@ -283,35 +296,38 @@ namespace Project1.Controllers
             IQueryable<Review> reviews = Context.Reviews;
             Review reviewInDB = reviews.FirstOrDefault(rev => review.Id == rev.Id);
 
-            string userName = getUserName();
-            if (userName == "Invalid token")
+            PersonReview user = getUserReview();
+            if (user.id == Guid.Empty)
                 return BadRequest(new { errorText = "Invalid token" });
 
-            if (reviewInDB.userName == userName)
+            if (reviewInDB.user.id == user.id)
                 return BadRequest(new { errorText = "Author review equals user" });
 
-            if (reviewInDB.likes.Contains(userName) || reviewInDB.disLikes.Contains(userName))
+            if (reviewInDB.likes.Contains(user.id) || reviewInDB.disLikes.Contains(user.id))
                 return BadRequest(new { errorText = "Author already appreciated the review" });
 
             if (isLike)
             {
-                reviewInDB.likes.Add(userName);
+                reviewInDB.likes.Add(user.id);
             }
             else
             {
-                reviewInDB.disLikes.Add(userName);
+                reviewInDB.disLikes.Add(user.id);
             }
 
             Context.SaveChanges();
 
+            reviewInDB.user = reviewInDB.isAnonym ? null : reviewInDB.user;
             return new JsonResult(reviewInDB);
         }
 
-        public string getUserName()
+        public PersonReview getUserReview()
         {
             string token = Request.Headers["Authorization"];
             token = token.Replace("Bearer ", "");
-            string userName = "";
+            PersonReview user = new() { };
+
+            Console.WriteLine("QQQQQQ");
 
             try
             {
@@ -325,17 +341,23 @@ namespace Project1.Controllers
                 SecurityToken validatedToken;
                 IPrincipal principal = handler.ValidateToken(token, validationParameters, out validatedToken);
 
-                // получение userName
+                // получение user полей
 
                 var claims = jwtSecurityToken.Claims.ToList();
-                userName = claims.FirstOrDefault(claim => claim.Type.Contains("name")).Value;
+                user.name = claims.FirstOrDefault(claim => claim.Type.Contains("name")).Value;
+                user.id = new Guid(claims.FirstOrDefault(claim => claim.Type.Contains("userdata")).Value);
+                foreach (var claim in claims)
+                {
+                    Console.WriteLine(claim.Type);
+                }
             }
+            
             catch (Exception ex)
             {
-                return "Invalid token";
+                return user;
             }
 
-            return userName;
+            return user;
         }
 
         public void calculateNewValueTeacher(Review newReview)
