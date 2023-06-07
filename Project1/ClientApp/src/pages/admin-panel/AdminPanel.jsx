@@ -14,6 +14,7 @@ import AdminTab from './admin-tab/AdminTab';
 import AdminAddData from './admin-add-data/AdminAddData';
 import { Navigate } from 'react-router-dom';
 import { getIsAuthUser, getIsLoadingStatus } from '../../store/selectors';
+import AdminBadReviews from './admin-bad-reviews/AdminBadReviews';
 
 const AdminPanel = () => {
   const dispatch = useDispatch();
@@ -27,8 +28,16 @@ const AdminPanel = () => {
   };
 
   const tabsInfo = [
-    { text: 'Добавление данных', icon: <PlusOutlined />, component: <AdminAddData /> },
-    { text: 'Заминусованные комментарии', icon: <DislikeOutlined />, component: <p>hello</p> },
+    {
+      text: 'Добавление данных',
+      icon: <PlusOutlined />,
+      component: <AdminAddData />,
+    },
+    {
+      text: 'Заминусованные комментарии',
+      icon: <DislikeOutlined />,
+      component: <AdminBadReviews />,
+    },
     {
       text: 'Подгрузка тестовых данных',
       icon: <CloudUploadOutlined />,
