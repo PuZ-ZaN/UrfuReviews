@@ -16,12 +16,13 @@ import {
   fetchSubjects,
   fetchSubjectByTrackId,
 } from '../../store/api-actions';
-import { Col, Modal, Row, message } from 'antd';
+import { Col, Modal, Row, message, Switch } from 'antd';
 import {
   getIsAuthUser,
   getSemester,
   getSubjects,
   getIsLoadingStatus,
+  getUserName,
 } from './../../store/selectors';
 import { resetSubjectsState } from '../../store/subjectsSlice';
 
@@ -34,16 +35,17 @@ const AddReview = () => {
   const isAuth = useSelector(getIsAuthUser);
   const semester = useSelector((state) => getSemester(state));
   const subjects = useSelector(getSubjects);
+  const userName = useSelector(getUserName);
 
   const [courseValues, setCourseValues] = React.useState(initCourseValues);
   const [fieldsValues, setFieldsValues] = React.useState(initFieldsValues);
+  const [isAnonym, setIsAnonym] = React.useState(false);
 
   React.useEffect(() => {
     if (semester != 'all') dispatch(fetchSubjects({ semester, limit: 999 }));
   }, [semester]);
 
   React.useEffect(() => {
-    console.log(id);
     if (id) {
       dispatch(fetchSubjectByTrackId({ trackId: id }));
     } else {
@@ -65,6 +67,10 @@ const AddReview = () => {
       teacher: track.prepods.length === 1 ? track.prepods[0] : '',
     }));
   }, [subjects]);
+
+  const handleToggleAnonym = () => {
+    setIsAnonym((prev) => !prev);
+  };
 
   const handleChangeFieldStars = (fieldTitle, value) => {
     let field = Object.keys(assessmentTitle).find(
@@ -108,7 +114,11 @@ const AddReview = () => {
 
   const addReview = async () => {
     const result = await dispatch(
-      addReviewAction({ ...fieldsValues, prepodId: courseValues.teacher.id })
+      addReviewAction({
+        ...fieldsValues,
+        prepodId: courseValues.teacher.id,
+        isAnonym,
+      })
     );
     if (result?.error) {
       error();
@@ -116,8 +126,6 @@ const AddReview = () => {
       success();
     }
   };
-
-  console.log(courseValues);
 
   if (!isAuth && !isLoading) return <Navigate to="/login" />;
 
@@ -159,17 +167,30 @@ const AddReview = () => {
                 cols="30"
                 rows="10"
                 onChange={(e) => changeTextField(e)}></textarea>
-              <button
-                disabled={getCountCheckedFields() !== 5}
-                onClick={addReview}>
-                <span>Добавить отзыв</span>
-                <img
-                  src="/img/add_review_icon.png"
-                  width={24}
-                  height={24}
-                  alt="add"
-                />
-              </button>
+              <hr />
+              <div className="user-name-block">
+                <p>Вы оставляете отзыв как:</p>
+                <p className="user-name">{isAnonym ? 'Аноним' : userName}</p>
+              </div>
+              <div className="bottom-panel">
+                <div className="switch-anonym">
+                  <p>Скрыть мой логин в отзыве</p>
+                  <Switch onChange={handleToggleAnonym} />
+                </div>
+
+                <button
+                  className="add-review-button"
+                  disabled={getCountCheckedFields() !== 5}
+                  onClick={addReview}>
+                  <span>Добавить отзыв</span>
+                  <img
+                    src="/img/add_review_icon.png"
+                    width={24}
+                    height={24}
+                    alt="add"
+                  />
+                </button>
+              </div>
             </div>
           </Col>
           <Col lg="auto" md="auto" sm="auto" xs="auto">
@@ -208,9 +229,6 @@ const AddReview = () => {
                       Отзыв(от 30 до 1000 символов)
                     </li>
                   </ul>
-                </div>
-                <div className="right_block_info_anon_text">
-                  Отзыв будет добавлен анонимно.
                 </div>
               </div>
             </div>
