@@ -24,11 +24,12 @@ export const getUserName = (state) => state?.user?.user?.username;
 
 export const getUserId = (state) => state?.user?.user?.id;
 
+export const getUserRole = (state) => state?.user?.user?.role;
+
 export const getIsLoadingShowMoreReviews = (state) =>
   state.general.isLoading.track.reviews.showMore;
 
-export const getIsLoadingShowMoreCourses = (state) =>
-  state.general.isLoading.subjects.showMore;
+export const getIsLoadingShowMoreCourses = (state) => state.general.isLoading.subjects.showMore;
 
 export const getIsLoadingStatus = (state) => {
   const isLoading = JSON.parse(JSON.stringify(state.general.isLoading));

@@ -172,6 +172,7 @@ namespace Project1.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("SearchSubjects")]
         public IEnumerable<Subject> SearchSubjects(string? text, Guid? id)
         {
@@ -193,6 +194,7 @@ namespace Project1.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("BadReviews/{i?}")]
         public IEnumerable<Review> GetBadReviews(Guid? i, Int32? limit)
         {
@@ -215,7 +217,7 @@ namespace Project1.Controllers
         }
 
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("AddSubject")]
         public IActionResult AddSubject(Subject value)
         {
@@ -231,7 +233,7 @@ namespace Project1.Controllers
             }
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("AddTrack")]
         public IActionResult AddTrack(Track value)
         {
@@ -246,7 +248,7 @@ namespace Project1.Controllers
                 return StatusCode(500);
             }
         }
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("AddPrepod")]
         public IActionResult AddPrepod(Prepod value)
         {
@@ -261,7 +263,7 @@ namespace Project1.Controllers
                 return StatusCode(500);
             }
         }
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         [HttpPost("AddReview")]
         public IActionResult AddReview(Review value)
         {
@@ -286,7 +288,7 @@ namespace Project1.Controllers
         }
 
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "User, Admin")]
         [HttpPost("ChangeRatingReview")]
         public IActionResult ChangeRatingReview([FromBody] JObject data)
         {
@@ -406,7 +408,7 @@ namespace Project1.Controllers
             teacher.Values = values;
         }
 
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin")]
         [HttpPost("AddAll")]
         public IActionResult AddAll(CommonAddModel value)
         {

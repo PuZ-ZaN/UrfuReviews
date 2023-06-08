@@ -13,13 +13,14 @@ import {
 import AdminTab from './admin-tab/AdminTab';
 import AdminAddData from './admin-add-data/AdminAddData';
 import { Navigate } from 'react-router-dom';
-import { getIsAuthUser, getIsLoadingStatus } from '../../store/selectors';
+import { getIsAuthUser, getIsLoadingStatus, getUserRole } from '../../store/selectors';
 import AdminBadReviews from './admin-bad-reviews/AdminBadReviews';
 
 const AdminPanel = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(getIsAuthUser);
   const isLoading = useSelector(getIsLoadingStatus);
+  const userRole = useSelector(getUserRole);
   const [isSidebarShown, setSidebarShown] = React.useState(false);
   const sidebarIconRef = React.useRef(null);
 
@@ -58,7 +59,7 @@ const AdminPanel = () => {
     setActiveTab(tabsInfo.find((tab) => tab.text === textTab));
   };
 
-  if (!isLoading && !isAuth) return <Navigate to="/login" />;
+  if (!isLoading && (!isAuth || userRole != 'Admin')) return <Navigate to="/" />;
 
   return (
     <Row className="wrapper admin-wrapper">
