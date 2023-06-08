@@ -1,4 +1,5 @@
-﻿using IdentityModel;
+﻿using BCrypt.Net;
+using IdentityModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
@@ -104,8 +105,10 @@ namespace Project1.Controllers
 
         private ClaimsIdentity GetIdentity(string email, string password)
         {
-            Person person = Context.Person.FirstOrDefault(x => (x.Email == email && x.Password == password));
-            if (person != null)
+            Person person = Context.Person.FirstOrDefault(x => (x.Email == email));
+            var isValidPassword = BCrypt.Net.BCrypt.Verify(password, person.Password);
+
+            if (person != null && isValidPassword)
             {
                 var claims = new List<Claim>
                 {
@@ -125,6 +128,8 @@ namespace Project1.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromForm] string email, [FromForm] string password)
         {
+            var hashPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
             if (!email.Contains("@"))
             {
                 return BadRequest(new { errorText = "Need '@' in Email" });
@@ -138,7 +143,7 @@ namespace Project1.Controllers
             {
                 return BadRequest(new { errorText = "Email already registered!" });
             }
-            Context.Person.Add(new Person { Email = username, Password = password, Role = "User" });
+            Context.Person.Add(new Person { Email = username, Password = hashPassword, Role = "User" });
             Context.SaveChanges();
             return Ok();
         }
