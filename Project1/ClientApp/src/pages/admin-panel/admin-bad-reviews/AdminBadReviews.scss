@@ -1,0 +1,31 @@
+.bad-reviews {
+  margin: 1.5rem 0;
+  .review-top-panel {
+    width: 100%;
+    padding: 0.5rem 1.5rem;
+    background-color: var(--gray-color-5);
+    border-radius: 25px 25px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    div {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      color: white;
+      font-size: 0.9rem;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.1s;
+      &:hover {
+        color: var(--gray-color-1);
+      }
+    }
+  }
+  .review {
+    border-radius: 0 0 25px 25px !important;
+    margin-bottom: 1.5rem;
+  }
+}
