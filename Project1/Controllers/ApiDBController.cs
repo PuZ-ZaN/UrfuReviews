@@ -69,7 +69,7 @@ namespace Project1.Controllers
                     return tracks.Include(t => t.Prepods);
                 else
                     return tracks.Where(t => t.Id == i)
-                                         .Include(t => t.Prepods);
+                                 .Include(t => t.Prepods.OrderByDescending(r => r.AddedDate));
             }
 
             if (i is null)
@@ -81,14 +81,13 @@ namespace Project1.Controllers
         [HttpGet("SubjectByTrackId/{trackId}")]
         public IActionResult GetSubjectByTrackId(Guid trackId)
         {
-            Console.WriteLine(trackId);
             var track = GetAllTracks(trackId, false).FirstOrDefault();
             if ((track is null)) return BadRequest(new { errorText = "Invalid track ID" });
 
 
             var subjects = Context.Subjects.Where(subject => subject.Id == track.SubjectId)
                                            .Include(s => s.Tracks)
-                                           .ThenInclude(t => t.Prepods);    
+                                           .ThenInclude(t => t.Prepods.OrderByDescending(r => r.AddedDate));    
 
 
 
@@ -170,8 +169,8 @@ namespace Project1.Controllers
         public IEnumerable<Subject> GetAll(Int32? limit, Int32? semester)
         {
             var Subjects = Context.Subjects.Where(subject => Convert.ToBoolean(semester) ? subject.Semester.Contains(Convert.ToInt32(semester)) : true)
-                                           .Include(s => s.Tracks)
-                                           .ThenInclude(t => t.Prepods)
+                                           .Include(s => s.Tracks.OrderBy(t => t.AddedDate))
+                                           .ThenInclude(t => t.Prepods.OrderByDescending(r => r.AddedDate))
                                            .OrderBy(subject => subject.AddedDate);                               
 
             if (limit is null)
@@ -266,6 +265,14 @@ namespace Project1.Controllers
             try
             {
                 Context.Tracks.Add(value);
+
+                Prepod defaultTeacher = new Prepod
+                {
+                    TrackId = value.Id,
+                    PrepodName = "Нет нужного/онлайн курс",
+                };
+                Context.Prepods.Add(defaultTeacher);
+
                 Context.SaveChanges();
                 return new JsonResult(new { value.Id });
             }
@@ -294,7 +301,6 @@ namespace Project1.Controllers
         public IActionResult AddReview(Review value)
         {
             PersonReview user = getUserReview();
-            Console.WriteLine(user.id);
             if (user.id == Guid.Empty)
                 return BadRequest(new { errorText = "Invalid token" });
 
@@ -355,8 +361,6 @@ namespace Project1.Controllers
             token = token.Replace("Bearer ", "");
             PersonReview user = new() { };
 
-            Console.WriteLine("QQQQQQ");
-
             try
             {
                 var handler = new JwtSecurityTokenHandler();
@@ -374,10 +378,6 @@ namespace Project1.Controllers
                 var claims = jwtSecurityToken.Claims.ToList();
                 user.name = claims.FirstOrDefault(claim => claim.Type.Contains("name")).Value;
                 user.id = new Guid(claims.FirstOrDefault(claim => claim.Type.Contains("userdata")).Value);
-                foreach (var claim in claims)
-                {
-                    Console.WriteLine(claim.Type);
-                }
             }
             
             catch (Exception ex)

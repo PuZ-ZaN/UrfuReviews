@@ -20,8 +20,7 @@ export const mocksData = {
     },
     {
       semester: [5],
-      subjectName:
-        'Экономические и гуманитарные аспекты информационных технологий 1',
+      subjectName: 'Экономические и гуманитарные аспекты информационных технологий 1',
       tracks: [],
       id: '95d4992a-d751-4b65-b29a-1b3b2e726b86',
       addedDate: '2022-12-22T19:04:11.368637Z',
@@ -320,8 +319,7 @@ export const mocksData = {
       b64Image: null,
     },
     {
-      trackName:
-        'Devops, виртуализация и облачные технологии (смешанный, Ростелеком)',
+      trackName: 'Devops, виртуализация и облачные технологии (смешанный, Ростелеком)',
       subjectId: '656c82c0-0aec-4784-b44b-e4edd252c0e4',
       subject: null,
       prepods: [],
@@ -360,8 +358,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '66c59223-5860-46a7-9b0e-56a5606516d3',
-      addedDate: '2023-05-31T17:18:05.550665Z',
-      updatedDate: '2023-05-31T17:18:05.550665Z',
       b64Image: null,
     },
     {
@@ -382,8 +378,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'a4920436-a373-4d51-9ee6-7f10a31c6f58',
-      addedDate: '2022-12-22T18:56:16.574452Z',
-      updatedDate: '2022-12-22T18:56:16.574453Z',
       b64Image: null,
     },
     {
@@ -404,8 +398,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '8ec5003a-b3da-4978-95a8-a0acf1b87c19',
-      addedDate: '2022-12-22T18:34:28.870038Z',
-      updatedDate: '2022-12-22T18:34:28.870039Z',
       b64Image: null,
     },
     {
@@ -426,8 +418,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'e325ce23-dca7-49fc-a68c-81a137c9f82c',
-      addedDate: '2023-05-31T17:19:02.244618Z',
-      updatedDate: '2023-05-31T17:19:02.244618Z',
       b64Image: null,
     },
     {
@@ -448,8 +438,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'a2ae2b0e-857f-456d-acd4-8acb5d258ca8',
-      addedDate: '2022-12-22T18:47:56.431684Z',
-      updatedDate: '2022-12-22T18:47:56.431684Z',
       b64Image: null,
     },
     {
@@ -470,8 +458,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'a4bf23b0-2fb1-4089-8ef1-b47d9ba3339d',
-      addedDate: '2022-12-22T18:31:27.235045Z',
-      updatedDate: '2022-12-22T18:31:27.235045Z',
       b64Image: null,
     },
     {
@@ -492,8 +478,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'bd4d55bd-1091-43be-ac02-dff65a28f79e',
-      addedDate: '2023-05-31T17:30:16.724596Z',
-      updatedDate: '2023-05-31T17:30:16.724596Z',
       b64Image: null,
     },
     {
@@ -514,8 +498,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '46aaf8a8-798b-4dd1-8b40-2cb2e3b4f249',
-      addedDate: '2022-12-22T18:51:45.279943Z',
-      updatedDate: '2022-12-22T18:51:45.279943Z',
       b64Image: null,
     },
     {
@@ -536,8 +518,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '7916076c-d43b-4361-b769-c6a821414247',
-      addedDate: '2022-12-22T18:13:40.269Z',
-      updatedDate: '2022-12-22T18:13:40.269Z',
       b64Image: null,
     },
     {
@@ -558,8 +538,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'd2ff9127-2538-4824-92a2-44015655ada8',
-      addedDate: '2023-05-31T17:31:43.775712Z',
-      updatedDate: '2023-05-31T17:31:43.775713Z',
       b64Image: null,
     },
     {
@@ -580,8 +558,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'c41f2f0f-c704-410d-bdfd-0b2fbb6b0a1a',
-      addedDate: '2023-05-31T17:32:56.162421Z',
-      updatedDate: '2023-05-31T17:32:56.162421Z',
       b64Image: null,
     },
     {
@@ -602,8 +578,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '946b5318-d52b-4109-805b-9d4aa26ba264',
-      addedDate: '2023-05-31T17:33:49.595919Z',
-      updatedDate: '2023-05-31T17:33:49.595919Z',
       b64Image: null,
     },
     {
@@ -624,8 +598,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'be2fcff7-6a92-4012-8ef9-9f431e1fe498',
-      addedDate: '2023-05-31T17:35:06.751141Z',
-      updatedDate: '2023-05-31T17:35:06.751141Z',
       b64Image: null,
     },
     {
@@ -646,8 +618,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '1fb82d4f-cf12-4543-bb78-84bf0f84c384',
-      addedDate: '2023-05-31T17:35:55.716881Z',
-      updatedDate: '2023-05-31T17:35:55.716881Z',
       b64Image: null,
     },
     {
@@ -668,8 +638,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '739e0df4-dc43-409e-ae1c-ff0e6efc5526',
-      addedDate: '2022-12-22T18:22:15.856318Z',
-      updatedDate: '2022-12-22T18:22:15.856318Z',
       b64Image: null,
     },
     {
@@ -690,8 +658,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '5aa8a5fb-6f25-4ba5-ae50-68e814cb126c',
-      addedDate: '2022-12-22T19:05:09.831099Z',
-      updatedDate: '2022-12-22T19:05:09.831099Z',
       b64Image: null,
     },
     {
@@ -712,8 +678,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '330a19b0-5fd7-44a4-941d-7a3114aa826d',
-      addedDate: '2023-03-25T14:49:18.736253Z',
-      updatedDate: '2023-03-25T14:49:18.736253Z',
       b64Image: null,
     },
     {
@@ -734,8 +698,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '23818c58-9d80-4cdc-aa16-4470b3c689b5',
-      addedDate: '2023-05-31T17:36:46.033441Z',
-      updatedDate: '2023-05-31T17:36:46.033441Z',
       b64Image: null,
     },
     {
@@ -756,8 +718,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'c2cbc7d3-43fe-42ed-9176-8028a6b9d9e7',
-      addedDate: '2023-05-31T17:37:14.008039Z',
-      updatedDate: '2023-05-31T17:37:14.008039Z',
       b64Image: null,
     },
     {
@@ -778,8 +738,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '96bfbf21-d16e-4b80-a65f-ee851500b256',
-      addedDate: '2022-12-22T19:10:04.254151Z',
-      updatedDate: '2022-12-22T19:10:04.254151Z',
       b64Image: null,
     },
     {
@@ -800,8 +758,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: 'd1ffd175-3744-4100-b1ad-8bac04b77d13',
-      addedDate: '2023-05-31T17:41:14.31429Z',
-      updatedDate: '2023-05-31T17:41:14.31429Z',
       b64Image: null,
     },
     {
@@ -822,8 +778,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '67ca147d-4909-4054-a8dd-9ee1257e4fbe',
-      addedDate: '2023-05-31T17:41:03.34504Z',
-      updatedDate: '2023-05-31T17:41:03.34504Z',
       b64Image: null,
     },
     {
@@ -844,8 +798,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '11acaff6-437f-4683-bf9b-f229a2980365',
-      addedDate: '2022-12-22T18:27:32.659906Z',
-      updatedDate: '2022-12-22T18:27:32.659906Z',
       b64Image: null,
     },
     {
@@ -866,8 +818,6 @@ export const mocksData = {
       track: null,
       reviews: [],
       id: '387b5724-4edc-4c31-b2be-5149d5df598e',
-      addedDate: '2022-12-22T18:09:25.869399Z',
-      updatedDate: '2022-12-22T18:09:25.8694Z',
       b64Image: null,
     },
   ],
