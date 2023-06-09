@@ -5,10 +5,13 @@
   "proxy": "https://localhost:7177",
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "@reduxjs/toolkit": "^1.9.1",
     "antd": "^5.4.1",
     "axios": "^1.2.0",
     "bootstrap": "^5.1.3",
+    "emoji-mart": "^5.5.2",
     "http-proxy-middleware": "^2.0.6",
     "jquery": "^3.6.0",
     "merge": "^2.1.1",

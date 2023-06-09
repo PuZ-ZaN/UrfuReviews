@@ -1,10 +1,6 @@
 import React from 'react';
 import './AddReview.scss';
-import {
-  assessmentTitle,
-  initCourseValues,
-  initFieldsValues,
-} from '../../const.ts';
+import { assessmentTitle, initCourseValues, initFieldsValues } from '../../const.ts';
 import Assessment from '../../components/reviews/review/assessment/Assessment';
 import FiltersAddReview from '../../components/reviews/filters/filters-add-review/FiltersAddReview';
 import CircleProgress from '../../components/reviews/circle-progress/CircleProgress';
@@ -25,6 +21,8 @@ import {
   getUserName,
 } from './../../store/selectors';
 import { resetSubjectsState } from '../../store/subjectsSlice';
+import { SmileOutlined } from '@ant-design/icons';
+import Picker from '@emoji-mart/react';
 
 const AddReview = () => {
   const dispatch = useDispatch();
@@ -40,6 +38,7 @@ const AddReview = () => {
   const [courseValues, setCourseValues] = React.useState(initCourseValues);
   const [fieldsValues, setFieldsValues] = React.useState(initFieldsValues);
   const [isAnonym, setIsAnonym] = React.useState(false);
+  const [isEmojiPickerShown, setIsEmojiPickerShown] = React.useState(false);
 
   React.useEffect(() => {
     if (semester != 'all') dispatch(fetchSubjects({ semester, limit: 999 }));
@@ -68,14 +67,26 @@ const AddReview = () => {
     }));
   }, [subjects]);
 
+  const handleToggleEmojiShow = (e) => {
+    textareaRef.current.focus();
+    setIsEmojiPickerShown((prev) => !prev);
+  };
+
+  const closeEmojiPicker = () => {
+    if (isEmojiPickerShown) setIsEmojiPickerShown(false);
+  };
+
+  const handleEmojiClick = (e) => {
+    textareaRef.current.focus();
+    setFieldsValues((prev) => ({ ...prev, body: prev.body + e.native }));
+  };
+
   const handleToggleAnonym = () => {
     setIsAnonym((prev) => !prev);
   };
 
   const handleChangeFieldStars = (fieldTitle, value) => {
-    let field = Object.keys(assessmentTitle).find(
-      (title) => assessmentTitle[title] === fieldTitle
-    );
+    let field = Object.keys(assessmentTitle).find((title) => assessmentTitle[title] === fieldTitle);
     field = field[0].toLowerCase() + field.slice(1);
     setFieldsValues((prev) => ({ ...prev, [field]: value }));
   };
@@ -92,8 +103,7 @@ const AddReview = () => {
   };
 
   const getCountCheckedFields = () => {
-    return Object.values(fieldsValues).filter((value) => isFieldCorrect(value))
-      .length;
+    return Object.values(fieldsValues).filter((value) => isFieldCorrect(value)).length;
   };
 
   const [_, contextHolder] = message.useMessage();
@@ -105,8 +115,7 @@ const AddReview = () => {
   };
   const success = () => {
     Modal.success({
-      content:
-        'Отзыв был успешно добавлен. Вы будете перенаправлены на страницу с треком.',
+      content: 'Отзыв был успешно добавлен. Вы будете перенаправлены на страницу с треком.',
       className: 'modal-my-class',
       onOk: () => navigate(`/track/${courseValues.track.id}`),
     });
@@ -118,7 +127,7 @@ const AddReview = () => {
         ...fieldsValues,
         prepodId: courseValues.teacher.id,
         isAnonym,
-      })
+      }),
     );
     if (result?.error) {
       error();
@@ -126,6 +135,8 @@ const AddReview = () => {
       success();
     }
   };
+
+  const textareaRef = React.useRef();
 
   if (!isAuth && !isLoading) return <Navigate to="/login" />;
 
@@ -136,15 +147,10 @@ const AddReview = () => {
         <p className="add_review_title">
           Страница добавления отзыва{' '}
           {id && subjects.length === 1
-            ? ` - "${
-                subjects[0].tracks.find((track) => track.id == id).trackName
-              }"`
+            ? ` - "${subjects[0].tracks.find((track) => track.id == id).trackName}"`
             : ''}
         </p>
-        <FiltersAddReview
-          courseValues={courseValues}
-          setCourseValues={setCourseValues}
-        />
+        <FiltersAddReview courseValues={courseValues} setCourseValues={setCourseValues} />
         <div className="hr_add_review"></div>
         <Row className="blocks">
           <Col lg={16} md={16} xs={24}>
@@ -162,10 +168,7 @@ const AddReview = () => {
                   title={assessmentTitle.Availability}
                   onChangeField={handleChangeFieldStars}
                 />
-                <Assessment
-                  title={assessmentTitle.Rating}
-                  onChangeField={handleChangeFieldStars}
-                />
+                <Assessment title={assessmentTitle.Rating} onChangeField={handleChangeFieldStars} />
               </div>
               <p className="add_review_comment_text">Ваш комментарий</p>
               <textarea
@@ -173,7 +176,17 @@ const AddReview = () => {
                 id=""
                 cols="30"
                 rows="10"
+                ref={textareaRef}
+                value={fieldsValues.body}
                 onChange={(e) => changeTextField(e)}></textarea>
+              <div className="bottom-panel-textarea">
+                <div className={`emoji-picker ${isEmojiPickerShown ? '' : 'hide'}`}>
+                  <Picker onEmojiSelect={handleEmojiClick} onClickOutside={closeEmojiPicker} />
+                </div>
+                <span onClick={handleToggleEmojiShow}>
+                  Добавить эмодзи <SmileOutlined />
+                </span>
+              </div>
               <hr />
               <div className="user-name-block">
                 <p>Вы оставляете отзыв как:</p>
@@ -190,12 +203,7 @@ const AddReview = () => {
                   disabled={getCountCheckedFields() !== 5}
                   onClick={addReview}>
                   <span>Добавить отзыв</span>
-                  <img
-                    src="/img/add_review_icon.png"
-                    width={24}
-                    height={24}
-                    alt="add"
-                  />
+                  <img src="/img/add_review_icon.png" width={24} height={24} alt="add" />
                 </button>
               </div>
             </div>
@@ -209,30 +217,17 @@ const AddReview = () => {
                 </div>
                 <div className="right_block_info_criterias">
                   <ul>
-                    <li
-                      className={`${
-                        fieldsValues.interest ? 'checked_li' : ''
-                      }`}>
+                    <li className={`${fieldsValues.interest ? 'checked_li' : ''}`}>
                       Интерес к предмету
                     </li>
-                    <li
-                      className={`${fieldsValues.benefit ? 'checked_li' : ''}`}>
+                    <li className={`${fieldsValues.benefit ? 'checked_li' : ''}`}>
                       Польза от предмета
                     </li>
-                    <li
-                      className={`${
-                        fieldsValues.availability ? 'checked_li' : ''
-                      }`}>
+                    <li className={`${fieldsValues.availability ? 'checked_li' : ''}`}>
                       Доступность изложения
                     </li>
-                    <li
-                      className={`${fieldsValues.rating ? 'checked_li' : ''}`}>
-                      Общая оценка
-                    </li>
-                    <li
-                      className={`${
-                        isFieldCorrect(fieldsValues.body) ? 'checked_li' : ''
-                      }`}>
+                    <li className={`${fieldsValues.rating ? 'checked_li' : ''}`}>Общая оценка</li>
+                    <li className={`${isFieldCorrect(fieldsValues.body) ? 'checked_li' : ''}`}>
                       Отзыв(от 30 до 1000 символов)
                     </li>
                   </ul>

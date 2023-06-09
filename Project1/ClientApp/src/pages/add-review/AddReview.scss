@@ -28,7 +28,7 @@
     height: 10.5rem;
     background: var(--white-color);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 25px;
+    border-radius: 25px 25px 0 0;
     border: none;
     padding: 1.25rem;
     box-sizing: border-box;
@@ -37,6 +37,45 @@
     &:focus {
       border: none;
       outline: none;
+    }
+  }
+  .bottom-panel-textarea {
+    padding: 0.5rem 1.5rem;
+    background-color: var(--gray-color-5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0 0 25px 25px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    width: 100%;
+    position: relative;
+    bottom: 0.5rem;
+    span {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+      &:hover {
+        color: var(--gray-color-1);
+      }
+    }
+  }
+  .emoji-picker {
+    position: absolute;
+    right: 0rem;
+    z-index: 999;
+    bottom: 12.5rem;
+    visibility: visible;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
+    opacity: 1;
+    transition: 0.3s;
+    &.hide {
+      visibility: hidden;
+      bottom: 0;
+      opacity: 0;
     }
   }
   .add-review-button {
