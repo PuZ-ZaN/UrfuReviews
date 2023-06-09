@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using Project1.Auth;
 using Project1.Data;
+using Project1.Email;
 using Project1.Models;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,6 +21,31 @@ namespace Project1.Controllers
     public class ApiDBController : ControllerBase
     {
         protected ApiDbContext Context => HttpContext.RequestServices.GetService(typeof(ApiDbContext)) as ApiDbContext;
+        private readonly IEmailSender _emailSender;
+
+        public ApiDBController(IEmailSender emailSender)
+        {
+            _emailSender = emailSender;
+        }
+
+        [HttpGet("Email")]
+        public async Task<IActionResult> Test()
+        {
+            try
+            {
+                var receiver = "Evgeny.Streltsov@urfu.me";
+                var subject = "Test";
+                var message = "It's a test message! ";
+
+                await _emailSender.SendEmailAsync(receiver, subject, message);
+                return StatusCode(200);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
+
+        }
 
         [HttpGet("Subjects/{i?}")]
         public IEnumerable<Subject> GetAllSubjects(Guid? i)
