@@ -34,7 +34,7 @@ const trackSlice = createSlice({
     },
     updateReview(state, action) {
       state.reviews = state.reviews.map((review) =>
-        review.id === action.payload.id ? action.payload : review
+        review.id === action.payload.id ? action.payload : review,
       );
     },
     resetTrack(state) {

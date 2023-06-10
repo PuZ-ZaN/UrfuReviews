@@ -221,12 +221,12 @@ namespace Project1.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("BadReviews/{i?}")]
-        public IEnumerable<Review> GetBadReviews(Guid? i, Int32? limit)
+        public IEnumerable<Review> GetBadReviews(Guid? i, Int32? limit = 999)
         {
             IQueryable<Review> reviews = Context.Reviews;
 
             reviews = reviews.Where(review => review.disLikes.Count > review.likes.Count)
-                             .OrderByDescending(r => r.likes.Count - r.disLikes.Count)
+                             .OrderBy(r => r.likes.Count - r.disLikes.Count)
                              .ThenByDescending(r => r.AddedDate);
 
             if (!(limit is null))
@@ -241,6 +241,29 @@ namespace Project1.Controllers
             return reviews;
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("DeleteReview/{i?}")]
+        public IActionResult DeleteReview(Guid? i)
+        {
+            IQueryable<Review> reviews = Context.Reviews;
+            var review = reviews.FirstOrDefault(r => r.Id == i);
+            if (review is null)
+            {
+                    return StatusCode(404);
+            }
+
+            try
+            {
+                Context.Reviews.Remove(review);
+                Context.SaveChanges();
+                return StatusCode(204);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
+
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpPost("AddSubject")]

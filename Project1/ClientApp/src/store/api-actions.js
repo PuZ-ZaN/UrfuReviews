@@ -6,23 +6,20 @@ import axios from './../axios';
 import { setSearchTracks } from './searchSlice';
 import { mocksData } from './../mocks/data.js';
 
-export const addMocksData = createAsyncThunk(
-  'add/mocks',
-  async function (_, { rejectWithValue }) {
-    try {
-      for (let key in mocksData) {
-        var data = mocksData[key];
-        var route = `add${key.slice(0, -1)}`;
-        console.log(data, route);
-        data.forEach(async (element) => {
-          await axios.post(`/api/${route}`, element);
-        });
-      }
-    } catch (error) {
-      return rejectWithValue(error);
+export const addMocksData = createAsyncThunk('add/mocks', async function (_, { rejectWithValue }) {
+  try {
+    for (let key in mocksData) {
+      var data = mocksData[key];
+      var route = `add${key.slice(0, -1)}`;
+      console.log(data, route);
+      data.forEach(async (element) => {
+        await axios.post(`/api/${route}`, element);
+      });
     }
+  } catch (error) {
+    return rejectWithValue(error);
   }
-);
+});
 
 export const authRegister = createAsyncThunk(
   'auth/register',
@@ -36,7 +33,7 @@ export const authRegister = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const authLogin = createAsyncThunk(
@@ -54,20 +51,17 @@ export const authLogin = createAsyncThunk(
       console.log('authLogin error');
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
-export const authMe = createAsyncThunk(
-  'auth/me',
-  async function (_, { dispatch }) {
-    try {
-      const { data } = await axios.get('/auth/me');
-      dispatch(setUser(data));
-    } catch (error) {
-      console.log('authMe error');
-    }
+export const authMe = createAsyncThunk('auth/me', async function (_, { dispatch }) {
+  try {
+    const { data } = await axios.get('/auth/me');
+    dispatch(setUser(data));
+  } catch (error) {
+    console.log('authMe error');
   }
-);
+});
 
 export const fetchCountSubjects = createAsyncThunk(
   'subjects/fetchCountSubjects',
@@ -84,7 +78,7 @@ export const fetchCountSubjects = createAsyncThunk(
     } catch (error) {
       console.log('fetchCountSubjects error');
     }
-  }
+  },
 );
 
 export const fetchSubjects = createAsyncThunk(
@@ -102,7 +96,7 @@ export const fetchSubjects = createAsyncThunk(
     } catch (error) {
       console.log('fetchSubjects error');
     }
-  }
+  },
 );
 
 export const fetchSubjectByTrackId = createAsyncThunk(
@@ -114,7 +108,7 @@ export const fetchSubjectByTrackId = createAsyncThunk(
     } catch (error) {
       console.log('fetchSubjectsByTrack error');
     }
-  }
+  },
 );
 
 export const fetchTrack = createAsyncThunk(
@@ -128,15 +122,12 @@ export const fetchTrack = createAsyncThunk(
     } catch (error) {
       console.log('fetchTrack error');
     }
-  }
+  },
 );
 
 export const fetchReviews = createAsyncThunk(
   'track/fetchReviews',
-  async function (
-    { trackId, limit = 10, teacherId, sortedBy = 'время' },
-    { dispatch }
-  ) {
+  async function ({ trackId, limit = 10, teacherId, sortedBy = 'время' }, { dispatch }) {
     try {
       const { data } = await axios.get('/api/Reviews/', {
         params: { trackId, limit, teacherId, sortedBy },
@@ -145,7 +136,7 @@ export const fetchReviews = createAsyncThunk(
     } catch (error) {
       console.log('fetchReviews error');
     }
-  }
+  },
 );
 
 export const searchTracks = createAsyncThunk(
@@ -161,7 +152,7 @@ export const searchTracks = createAsyncThunk(
     } catch (error) {
       console.log('searchTracks error');
     }
-  }
+  },
 );
 
 export const addReviewAction = createAsyncThunk(
@@ -172,7 +163,7 @@ export const addReviewAction = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const changeRatingReview = createAsyncThunk(
@@ -188,7 +179,7 @@ export const changeRatingReview = createAsyncThunk(
       console.log('error');
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 // admin panel
@@ -205,7 +196,7 @@ export const searchCourses = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const getBadReviews = createAsyncThunk(
@@ -220,7 +211,7 @@ export const getBadReviews = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const addCourse = createAsyncThunk(
@@ -231,7 +222,7 @@ export const addCourse = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const addTrack = createAsyncThunk(
@@ -249,7 +240,7 @@ export const addTrack = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const addTeacher = createAsyncThunk(
@@ -264,5 +255,16 @@ export const addTeacher = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error);
     }
-  }
+  },
+);
+
+export const deleteReview = createAsyncThunk(
+  'admin/review/delete',
+  async function ({ id }, { dispatch, rejectWithValue }) {
+    try {
+      await axios.delete(`/api/deleteReview/${id}`);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
 );
