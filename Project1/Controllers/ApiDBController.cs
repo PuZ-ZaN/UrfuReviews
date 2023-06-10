@@ -221,12 +221,17 @@ namespace Project1.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("BadReviews/{i?}")]
-        public IEnumerable<Review> GetBadReviews(Guid? i, Int32? limit = 999)
+        public IEnumerable<Review> GetBadReviews(Guid? i, Guid? userId, Int32? limit = 999)
         {
             IQueryable<Review> reviews = Context.Reviews;
 
-            reviews = reviews.Where(review => review.disLikes.Count > review.likes.Count)
-                             .OrderBy(r => r.likes.Count - r.disLikes.Count)
+            reviews = reviews.Where(review => review.disLikes.Count > review.likes.Count);
+            if (!(userId is null))
+            {
+                reviews = reviews.Where(review => review.user.id == userId);
+            }
+
+            reviews = reviews.OrderBy(r => r.likes.Count - r.disLikes.Count)
                              .ThenByDescending(r => r.AddedDate);
 
             if (!(limit is null))

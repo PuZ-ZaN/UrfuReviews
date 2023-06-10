@@ -201,11 +201,10 @@ export const searchCourses = createAsyncThunk(
 
 export const getBadReviews = createAsyncThunk(
   'admin/reviews/getBadReviews',
-  async function ({ limit }, { dispatch, rejectWithValue }) {
-    console.log('badReviews');
+  async function ({ limit, userId }, { dispatch, rejectWithValue }) {
     try {
       const result = await axios.get('/api/badReviews', {
-        params: { limit },
+        params: { limit, userId },
       });
       dispatch(setReviews(result.data));
     } catch (error) {

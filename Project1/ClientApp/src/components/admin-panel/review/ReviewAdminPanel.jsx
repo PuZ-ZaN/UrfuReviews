@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { deleteReview } from '../../../store/api-actions';
 import Review from '../../reviews/review/Review';
 
-const ReviewAdminPanel = ({ review }) => {
+const ReviewAdminPanel = ({ review, handleSelectUser }) => {
   const dispatch = useDispatch();
 
   const handleDeleteReview = async () => {
@@ -45,13 +45,13 @@ const ReviewAdminPanel = ({ review }) => {
   };
 
   return (
-    <>
+    <div className="review-admin-panel">
       <div className="review-top-panel">
         <div className="delete" onClick={() => Modal.confirm(configDelete)}>
           <DeleteOutlined />
           Удалить комментарий
         </div>
-        <div className="get-user-comments">
+        <div className="get-user-comments" onClick={() => handleSelectUser(review.user.id)}>
           <CommentOutlined />
           Все отзывы пользователя
         </div>
@@ -61,7 +61,7 @@ const ReviewAdminPanel = ({ review }) => {
         </div>
       </div>
       <Review key={review.id} teacher={'test'} review={review} />
-    </>
+    </div>
   );
 };
 
