@@ -12,12 +12,10 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
   const [activeCourse, setActiveCourse] = React.useState(null);
   const activeSemester = useSelector((state) => getSemester(state));
   const href = useLocation().pathname;
-  const [isBlockedClick, setIsBlockedClick] = React.useState(isNeedBlock());
   const listCourses = [1, 2, 3, 4];
   const emojyCourses = ['👶', '👦', '🧔', '👴'];
 
   React.useEffect(() => {
-    setIsBlockedClick(isNeedBlock());
     setActiveCourse(null);
     dispatch(setSemester('all'));
   }, [href]);
@@ -38,29 +36,20 @@ const Sidebar = ({ isSidebarShown, setSidebarShown, sidebarIconRef }) => {
     };
   }, [isSidebarShown]);
 
-  function isNeedBlock() {
-    return href != '/' && href != '/admin';
-  }
-
-  // dekstop version
-
   const dispatch = useDispatch();
 
   const handleClickSemester = (semester) => {
     dispatch(setSemester(activeSemester !== semester ? semester : 'all'));
   };
 
-  const handleClickLogo = () => {
-    dispatch(resetSubjectsState());
-  };
-
   return (
-    <div className={`sidebar_layout ${isSidebarShown ? '' : 'hidden'}`}>
+    <div className={`sidebar_layout ${isSidebarShown ? '' : 'hidden_sidebar'}`}>
       <div className="sidebar" ref={sidebarRef}>
-        <Link to="/" className="sidebar_title" onClick={handleClickLogo}>
-          URFU Courses
-        </Link>
-        <div className={`list_courses ${isBlockedClick ? 'hide' : ''}`}>
+        <p className="sidebar_title">
+          Сортировка
+          <br /> по курсам
+        </p>
+        <div className={`list_courses`}>
           {listCourses.map((numberCourse) => (
             <CourseBlock
               numberCourse={numberCourse}

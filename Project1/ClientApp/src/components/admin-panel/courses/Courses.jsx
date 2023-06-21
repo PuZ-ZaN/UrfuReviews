@@ -1,4 +1,5 @@
 import React from 'react';
+import './Courses.scss';
 import Course from './course/Course';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,12 +11,13 @@ import {
 } from '../../../store/selectors';
 import { addLimitSubjects } from '../../../store/subjectsSlice';
 import { Button, Modal, Select, message } from 'antd';
-import { ArrowDownOutlined, FolderAddOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, FolderAddOutlined, UploadOutlined } from '@ant-design/icons';
 import {
   addCourse,
   fetchCountSubjects,
   fetchSubjects,
   searchCourses,
+  updateCourse,
 } from '../../../store/api-actions';
 import { filtersData, optionsCourse } from '../../../const.ts';
 import Search from 'antd/es/input/Search';
@@ -33,6 +35,10 @@ const Courses = ({ setSelectedTrack }) => {
   const [inputCourse, setInputCourse] = React.useState('');
   const [isSearched, setIsSearched] = React.useState(false);
   const [semesterItems, setSemesterItems] = React.useState([]);
+  const [imgCourse, setImgCourse] = React.useState();
+  const [editedCourse, setEditedCourse] = React.useState();
+
+  const filePicker = React.useRef(null);
 
   const handleChangeNewCourse = (e) => {
     setInputCourse(e.target.value);
@@ -73,7 +79,26 @@ const Courses = ({ setSelectedTrack }) => {
 
   const addNewCourse = async () => {
     const semesterFormatted = semesterItems.map((value) => +value[0]);
-    const result = await dispatch(addCourse({ name: inputCourse, semester: semesterFormatted }));
+    const result = await dispatch(
+      addCourse({ name: inputCourse, semester: semesterFormatted, img: imgCourse }),
+    );
+    if (result?.error) {
+      error();
+    } else {
+      success();
+    }
+  };
+
+  const updateEditedCourse = async () => {
+    const semesterFormatted = semesterItems.map((value) => +value[0]);
+    const result = await dispatch(
+      updateCourse({
+        id: editedCourse.id,
+        name: inputCourse,
+        semester: semesterFormatted,
+        img: imgCourse,
+      }),
+    );
     if (result?.error) {
       error();
     } else {
@@ -91,6 +116,14 @@ const Courses = ({ setSelectedTrack }) => {
     } else {
       dispatch(searchCourses({ text: inputCourse }));
       setIsSearched(true);
+    }
+  };
+
+  const handleUpdateCourse = () => {
+    if (!semesterItems.length || !inputCourse.length) {
+      Modal.error(configCourseError);
+    } else {
+      Modal.confirm(configCourseUpdate);
     }
   };
 
@@ -113,6 +146,34 @@ const Courses = ({ setSelectedTrack }) => {
     onOk: addNewCourse,
   };
 
+  const configCourseUpdate = {
+    title: (
+      <>
+        Курс "{inputCourse}"
+        <br />
+        {semesterItems.join(', ')}
+      </>
+    ),
+    content: <>Вы действительно хотите обновить курс?</>,
+    centered: true,
+    onOk: updateEditedCourse,
+  };
+
+  const handlePickImg = () => {
+    filePicker.current.click();
+  };
+
+  const changeImgCourse = (e) => {
+    setImgCourse(e.target.files[0]);
+  };
+
+  const onChangeEditedCourse = (course) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setEditedCourse(course);
+    setSemesterItems(course.semester.map((sem) => sem + ' семестр'));
+    setInputCourse(course.subjectName);
+  };
+
   React.useEffect(() => {
     dispatch(fetchSubjects({ limit, semester }));
   }, [semester, limit]);
@@ -124,6 +185,19 @@ const Courses = ({ setSelectedTrack }) => {
   return (
     <>
       <div className="semester-search">
+        <div className="upload-image-course">
+          <Button onClick={handlePickImg} icon={<UploadOutlined />}>
+            Загрузить картинку
+          </Button>
+          {imgCourse?.name || editedCourse?.picturePath || 'По желанию можно загрузить картинку'}
+          <input
+            type="file"
+            className="hidden"
+            ref={filePicker}
+            onChange={changeImgCourse}
+            accept="image/*,.jpg,.png"
+          />
+        </div>
         <Select
           mode="multiple"
           className="semester"
@@ -142,11 +216,14 @@ const Courses = ({ setSelectedTrack }) => {
           placeholder="Название нового курса"
           allowClear
           enterButton={
-            <div className="enter-button-new" onClick={handleAddNewCourse}>
-              <p>{isSearched ? 'Добавить' : 'Проверить'}</p> <FolderAddOutlined />
+            <div
+              className="enter-button-new"
+              onClick={editedCourse ? handleUpdateCourse : handleAddNewCourse}>
+              <p>{editedCourse ? 'Обновить' : isSearched ? 'Добавить' : 'Проверить'}</p>{' '}
+              <FolderAddOutlined />
             </div>
           }
-          onPressEnter={handleAddNewCourse}
+          onPressEnter={editedCourse ? handleUpdateCourse : handleAddNewCourse}
           value={inputCourse}
           onChange={handleChangeNewCourse}
           size="large"
@@ -168,6 +245,7 @@ const Courses = ({ setSelectedTrack }) => {
           selectedCourse={selectedCourse}
           setSelectedCourse={handleSelectCourse}
           setSelectedTrack={handleSelectTrack}
+          onChangeEditedCourse={onChangeEditedCourse}
           key={course.id}
         />
       ))}

@@ -18,15 +18,8 @@ import {
   getSortedReviewsBy,
 } from './../../store/selectors';
 import { addLimitReviews, resetTrack, setTrack } from '../../store/trackSlice';
-import {
-  fetchReviews,
-  fetchTrack,
-  fetchTrackInfo,
-} from '../../store/api-actions';
-import {
-  getCountReviewsTrack,
-  getValuesTrack,
-} from '../../components/usefulMethods/usefulMethods';
+import { fetchReviews, fetchTrack, fetchTrackInfo } from '../../store/api-actions';
+import { getCountReviewsTrack, getValuesTrack } from '../../components/usefulMethods/usefulMethods';
 import { ArrowDownOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 import { setSubjects } from '../../store/subjectsSlice';
 import { Button, Empty, Pagination } from 'antd';
@@ -52,7 +45,6 @@ export default function Track() {
   }, [id]);
 
   React.useEffect(() => {
-    console.log(id);
     if (id !== -1) {
       dispatch(
         fetchReviews({
@@ -60,7 +52,7 @@ export default function Track() {
           limit,
           teacherId: teacher?.id,
           sortedBy: sortedReviewsBy,
-        })
+        }),
       );
     }
   }, [id, limit, teacher, sortedReviewsBy]);
@@ -72,8 +64,7 @@ export default function Track() {
   const getNameTeacherReview = (review) => {
     if (!track) return;
 
-    return track.prepods.find((prepod) => prepod.id == review.prepodId)
-      ?.prepodName;
+    return track.prepods.find((prepod) => prepod.id == review.prepodId)?.prepodName;
   };
 
   const showMoreReviews = () => {
@@ -112,11 +103,7 @@ export default function Track() {
           <>
             <div className="reviews">
               {reviews.map((review, index) => (
-                <Review
-                  key={review.id}
-                  teacher={getNameTeacherReview(review)}
-                  review={review}
-                />
+                <Review key={review.id} teacher={getNameTeacherReview(review)} review={review} />
               ))}
             </div>
 
@@ -136,10 +123,7 @@ export default function Track() {
             )}
           </>
         ) : (
-          <Empty
-            style={{ marginTop: '2rem' }}
-            description="Напишите первый комментарий!"
-          />
+          <Empty style={{ marginTop: '2rem' }} description="Напишите первый комментарий!" />
         )}
       </div>
     </>

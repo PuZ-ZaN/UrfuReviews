@@ -2,6 +2,7 @@ import React from 'react';
 import { destinyTracks } from '../../../../const.ts';
 import './course_row_view.scss';
 import Tracks from '../../../tracks/Tracks.jsx';
+import { DownOutlined } from '@ant-design/icons';
 
 const CourseRowView = ({ course, selectedCourse, setSelectedCourse }) => {
   const handleClickArrow = () => {
@@ -15,7 +16,7 @@ const CourseRowView = ({ course, selectedCourse, setSelectedCourse }) => {
       <div className="course_container">
         <div className="course_row" onClick={handleClickArrow}>
           <p className="title">{course.subjectName}</p>
-          <img src="img/arrow-bottom.svg" alt="show tracks" />
+          <DownOutlined className="arrow-bottom" />
         </div>
         {selectedCourse?.id == course?.id && (
           <Tracks tracks={course.tracks} destiny={destinyTracks.MainPage} />

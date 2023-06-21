@@ -8,7 +8,7 @@
       margin-bottom: 1.25rem;
       border-radius: 15px;
       .course_container {
-        box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.12);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
         border-radius: 15px;
         box-sizing: border-box;
         &:last-child {
@@ -24,7 +24,7 @@
           cursor: pointer;
           transition: 0.2s;
           &:hover {
-            box-shadow: 0px 0px 9px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.16);
           }
           .title {
             margin: 0;
@@ -34,16 +34,21 @@
             font-size: 1.1rem;
             line-height: 26px;
           }
-          img {
-            cursor: pointer;
+          .arrow-bottom {
             transition: 0.3s;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+            svg {
+              fill: var(--blue-color-1);
+            }
           }
         }
       }
       &.show_tracks {
         .course_row {
-          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-          img {
+          box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
+          .arrow-bottom {
             transform: rotate(180deg);
           }
         }
@@ -52,7 +57,7 @@
   }
   .info_about_course {
     background: var(--white-color);
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.16);
     border-radius: 20px;
     width: 100%;
     min-height: 210px;

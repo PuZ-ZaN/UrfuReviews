@@ -1,10 +1,14 @@
+body.layout-open {
+  overflow: hidden; // убираем scroll body при открытом layout
+}
+
 .layout {
   .modal_window {
     width: 85%;
     height: 80%;
-    overflow: auto;
     max-width: 54rem;
     box-sizing: border-box;
+    position: fixed;
     max-height: 35rem;
     .course_modal_window {
       padding: 2rem;
@@ -12,11 +16,17 @@
       position: relative;
       height: 100%;
       box-sizing: border-box;
-      &:after {
-        content: '';
-        height: 2rem;
-        display: block;
-      }
+      overflow: auto;
+    }
+    // for mobile close button
+    .close_button_small_px {
+      display: none;
+      position: absolute;
+      right: -8px;
+      top: -8px;
+      background: white;
+      border-radius: 50%;
+      z-index: 9;
     }
     .header {
       display: flex;
@@ -33,7 +43,7 @@
     }
     .values {
       display: flex;
-      flex-wrap: wrap;
+      // flex-wrap: wrap;
       gap: 2.5rem;
       align-items: center;
       margin-bottom: 2rem;
@@ -50,6 +60,19 @@
       }
     }
     .tracks {
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .modal_window {
+    .close_button_small_px {
+      display: block !important;
+    }
+  }
+  .header {
+    img {
+      display: none;
     }
   }
 }

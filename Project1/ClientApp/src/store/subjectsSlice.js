@@ -5,7 +5,7 @@ const subjectsSlice = createSlice({
   initialState: {
     subjects: [],
     count: undefined,
-    limit: 6,
+    limit: 8,
     semester: 'all',
   },
   reducers: {
@@ -14,13 +14,13 @@ const subjectsSlice = createSlice({
     },
     setSemester(state, action) {
       state.semester = action.payload;
-      state.limit = 6;
+      state.limit = 8;
     },
     setCountSubjects(state, action) {
       state.count = action.payload;
     },
     addLimitSubjects(state) {
-      state.limit += 6;
+      state.limit += 8;
     },
     updateSubject(state, action) {
       console.log(action.payload);
@@ -31,9 +31,7 @@ const subjectsSlice = createSlice({
     },
     resetSubjectsState(state, action) {
       state.semester = 'all';
-      state.subjects = [];
-      state.count = undefined;
-      state.limit = 6;
+      state.limit = 8;
     },
   },
 });

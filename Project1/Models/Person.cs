@@ -10,6 +10,8 @@ namespace Project1.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
+        public bool IsEmailConfirmed { get; set; }
+        public bool isBlocked { get; set; }
     }
 
     [Owned]

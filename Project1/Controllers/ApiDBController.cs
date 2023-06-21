@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -9,10 +10,13 @@ using Project1.Auth;
 using Project1.Data;
 using Project1.Email;
 using Project1.Models;
+using System;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Principal;
 using System.Xml.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Project1.Controllers
 {
@@ -21,11 +25,13 @@ namespace Project1.Controllers
     public class ApiDBController : ControllerBase
     {
         protected ApiDbContext Context => HttpContext.RequestServices.GetService(typeof(ApiDbContext)) as ApiDbContext;
+        IWebHostEnvironment AppEnvironment;
         private readonly IEmailSender _emailSender;
 
-        public ApiDBController(IEmailSender emailSender)
+        public ApiDBController(IEmailSender emailSender, IWebHostEnvironment appEnvironment)
         {
             _emailSender = emailSender;
+            AppEnvironment = appEnvironment;
         }
 
         [HttpGet("Email")]
@@ -271,14 +277,108 @@ namespace Project1.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("AddSubject")]
-        public IActionResult AddSubject(Subject value)
+        [HttpPost("BlockUser/{i?}")]
+        public IActionResult BlockUser(Guid? i)
         {
+            IQueryable<Person> persons = Context.Person;
+            var person = persons.FirstOrDefault(r => r.Id == i);
+
+            if (person is null)
+            {
+                return StatusCode(404);
+            }
+
             try
             {
-                Context.Subjects.Add(value);
+                person.isBlocked = true;
                 Context.SaveChanges();
-                return new JsonResult(new { value.Id });
+                return StatusCode(200);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
+
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("AddSubject")]
+        public async Task<IActionResult> AddSubject([FromForm] SubjectViewModel value)
+        {
+            Subject subject = new Subject { Semester = value.Semester, SubjectName = value.SubjectName };
+            // hide in prod
+            if (value.Id != null) subject.Id = value.Id;
+            if (value.AddedDate != null) subject.AddedDate = value.AddedDate;
+
+            try
+            {
+                var picture = value.Picture;
+                if (picture != null)
+                {
+                    var path = SavePictureAndGetPath(picture).Result.ToString();
+                    subject.PicturePath = path;
+                }
+                Context.Subjects.Add(subject);
+                Context.SaveChanges();
+                return new JsonResult(new { subject.Id });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        public async Task<string> SavePictureAndGetPath(IFormFile picture)
+        {
+            string path = "/Files/" + Guid.NewGuid().ToString() + "_" + picture.FileName;
+            // сохраняем файл в папку Files в каталоге wwwroot
+            using (var fileStream = new FileStream(AppEnvironment.WebRootPath + path, FileMode.Create))
+            {
+                await picture.CopyToAsync(fileStream);
+            }
+            return path;
+        }
+
+        public void DeletePicture(string path)
+        {
+            if (System.IO.File.Exists($"wwwroot{path}"))
+            {
+                System.IO.File.Delete($"wwwroot{path}");
+            }
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPatch("UpdateSubject")]
+        public IActionResult UpdateSubject([FromForm] SubjectViewModel value)
+        {
+            var subjectId = value.Id;
+            try
+            {
+                var subject = Context.Subjects.FirstOrDefault(s => s.Id == subjectId);
+                if (subject == null)
+                {
+                    return NotFound(new { errorText = "Subject with current id doesn't exist" });
+                }
+
+                if (value.SubjectName != null)
+                {
+                    subject.SubjectName = value.SubjectName;
+                }
+                if (value.Semester != null)
+                {
+                    subject.Semester = value.Semester;
+                }
+                if (value.Picture != null)
+                {
+                    if (subject.PicturePath != "") DeletePicture(subject.PicturePath);
+
+                    subject.PicturePath = SavePictureAndGetPath(value.Picture).Result.ToString();
+                }
+                subject.UpdatedDate = DateTime.UtcNow;
+
+                Context.SaveChanges();
+                return Ok("Subject Updated");
             }
             catch (Exception ex)
             {

@@ -1,5 +1,5 @@
 .circle_big {
-  flex-basis: 14.5rem;
+  min-width: 14.5rem;
   flex-shrink: 1;
   .rating_circle {
     width: 100%;
@@ -63,6 +63,46 @@
         stroke-dashoffset: 303%;
         transition: 1.5s all ease;
       }
+    }
+  }
+  .bottom_circle {
+    padding: 0 1.25rem;
+    text-align: center;
+    margin-top: 1.5rem;
+    display: none;
+    gap: 1.5rem;
+    font-size: 1rem;
+    line-height: 2rem;
+    .percent_recommend {
+      border-right: 1px solid var(--gray-color-3);
+      padding-right: 1.5rem;
+    }
+    .emojy {
+      font-size: 1.2rem;
+    }
+    .bold {
+      font-weight: 500;
+    }
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .circle_big {
+    background-color: white;
+    width: 100%;
+    padding: 1.75rem 0;
+    border-radius: 2rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .rating_circle {
+      margin: 0 auto;
+      max-width: 14.5rem;
+      width: 100%;
+    }
+    .bottom_circle {
+      display: flex;
     }
   }
 }

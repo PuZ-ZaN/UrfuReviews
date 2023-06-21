@@ -17,29 +17,31 @@ const UsualPage = () => {
   const isLoading = useSelector((state) => getIsLoadingStatus(state));
 
   return (
-    <Row className="wrapper">
+    <>
       <div className={`loading-block ${isLoading ? 'loading-true' : ''}`}>
         <div className="loading-content">
           <Spin tip="Идет загрузка..." size="large"></Spin>
         </div>
       </div>
-      <Col flex={'240px'} className="sidebar-grid">
-        <Sidebar
-          isSidebarShown={isSidebarShown}
-          setSidebarShown={setSidebarShown}
-          sidebarIconRef={sidebarIconRef}
-        />
-      </Col>
-      <Col flex={'auto'}>
+      <Header
+        isSidebarShown={isSidebarShown}
+        setSidebarShown={setSidebarShown}
+        sidebarIconRef={sidebarIconRef}
+      />
+      <div className="wrapper">
         <div className="container">
-          <Header
-            isSidebarShown={isSidebarShown}
-            setSidebarShown={setSidebarShown}
-            sidebarIconRef={sidebarIconRef}
-          />
           <div className="main_container">
             <Routes>
-              <Route path="/" element={<Main />} />
+              <Route
+                path="/"
+                element={
+                  <Main
+                    isSidebarShown={isSidebarShown}
+                    setSidebarShown={setSidebarShown}
+                    sidebarIconRef={sidebarIconRef}
+                  />
+                }
+              />
               <Route path="/search" element={<Search />}></Route>
               <Route path="/track/:id" element={<Track />} />
               <Route path="/add_review/">
@@ -49,8 +51,8 @@ const UsualPage = () => {
             </Routes>
           </div>
         </div>
-      </Col>
-    </Row>
+      </div>
+    </>
   );
 };
 

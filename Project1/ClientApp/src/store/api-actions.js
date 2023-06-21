@@ -11,10 +11,26 @@ export const addMocksData = createAsyncThunk('add/mocks', async function (_, { r
     for (let key in mocksData) {
       var data = mocksData[key];
       var route = `add${key.slice(0, -1)}`;
-      console.log(data, route);
-      data.forEach(async (element) => {
-        await axios.post(`/api/${route}`, element);
-      });
+
+      if (key == 'subjects') {
+        data.forEach(async (element) => {
+          const formData = new FormData();
+
+          formData.append('subjectName', element.subjectName);
+          for (let sem of element.semester) {
+            formData.append('semester', sem);
+          }
+          formData.append('id', element.id);
+          formData.append('addedDate', element.addedDate);
+          if (element.img) formData.append('picture', element.img);
+
+          await axios.post('/api/AddSubject', formData);
+        });
+      } else {
+        data.forEach(async (element) => {
+          await axios.post(`/api/${route}`, element);
+        });
+      }
     }
   } catch (error) {
     return rejectWithValue(error);
@@ -215,9 +231,37 @@ export const getBadReviews = createAsyncThunk(
 
 export const addCourse = createAsyncThunk(
   'admin/course/addCourse',
-  async function ({ name, semester }, { rejectWithValue }) {
+  async function ({ name, semester, img }, { rejectWithValue }) {
     try {
-      await axios.post('/api/AddSubject', { subjectName: name, semester });
+      const formData = new FormData();
+
+      formData.append('subjectName', name);
+      for (let sem of semester) {
+        formData.append('semester', sem);
+      }
+      if (img) formData.append('picture', img);
+
+      await axios.post('/api/AddSubject', formData);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
+export const updateCourse = createAsyncThunk(
+  'admin/course/updateCourse',
+  async function ({ id, name, semester, img }, { rejectWithValue }) {
+    try {
+      const formData = new FormData();
+
+      formData.append('id', id);
+      formData.append('subjectName', name);
+      for (let sem of semester) {
+        formData.append('semester', sem);
+      }
+      if (img) formData.append('picture', img);
+
+      await axios.patch('/api/updateSubject', formData);
     } catch (error) {
       return rejectWithValue(error);
     }

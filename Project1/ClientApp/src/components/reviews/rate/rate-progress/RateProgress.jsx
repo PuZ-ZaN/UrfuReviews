@@ -7,7 +7,7 @@ const RateProgress = ({ percent, countStars }) => {
     setTimeout(() => {
       const newStyle = {
         opacity: 1,
-        width: `${percent > 22 ? percent : 22}%`,
+        width: `${percent}%`,
       };
 
       setStyle(newStyle);

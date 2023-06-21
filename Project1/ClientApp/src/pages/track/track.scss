@@ -1,5 +1,6 @@
 .course_title_container {
   width: 100%;
+  max-width: 1200px;
   .course_title {
     font-style: normal;
     font-weight: 600;
@@ -30,13 +31,17 @@
       font-size: 1rem;
       height: fit-content;
       padding: 0.5rem 1.5rem;
-      // background: var(--blue-color-1);
-      // color: white;
     }
   }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 900px) {
+  .course_view {
+    gap: 2.5rem !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
   .course_view {
     flex-wrap: wrap;
   }

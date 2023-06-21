@@ -3,20 +3,31 @@ import { destinyTracks } from '../../../../const.ts';
 import './course.scss';
 import Tracks from '../../tracks/Tracks.jsx';
 import { DeleteFilled, EditFilled, FormOutlined } from '@ant-design/icons';
-import { Dropdown } from 'antd';
+import { Dropdown, Modal, Select } from 'antd';
+import Search from 'antd/es/transfer/search.js';
 
-const Course = ({ course, selectedCourse, setSelectedCourse, setSelectedTrack }) => {
+const Course = ({
+  course,
+  selectedCourse,
+  setSelectedCourse,
+  setSelectedTrack,
+  onChangeEditedCourse,
+}) => {
   const handleClickArrow = () => {
     setSelectedCourse((prevCourse) => (prevCourse?.id === course?.id ? undefined : course));
+  };
+
+  const handleEditCourse = () => {
+    onChangeEditedCourse(course);
   };
 
   const itemsEdit = [
     {
       label: (
-        <>
-          <span className="item-dropdown">Переименовать</span>
+        <div onClick={handleEditCourse}>
+          <span className="item-dropdown">Редактировать</span>
           <EditFilled />
-        </>
+        </div>
       ),
       key: '0',
     },

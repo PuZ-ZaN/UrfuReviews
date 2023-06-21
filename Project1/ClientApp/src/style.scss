@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
   --black-color: #000;
@@ -10,15 +10,16 @@
   --gray-color-4: #282828;
   --gray-color-5: #5a5a5a;
   --gray-color-6: #f2f2f2;
-  --blue-color-1: #01b3ff;
+  --blue-color-1: #01a6ff;
   --blue-color-2: #def3ff;
-  --blue-color-3: #c9ebff;
-  --blue-color-4: #5eadda;
-  --blue-color-5: #81caf3;
-  --blue-color-6: #d1eeff;
-  --blue-color-7: #bde7ff;
-  --blue-color-8: #008cc8;
+  --blue-color-3: #c9eaff;
+  --blue-color-4: #5eb1da;
+  --blue-color-5: #81c5f3;
+  --blue-color-6: #d1ecff;
+  --blue-color-7: #bde1ff;
+  --blue-color-8: #0089c8;
   --blue-color-9: #1677ff;
+  --blue-color-10: #0183ff;
   --green-color-1: #02a902;
   --red-color-1: #a90202;
   --orange-color-1: #fff2de;
@@ -60,7 +61,8 @@ html {
 }
 
 body {
-  background-image: url('img/background.jpg');
+  // background-image: url('img/background.jpg');
+  background: #f6f6f6;
   background-attachment: fixed;
   background-size: cover;
   font-family: 'Roboto', sans-serif;
@@ -72,12 +74,12 @@ body {
   display: flex;
   flex-wrap: nowrap !important;
   box-sizing: border-box;
-  margin: 0 auto;
-  background: var(--gray-color-6);
-  border-left: 3px solid var(--gray-color-2);
-  border-right: 3px solid var(--gray-color-2);
-  box-shadow: 0px 0px 85px 20px rgba(0, 0, 0, 0.45);
-  min-height: 100vh;
+  margin: 1.5rem auto 1.5rem auto;
+  // background: var(--white-color);
+  // border-left: 3px solid var(--gray-color-2);
+  // border-right: 3px solid var(--gray-color-2);
+  // box-shadow: 0px 0px 85px 20px rgba(0, 0, 0, 0.45);
+  // min-height: 100vh;
 }
 
 .wrapper:after {
@@ -87,17 +89,13 @@ body {
 }
 
 .container {
-  max-width: 100%;
+  width: 100%;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  padding-top: 1rem;
+  // padding-top: 1rem;
   margin-right: 45px;
   box-sizing: border-box;
   margin: 0 auto;
-}
-
-.main_container {
-  margin: 1.5rem 0;
 }
 
 .loading-block {
@@ -105,7 +103,6 @@ body {
   top: 0;
   left: 0;
   width: 100%;
-  max-width: 1440px;
   height: 100%;
   z-index: 999;
   background-color: var(--gray-color-6);
@@ -129,4 +126,10 @@ input {
   &::placeholder {
     font-family: 'Roboto', sans-serif !important;
   }
+}
+
+.hidden {
+  visibility: hidden;
+  width: 0;
+  height: 0;
 }

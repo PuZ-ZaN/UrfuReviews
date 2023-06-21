@@ -34,8 +34,6 @@ const Search = () => {
     const textParams = searchParams.get('text');
     const filteredByParams = searchParams.get('filteredBy');
 
-    console.log(textParams, filteredByParams);
-
     dispatch(setTextSearch(textParams));
     dispatch(setFilteredBySearch(filteredByParams));
   }, []);
@@ -65,10 +63,10 @@ const Search = () => {
             { md: 24, xs: 16 },
           ]}
           className="tracks_and_filters">
-          <Col lg={16} md={16} sm={24} xs={24}>
+          <Col xl={14} lg={15} md={16} sm={15} xs={24}>
             <Tracks tracks={tracks} destiny={destinyTracks.Search} />
           </Col>
-          <Col lg={8} md={8} sm={8} xs={12}>
+          <Col xl={8} lg={8} md={8} sm={8} xs={24}>
             <div className="tracks_filters">
               <p className="filters_title">Фильтры</p>
               <p className="filters_description">Выполнять поиск по:</p>

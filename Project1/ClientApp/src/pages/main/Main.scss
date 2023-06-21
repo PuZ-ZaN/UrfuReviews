@@ -1,3 +1,9 @@
+.row-main {
+  width: 100%;
+  flex-wrap: nowrap;
+  gap: 1.5rem;
+}
+
 .courses,
 .courses_column_view_container {
   .pagination {
@@ -6,7 +12,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 0.5rem;
     button {
       font-size: 1rem;
       height: fit-content;

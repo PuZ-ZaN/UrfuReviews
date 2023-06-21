@@ -14,7 +14,7 @@ const CourseColumnView = ({ course, selectedCourse, setSelectedCourse, setSelect
     {
       label: (
         <>
-          <span className="item-dropdown">Переименовать</span>
+          <span className="item-dropdown">Редактировать</span>
           <EditFilled />
         </>
       ),

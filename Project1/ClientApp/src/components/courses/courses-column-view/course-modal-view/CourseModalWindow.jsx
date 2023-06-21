@@ -8,14 +8,18 @@ import { getValuesCourse } from '../../../usefulMethods/usefulMethods.js';
 const CourseModalWindow = ({ course, closeModalWindow }) => {
   const [courseValues, setCourseValues] = React.useState(null);
 
-  console.log(courseValues);
-
   React.useEffect(() => {
     setCourseValues(getValuesCourse(course));
   }, [course]);
 
   return (
     <ModalWindow onClose={closeModalWindow}>
+      <img
+        src="img/close.svg"
+        className="close_button_small_px"
+        alt="close"
+        onClick={closeModalWindow}
+      />
       <div className="course_modal_window">
         <div className="header">
           <div className="title">{course.subjectName}</div>

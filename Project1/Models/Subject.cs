@@ -12,6 +12,7 @@ namespace Project1.Models
         }
         public List<int> Semester { get; set; }
         public string SubjectName { get; set; } = "";
+        public string PicturePath { get; set; } = "";
         
         [NotMapped]
         public virtual ICollection<Track>? Tracks { get; set; }

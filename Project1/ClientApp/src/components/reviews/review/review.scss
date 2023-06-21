@@ -6,7 +6,7 @@
     margin-bottom: 1rem;
     width: 100%;
     background: var(--white-color);
-    filter: drop-shadow(0px 4px 14px rgba(0, 0, 0, 0.15));
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.16);
     background: var(--white-color);
     border-radius: 25px;
     color: var(--black-color);
@@ -45,17 +45,22 @@
       }
       .header_rates {
         display: flex;
-        flex-wrap: wrap;
         align-items: center;
+        overflow: auto;
+        -ms-overflow-style: none; /* Internet Explorer 10+ */
+        scrollbar-width: none; /* Firefox */
+        &::-webkit-scrollbar {
+          display: none; /* Safari and Chrome */
+        }
         gap: 1rem;
         margin-bottom: 0.6rem;
+        white-space: nowrap;
         .criterias {
           display: flex;
-          flex-wrap: wrap;
           gap: 1rem;
           .criteria {
             font-weight: 400;
-            font-size: 0.8rem;
+            font-size: max(0.8rem, 12px);
             line-height: 0.85rem;
             padding: 0.35rem 0.5rem;
             background: var(--blue-color-2);
@@ -67,7 +72,7 @@
           gap: 0.75rem;
           align-items: center;
           background: var(--orange-color-1);
-          font-size: 0.8rem;
+          font-size: max(0.8rem, 12px);
           border-radius: 8px;
           padding: 0.4rem 0.6rem;
         }
@@ -89,7 +94,7 @@
       .header_teacher {
         width: fit-content;
         background: var(--purple-color-1);
-        font-size: 0.85rem;
+        font-size: max(0.8rem, 12px);
         border-radius: 8px;
         padding: 0.4rem 0.6rem;
       }
@@ -125,6 +130,12 @@
           .disliked {
             width: 1.4rem;
             height: 1.4rem;
+          }
+        }
+        .dislike_button {
+          transform: rotate(180deg);
+          &:hover {
+            transform: scale(1.1) rotate(180deg);
           }
         }
 
